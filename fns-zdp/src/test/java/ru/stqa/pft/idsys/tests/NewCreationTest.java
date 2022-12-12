@@ -19,7 +19,7 @@ public class NewCreationTest {
     System.setProperty("webdriver.chrome.driver", "C:\\Windows\\System32\\chromedriver.exe");
     driver = new ChromeDriver();
     baseUrl = "https://www.google.com/";
-    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     js = (JavascriptExecutor) driver;
   }
 
@@ -33,15 +33,25 @@ public class NewCreationTest {
     driver.findElement(By.id("LOGIN-PASSWORD")).clear();
     driver.findElement(By.id("LOGIN-PASSWORD")).sendKeys("123456");
     driver.findElement(By.id("BTN-OK")).click();
-    //driver.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[31]/div/div[1]/div")).click();
-    //driver.findElement(By.xpath("//div[@id='gwt-uid-234']/span")).click();
-    driver.findElement(By.xpath("//div[@id='BTN-FRAME-INSERT379719517']/div/div")).click();
-    driver.findElement(By.id("FNS_RESTRICTION.BANK_BIK176676368")).clear();
-    driver.findElement(By.id("FNS_RESTRICTION.BANK_BIK176676368")).sendKeys("123456789");
-    driver.findElement(By.id("FNS_RESTRICTION.INN707599931")).click();
-    driver.findElement(By.id("FNS_RESTRICTION.INN707599931")).clear();
-    driver.findElement(By.id("FNS_RESTRICTION.INN707599931")).sendKeys("123456789000");
-    driver.findElement(By.id("BTN-Form.Save1034939775")).click();
+    driver.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div/div[1]/div")).click();
+    driver.findElement(By.xpath("//*[@id=\"gwt-uid-12\"]")).click();
+    driver.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[2]")).click();
+    //driver.findElement(By.xpath("//*[@id=\"REF-BANK_BIK43002413\"]")).click();
+    //driver.findElement(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div/table/tbody/tr/td[2]/div")).click();
+    //driver.findElement(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div/table/tbody/tr/td[2]/div")).click();
+    //driver.findElement(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div/table/tbody/tr/td[2]/div")).click();
+
+
+    driver.findElement(By.xpath("//*[contains(@class, 'v-textfield v-widget')]")).click();
+    driver.findElement(By.xpath("//*[contains(@class, 'v-textfield v-widget')]")).clear();
+    //driver.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[3]/div/div[2]/div/div")).clear();
+    driver.findElement(By.xpath("//*[contains(@class, 'v-textfield v-widget')]")).sendKeys("123456789000");
+
+
+    driver.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[3]")).click();
+    /*
+    */
+
   }
 
   @AfterClass(alwaysRun = true)
