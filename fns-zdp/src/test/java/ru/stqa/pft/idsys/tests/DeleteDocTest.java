@@ -29,7 +29,7 @@ public class DeleteDocTest {
 
   @Test
   public void testDeleteDoc() throws Exception {
-    driver.get("http://192.168.1.222:8080/bank_client/");
+    driver.get("http://192.168.1.211:8080/bank_client/");
     driver.findElement(By.id("LOGIN-USERNAME")).click();
     driver.findElement(By.id("LOGIN-USERNAME")).clear();
     driver.findElement(By.id("LOGIN-USERNAME")).sendKeys("AVTOTEST");
@@ -46,7 +46,7 @@ public class DeleteDocTest {
 
     driver.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[5]")).click();
 
-    driver.findElement(By.xpath("//*[contains(@class, 'v-button v-widget v-pressed')]")).click();
+    driver.findElement(By.xpath("//span[text()='Да']/../../../div")).click();
 
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
   }
