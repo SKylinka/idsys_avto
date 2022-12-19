@@ -46,7 +46,7 @@ public class DeleteDocTest {
 
     driver.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[5]")).click();
 
-    driver.findElement(By.xpath("//span[text()='Р”Р°']/../../../div")).click();
+    driver.findElement(By.xpath("//span[text()='Да']/../../../div")).click();//работает только в кодировке win-1251
 
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
   }
