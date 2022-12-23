@@ -1,4 +1,4 @@
-package ru.stqa.pft.idsys.tests;
+package ru.stqa.pft.idsys.model;
 
 public class ZdpData {
 

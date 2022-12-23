@@ -1,81 +1,57 @@
 package ru.stqa.pft.idsys.appmanager;
 
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.BrowserType;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.time.Duration;
-import java.util.Properties;
 
+import static org.testng.Assert.fail;
 
+//класс вспомогательных функций
 public class ApplicationManager {
-  private final Properties properties;
-  private WebDriver wd;
-  private String browser;
-  private UserHelper userHelper;
-  private DbHelper dbHelper;
-  private SoapHelper soapHelper;
 
-  public ApplicationManager(String browser) {
-    this.browser = browser;
-    properties = new Properties();
+  //инициализация драйвера
+  protected WebDriver wd;
+
+  //декларация помощников
+  private NavigationHelper navigationHelper;
+  private ZdpHelper zdpHelper;
+  private SessionHelper sessionHelper;
+
+
+  public void init() {
+
+    System.setProperty("webdriver.chrome.driver", "C:\\Windows\\System32\\chromedriver.exe");
+    wd = new ChromeDriver();
+
+    //Логин в интерфейс
+    wd.get("http://192.168.1.211:8080/bank_client/");
+
+    //инициализации методов 3шт
+    zdpHelper = new ZdpHelper(wd);
+    navigationHelper = new NavigationHelper(wd);
+    sessionHelper = new SessionHelper(wd);
+
+    //таймаут 5сек
+    zdpHelper.timeout5sec();
+
+    //Логин в интерфейс
+    sessionHelper.login("AVTOTEST", "123456");
   }
 
-  public void init() throws IOException {
-    String target = System.getProperty("target", "local");
-    properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
-    dbHelper = new DbHelper();
-   }
 
   public void stop() {
-    if (wd != null) {
-      wd.quit();
-    }
+    wd.quit();
   }
 
-  public UserHelper userHelper() {
-    if (userHelper == null){
-      userHelper = new UserHelper(this);
-    }
-    return userHelper;
+  //декларация помощников
+  public ZdpHelper getZdpHelper() {
+    return zdpHelper;
   }
-
-  public DbHelper db() {
-    return dbHelper;
+  //декларация помощников
+  public NavigationHelper getNavigationHelper() {
+    return navigationHelper;
   }
-
-  public HttpSession newSession() {
-    return new HttpSession(this);
+  //декларация помощников
+  public SessionHelper sessionHelper() {
+    return sessionHelper;
   }
-
-  public String getProperty(String key) {
-    return properties.getProperty(key);
-  }
-
-  public WebDriver getDriver() {
-    if (wd == null) {
-      if (browser.equals(BrowserType.CHROME)) {
-        wd = new ChromeDriver();
-      } else if (browser.equals(BrowserType.FIREFOX)) {
-        wd = new FirefoxDriver();
-      } else if (browser.equals(BrowserType.IE)) {
-        wd = new InternetExplorerDriver();
-      }
-      wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-      wd.get(properties.getProperty("web.baseURL"));
-    }
-    return wd;
-  }
-
-  public SoapHelper soap() {
-    if (soapHelper == null) {
-      soapHelper = new SoapHelper(this);
-    }
-    return soapHelper;
-  }
-
 }

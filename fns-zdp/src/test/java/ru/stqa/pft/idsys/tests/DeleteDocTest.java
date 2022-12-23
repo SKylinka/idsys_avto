@@ -8,17 +8,17 @@ public class DeleteDocTest extends TestBase {
   public void testDeleteDoc() throws Exception {
 
     //Вспомогательный метод - переход в раздел "ФНС"
-    gotoFNSpage();
+    app.getNavigationHelper().gotoFNSpage();
     //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
-    gotoZDPpage();
+    app.getNavigationHelper().gotoZDPpage();
     //Вспомогательный метод - выделение случайного(первого) запроса
-    selectDoc();
+    app.getZdpHelper().selectDoc();
     //Вспомогательный метод - клик по кнопке "Удалить"
-    selectDelete();
+    app.getZdpHelper().selectDelete();
     //подтверждение удаления(нажатие кнопки "ДА")
-    comitDelete();
+    app.getZdpHelper().comitDelete();
     //таймаут для тестирования 5 сек
-    timeout5sec();
+    app.getZdpHelper().timeout5sec();
   }
 
 }

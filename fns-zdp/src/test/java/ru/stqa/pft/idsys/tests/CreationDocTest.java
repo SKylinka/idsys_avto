@@ -1,20 +1,21 @@
 package ru.stqa.pft.idsys.tests;
 
 import org.testng.annotations.Test;
+import ru.stqa.pft.idsys.model.ZdpData;
 
 public class CreationDocTest extends TestBase{
   @Test
   public void testDocCreation() throws Exception {
     //Вспомогательный метод - переход в раздел "ФНС"
-    gotoFNSpage();
+    app.getNavigationHelper().gotoFNSpage();
     //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
-    gotoZDPpage();
+    app.getNavigationHelper().gotoZDPpage();
     //Вспомогательный метод - клик по кнопке "Создать"
-    creationDoc();
+    app.getZdpHelper().creationDoc();
     //Вспомогательный метод - клик по строке "ИНН" и ввод "ИНН"
-    fillINN(new ZdpData("123456789000"));
+    app.getZdpHelper().fillINN(new ZdpData("123456789000"));
     //Вспомогательный метод - клик по кнопке "Сохранить"
-    sumbitDoc();
+    app.getZdpHelper().sumbitDoc();
     /*
      */
 
