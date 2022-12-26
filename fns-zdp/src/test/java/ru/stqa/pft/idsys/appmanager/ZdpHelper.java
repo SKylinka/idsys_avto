@@ -6,33 +6,25 @@ import ru.stqa.pft.idsys.model.ZdpData;
 import java.time.Duration;
 
 //класс помощник для работы в ЗДП
-public class ZdpHelper {
-
-  //инициализация драйвера
-  private WebDriver wd;
+public class ZdpHelper extends HelperBase{
 
   //присвоение переданного значения в качестве параметра в конструкторе метода в апп
   public ZdpHelper(WebDriver wd) {
-    this.wd = wd;
+    super(wd);// образещение к конструктору базового класса
   }
 
   public void sumbitDoc() {
-    wd.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[3]")).click();
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[3]"));
   }
 
   public void fillINN(ZdpData zdpData) {
 
-    type(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[3]/div/div[2]/div/div"), zdpData.getInn());
-  }
-
-  private void type(By locator, String inn) {
-    wd.findElement(locator).click();
-    wd.findElement(locator).clear();
-    wd.findElement(By.xpath("//*[contains(@class, 'v-textfield v-widget v-textfield-focus')]")).sendKeys(inn);
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[3]/div/div[2]/div/div"));
+    type(By.xpath("//*[contains(@class, 'v-textfield v-widget v-textfield-focus')]"), zdpData.getInn());
   }
 
   public void creationDoc() {
-    wd.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[2]")).click();
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[2]"));
   }
 
   public void timeout5sec() {
@@ -40,14 +32,22 @@ public class ZdpHelper {
   }
 
   public void comitDelete() {
-    wd.findElement(By.xpath("//span[text()='Да']/../../../div")).click();//работает только в кодировке win-1251
+    click(By.xpath("//span[text()='Да']/../../../div"));
   }
 
   public void selectDelete() {
-    wd.findElement(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[5]")).click();
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[5]"));
   }
 
   public void selectDoc() {
-    wd.findElement(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr/td/div")).click();
+    click(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr/td/div"));
+  }
+
+  public void selectDocRight() {
+    clickR(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr/td/div"));
+  }
+
+  public void sendDoc() {
+    click(By.xpath("//*[@id='bankclient-538598663-overlays']/div[2]/div/div/div/div[2]"));
   }
 }

@@ -2,10 +2,12 @@ package ru.stqa.pft.idsys.appmanager;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.BrowserType;
 
-import static org.testng.Assert.fail;
 
-//класс вспомогательных функций
+//основной класс вспомогательных функций
 public class ApplicationManager {
 
   //инициализация драйвера
@@ -15,15 +17,27 @@ public class ApplicationManager {
   private NavigationHelper navigationHelper;
   private ZdpHelper zdpHelper;
   private SessionHelper sessionHelper;
+  private String browser;
+
+  //конструктор браузера с переменной browser и её передача
+  public ApplicationManager(String browser) {
+    this.browser = browser;
+  }
 
 
   public void init() {
+    // переменная для управления браузером и выбор
+    if (browser.equals(BrowserType.CHROME)) {  //equals сравнение для объектов
+      wd = new ChromeDriver();
+    } else  if (browser.equals(BrowserType.IE)) {
+      wd = new InternetExplorerDriver();
+    } else if (browser.equals(BrowserType.FIREFOX)) {
+      wd = new FirefoxDriver();
+    }
 
-    System.setProperty("webdriver.chrome.driver", "C:\\Windows\\System32\\chromedriver.exe");
-    wd = new ChromeDriver();
 
     //Логин в интерфейс
-    wd.get("http://192.168.1.211:8080/bank_client/");
+    wd.get("http://192.168.1.222:8080/bank_client/");
 
     //инициализации методов 3шт
     zdpHelper = new ZdpHelper(wd);

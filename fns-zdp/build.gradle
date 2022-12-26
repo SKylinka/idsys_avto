@@ -4,6 +4,8 @@ repositories {
     mavenCentral()
 }
 
+
+//зависимости и подключение библиотек
 dependencies {
     implementation 'org.testng:testng:7.5'
     implementation 'org.seleniumhq.selenium:selenium-java:4.1.3'
