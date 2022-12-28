@@ -4,6 +4,7 @@ import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import ru.stqa.pft.idsys.appmanager.ApplicationManager;
+import java.util.concurrent.TimeUnit;
 
 
 // общий базовый класс для тестов
@@ -22,6 +23,12 @@ public class TestBase {
   public void tearDown() throws Exception {
     // завершение инициализации
     app.stop();
+  }
+
+  //метод таймаута
+  public void timeout(int sec) throws InterruptedException {
+    TimeUnit.SECONDS.sleep(sec);
+    //TimeUnit.SECONDS.sleep(2);
   }
 
 }

@@ -5,7 +5,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 
-import java.io.File;
+
 //базовый класс для всех помощников
 public class HelperBase {
 
@@ -40,8 +40,13 @@ public class HelperBase {
   //метод ввода данных
   protected void type(By locator, String text) {
     click(locator);
-    wd.findElement(locator).clear();
-    wd.findElement(locator).sendKeys(text);
+    if (text != null) {  //проверка заполнения значение по умолчанию
+      String existingText = wd.findElement(locator).getAttribute("value"); // получение значения поля ввода
+      if (! text.equals(existingText)) {
+        wd.findElement(locator).clear();
+        wd.findElement(locator).sendKeys(text);
+      }
+    }
   }
 
   public boolean isAlertPresent() {

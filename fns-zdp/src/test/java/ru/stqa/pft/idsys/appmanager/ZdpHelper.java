@@ -28,7 +28,8 @@ public class ZdpHelper extends HelperBase{
   }
 
   public void timeout5sec() {
-    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
   }
 
   public void comitDelete() {
@@ -49,5 +50,21 @@ public class ZdpHelper extends HelperBase{
 
   public void sendDoc() {
     click(By.xpath("//*[@id='bankclient-538598663-overlays']/div[2]/div/div/div/div[2]"));
+  }
+
+  public void fillBik() {
+    click(By.xpath("//*[contains(@class, 'vn-reference-button v-widget')]"));
+  }
+
+  public void complite() {
+    click(By.xpath("//span[text()='Выбрать']/../../../div"));
+  }
+
+  public void selectBik() {
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div[1]/table/tbody/tr[1]/td[1]"));
+  }
+
+  public void copyDoc() {
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[3]"));
   }
 }
