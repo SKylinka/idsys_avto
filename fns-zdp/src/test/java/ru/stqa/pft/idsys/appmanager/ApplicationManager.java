@@ -37,7 +37,7 @@ public class ApplicationManager {
 
 
     //Логин в интерфейс
-    wd.get("http://192.168.1.222:8080/bank_client/");
+    wd.get("http://192.168.1.211:8080/bank_client/");
 
     //инициализации методов 3шт
     zdpHelper = new ZdpHelper(wd);

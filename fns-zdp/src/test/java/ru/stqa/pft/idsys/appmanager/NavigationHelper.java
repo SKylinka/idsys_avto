@@ -8,7 +8,7 @@ public class NavigationHelper extends HelperBase{
 
   //присвоение переданного значения в качестве параметра в конструкторе метода в апп
   public NavigationHelper(WebDriver wd) {
-    super(wd);// образещение к конструктору базового класса
+    super(wd);// обращение к конструктору базового класса
   }
 
   public void gotoZDPpage() {

@@ -3,7 +3,9 @@ package ru.stqa.pft.idsys.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import ru.stqa.pft.idsys.model.ZdpData;
+
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 //класс помощник для работы в ЗДП
 public class ZdpHelper extends HelperBase{
@@ -66,5 +68,37 @@ public class ZdpHelper extends HelperBase{
 
   public void copyDoc() {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[3]"));
+  }
+
+  public void createDoc(ZdpData zdpData) throws InterruptedException {
+    //Вспомогательный метод - клик по кнопке "Создать"
+    creationDoc();
+    //таймаут
+    TimeUnit.SECONDS.sleep(2);
+    //Вспомогательный метод - клик по кнопке выбора "БИК"
+    fillBik();
+    //Вспомогательный метод - выделение случайного(первого) запроса
+    selectBik();
+    //Вспомогательный метод - клик по кнопке "Выбрать"
+    complite();
+    //Вспомогательный метод - клик по строке "ИНН" и ввод "ИНН"
+    fillINN(new ZdpData("123456789000"));
+    //Вспомогательный метод - клик по кнопке "Сохранить"
+    sumbitDoc();
+    //Вспомогательный метод - клик по кнопке "Закрыть".
+    closeDoc();
+  }
+
+  private void closeDoc() {
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[5]"));
+  }
+
+
+  public boolean isThereADoc() {
+    return isElementPresent(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr/td/div"));
+  }
+
+  public int getDocCount() {
+   return wd.findElements(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr")).size();
   }
 }
