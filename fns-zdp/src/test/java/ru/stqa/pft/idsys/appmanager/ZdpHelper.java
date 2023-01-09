@@ -2,9 +2,12 @@ package ru.stqa.pft.idsys.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.stqa.pft.idsys.model.ZdpData;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 //класс помощник для работы в ЗДП
@@ -42,8 +45,9 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[5]"));
   }
 
-  public void selectDoc() {
-    click(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr/td/div"));
+  //
+  public void selectDoc(int index) {
+    wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr[1]")).get(index).click();
   }
 
   public void selectDocRight() {
@@ -100,5 +104,24 @@ public class ZdpHelper extends HelperBase{
 
   public int getDocCount() {
    return wd.findElements(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr")).size();
+  }
+
+  public void close() {
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[1]/div/div/div[2]"));
+  }
+
+  public void refreshPage() {
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[1]"));
+  }
+
+  public List<ZdpData> getZdpList() {
+    List<ZdpData> zdps = new ArrayList<ZdpData>();  //создание списка и передача его в переменную zdps
+    List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr"));
+    for (WebElement element : elements) {
+      String inn = element.getText();
+      ZdpData zdp = new ZdpData(inn);
+      zdps.add(zdp);
+    }
+    return zdps;
   }
 }

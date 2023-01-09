@@ -11,7 +11,7 @@ public class SendDocTest extends TestBase{
     //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
     app.getNavigationHelper().gotoZDPpage();
     //Вспомогательный метод - выделение случайного(первого) запроса
-    app.getZdpHelper().selectDoc();
+    app.getZdpHelper().selectDoc(0); //0 - первый запрос
     //Вспомогательный метод - выделение случайного(первого) запроса и вызов контекстного меню отправки на пкм
     app.getZdpHelper().selectDocRight();
     //Вспомогательный метод - нажатие отправка

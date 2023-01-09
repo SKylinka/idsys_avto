@@ -19,11 +19,14 @@ public class CopyDocTest extends TestBase{
     }
     int before = app.getZdpHelper().getDocCount(); //подсчет количества запросов до создания
     //Вспомогательный метод - выделение случайного(первого) запроса
-    app.getZdpHelper().selectDoc();
+    app.getZdpHelper().selectDoc(0); //выбор первого элемента
     //Вспомогательный метод - клик по кнопке "Создать c копированием"
     app.getZdpHelper().copyDoc();
     //Вспомогательный метод - клик по кнопке "Сохранить"
     app.getZdpHelper().sumbitDoc();
+    //Вспомогательный метод - клик по кнопке закрытия формы(крестик)
+    app.getZdpHelper().close();
+
     int after = app.getZdpHelper().getDocCount(); //подсчет количества запросов после создания
     Assert.assertEquals(after, before + 1); //сравнение колличества
     //Вспомогательный метод - нажатие кнопки "Выход"
