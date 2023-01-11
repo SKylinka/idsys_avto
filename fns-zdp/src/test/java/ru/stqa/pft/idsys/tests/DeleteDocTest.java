@@ -4,6 +4,8 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.stqa.pft.idsys.model.ZdpData;
 
+import java.util.List;
+
 public class DeleteDocTest extends TestBase {
 
   @Test
@@ -16,7 +18,8 @@ public class DeleteDocTest extends TestBase {
     if (! app.getZdpHelper().isThereADoc()) {
       app.getZdpHelper().createDoc(new ZdpData("123456789000"));
     }
-    int before = app.getZdpHelper().getDocCount(); //подсчет количества запросов до создани€
+    //формирование коллекции в переменную before
+    List<ZdpData> before = app.getZdpHelper().getZdpList();
     //¬спомогательный метод - выделение случайного(первого) запроса
     app.getZdpHelper().selectDoc(0); //выбор последнего элемента before - 1 - передача параметра
     //¬спомогательный метод - клик по кнопке "”далить"
@@ -27,9 +30,16 @@ public class DeleteDocTest extends TestBase {
     //app.getZdpHelper().timeout5sec();
     //¬спомогательный метод - клик по кнопке "ќбновить список"
     app.getZdpHelper().refreshPage();
-    int after = app.getZdpHelper().getDocCount(); //подсчет количества запросов после создани€
-    Assert.assertEquals(after, before - 1); //сравнение колличества
+    app.getZdpHelper().timeout5sec();
+    //формирование коллекции в переменную after
+    List<ZdpData> after = app.getZdpHelper().getZdpList();
+    Assert.assertEquals(after.size(), before.size() - 1); //сравнение колличества дл€ коллекции(списка)
+
+    //удаление элемента из списка
+    before.remove(before.size() - 1);
+    app.getZdpHelper().timeout5sec();
+    //цикл проверки
+    Assert.assertEquals(before,after);
 
   }
-
 }

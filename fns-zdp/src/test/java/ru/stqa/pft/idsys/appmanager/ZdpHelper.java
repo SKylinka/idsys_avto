@@ -47,7 +47,7 @@ public class ZdpHelper extends HelperBase{
 
   //
   public void selectDoc(int index) {
-    wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr[1]")).get(index).click();
+    wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr")).get(index).click();
   }
 
   public void selectDocRight() {
@@ -114,14 +114,26 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[1]"));
   }
 
+
+
+  //Метод создания коллекции(списка) из которого получаются данные в интерфейсе
   public List<ZdpData> getZdpList() {
     List<ZdpData> zdps = new ArrayList<ZdpData>();  //создание списка и передача его в переменную zdps
-    List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr"));
+    List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr/td[2]"));
+    /*
+    пока я не нашел правильного пути для того что бы читать только инн(при наличии всех столбцов), поэтому регулирую это столбцами в интерфейсе(убираю все лишнее)
+     */
     for (WebElement element : elements) {
+      int id = Integer.parseInt(element.findElement(By.xpath("//table[@class='v-table-table']/tbody/tr/td[1]")).getAttribute("id")); //получение идентификатора + преобразование его в инт
       String inn = element.getText();
-      ZdpData zdp = new ZdpData(inn);
+      ZdpData zdp = new ZdpData(id, inn);
       zdps.add(zdp);
     }
     return zdps;
+  }
+
+  public void clearINN() {
+    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[3]/div/div[2]/div/div"));
+    clear(By.xpath("//*[contains(@class, 'v-textfield v-widget v-textfield-focus')]"));
   }
 }

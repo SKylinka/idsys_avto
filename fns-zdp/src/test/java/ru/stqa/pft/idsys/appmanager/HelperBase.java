@@ -35,6 +35,10 @@ public class HelperBase {
     action.build().perform();
   }
 
+  //метод для очистки поля
+  protected void clear(By locator) {
+    wd.findElement(locator).clear();
+  }
 
 
 

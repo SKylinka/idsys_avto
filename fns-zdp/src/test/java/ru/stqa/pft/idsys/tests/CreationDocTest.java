@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.idsys.model.ZdpData;
 
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -14,15 +15,29 @@ public class CreationDocTest extends TestBase{
     app.getNavigationHelper().gotoFNSpage();
     //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
     app.getNavigationHelper().gotoZDPpage();
-    //формирование коллекции
+    //формирование коллекции в переменную before
     List<ZdpData> before = app.getZdpHelper().getZdpList();
     //int before = app.getZdpHelper().getDocCount(); //подсчет количества запросов до создания
-    //Вспомогательный метод - создание запроса
-    app.getZdpHelper().createDoc(new ZdpData("123456789000"));
+    //Вспомогательный метод - создание запроса через переменную zdp
+    ZdpData zdp = new ZdpData("123456789000");
+    app.getZdpHelper().createDoc(zdp);
+    //формирование коллекции в переменную after
     List<ZdpData> after = app.getZdpHelper().getZdpList();
     //int after = app.getZdpHelper().getDocCount(); //подсчет количества запросов после создания
-    Assert.assertEquals(after.size(), before.size() + 1); //сравнение колличества списка
-    //Assert.assertEquals(after, before + 1); //сравнение колличества для
+    Assert.assertEquals(after.size(), before.size() + 1); //сравнение колличества для коллекции(списка)
+    //Assert.assertEquals(after, before + 1); //сравнение колличества для цикла
+
+
+    int max = 0;
+    for (ZdpData z : after) {
+    if (z.getId() > max){
+      max = z.getId();
+    }
+    }
+    zdp.setId(max);
+    before.add(zdp);
+    Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
+
     //Вспомогательный метод - нажатие кнопки "Выход"
     app.getNavigationHelper().exit();
     /*
