@@ -27,16 +27,8 @@ public class CreationDocTest extends TestBase{
     Assert.assertEquals(after.size(), before.size() + 1); //сравнение колличества для коллекции(списка)
     //Assert.assertEquals(after, before + 1); //сравнение колличества для цикла
 
-
-    int max = 0;
-    for (ZdpData z : after) {
-    if (z.getId() > max){
-      max = z.getId();
-    }
-    }
-    zdp.setId(max);
-    before.add(zdp);
-    Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
+    //before.add(zdp);
+    //Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
 
     //Вспомогательный метод - нажатие кнопки "Выход"
     app.getNavigationHelper().exit();

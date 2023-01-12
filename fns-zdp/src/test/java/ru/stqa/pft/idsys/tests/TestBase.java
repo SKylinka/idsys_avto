@@ -1,8 +1,8 @@
 package ru.stqa.pft.idsys.tests;
 
 import org.openqa.selenium.remote.BrowserType;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import ru.stqa.pft.idsys.appmanager.ApplicationManager;
 import java.util.concurrent.TimeUnit;
 
@@ -11,15 +11,15 @@ import java.util.concurrent.TimeUnit;
 public class TestBase {
 
 //делегирование на app
-  protected final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);  // параметр конструктора для выбора браузера
+  protected static final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);  // параметр конструктора для выбора браузера
 
-  @BeforeClass(alwaysRun = true)
+  @BeforeSuite(alwaysRun = true)
   public void setUp() throws Exception {
     //инициализация драйвера и логин
     app.init();
   }
 
-  @AfterClass(alwaysRun = true)
+  @AfterSuite(alwaysRun = true)
   public void tearDown() throws Exception {
     // завершение инициализации
     app.stop();
