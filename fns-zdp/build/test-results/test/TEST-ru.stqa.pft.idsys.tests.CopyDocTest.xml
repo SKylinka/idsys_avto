@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ru.stqa.pft.idsys.tests.CreationDocTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2023-01-11T14:31:05" hostname="SKLN" time="1.4">
+<testsuite name="ru.stqa.pft.idsys.tests.CopyDocTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2023-01-12T12:39:21" hostname="SKLN" time="1.238">
   <properties/>
-  <testcase name="testDocCreation" classname="ru.stqa.pft.idsys.tests.CreationDocTest" time="1.4">
-    <failure message="java.lang.NumberFormatException: For input string: &quot;&quot;" type="java.lang.NumberFormatException">java.lang.NumberFormatException: For input string: &quot;&quot;
+  <testcase name="testCopyDoc" classname="ru.stqa.pft.idsys.tests.CopyDocTest" time="1.238">
+    <failure message="java.lang.NumberFormatException: For input string: &quot;31005512823&quot;" type="java.lang.NumberFormatException">java.lang.NumberFormatException: For input string: &quot;31005512823&quot;
 	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
-	at java.lang.Integer.parseInt(Integer.java:592)
+	at java.lang.Integer.parseInt(Integer.java:583)
 	at java.lang.Integer.parseInt(Integer.java:615)
-	at ru.stqa.pft.idsys.appmanager.ZdpHelper.getZdpList(ZdpHelper.java:127)
-	at ru.stqa.pft.idsys.tests.CreationDocTest.testDocCreation(CreationDocTest.java:19)
+	at ru.stqa.pft.idsys.appmanager.ZdpHelper.getZdpList(ZdpHelper.java:128)
+	at ru.stqa.pft.idsys.tests.CopyDocTest.testCopyDoc(CopyDocTest.java:24)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -57,18 +57,18 @@
 </failure>
   </testcase>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[Starting ChromeDriver 107.0.5304.62 (1eec40d3a5764881c92085aaee66d25075c159aa-refs/branch-heads/5304@{#942}) on port 63766
+  <system-err><![CDATA[Starting ChromeDriver 107.0.5304.62 (1eec40d3a5764881c92085aaee66d25075c159aa-refs/branch-heads/5304@{#942}) on port 60849
 Only local connections are allowed.
 Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
 ChromeDriver was started successfully.
-[1673447463.422][WARNING]: This version of ChromeDriver has not been tested with Chrome version 108.
-янв 11, 2023 5:31:03 PM org.openqa.selenium.remote.ProtocolHandshake createSession
+[1673527158.733][WARNING]: This version of ChromeDriver has not been tested with Chrome version 108.
+янв 12, 2023 3:39:18 PM org.openqa.selenium.remote.ProtocolHandshake createSession
 INFO: Detected dialect: W3C
-янв 11, 2023 5:31:03 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+янв 12, 2023 3:39:19 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
 WARNING: Unable to find an exact match for CDP version 108, so returning the closest version found: a no-op implementation
-янв 11, 2023 5:31:03 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+янв 12, 2023 3:39:19 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
 INFO: Unable to find CDP implementation matching 108.
-янв 11, 2023 5:31:03 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$3
+янв 12, 2023 3:39:19 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$3
 WARNING: Unable to find version of CDP to use for . You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.1.3` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-err>
 </testsuite>

@@ -119,12 +119,13 @@ public class ZdpHelper extends HelperBase{
   //Метод создания коллекции(списка) из которого получаются данные в интерфейсе
   public List<ZdpData> getZdpList() {
     List<ZdpData> zdps = new ArrayList<ZdpData>();  //создание списка и передача его в переменную zdps
-    List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr/td[2]"));
+    List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr/td[1]")); //tr[@style]//table[@class='v-table-table']/tbody/tr/td[1]/div
     /*
     пока я не нашел правильного пути для того что бы читать только инн(при наличии всех столбцов), поэтому регулирую это столбцами в интерфейсе(убираю все лишнее)
      */
-    for (WebElement element : elements) {
-      int id = Integer.parseInt(element.findElement(By.xpath("//table[@class='v-table-table']/tbody/tr/td[1]")).getAttribute("id")); //получение идентификатора + преобразование его в инт
+    for (WebElement element : elements) { //цикл получения элементов
+      //int id = Integer.parseInt(element.findElement(By.xpath("//table[@class='v-table-table']/tbody/tr/td[1]/div")).getAttribute("text")); //получение идентификатора из элемента + преобразование его в инт
+      int id = Integer.parseInt(element.findElement(By.tagName("div")).getText().trim());
       String inn = element.getText();
       ZdpData zdp = new ZdpData(id, inn);
       zdps.add(zdp);
