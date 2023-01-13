@@ -37,7 +37,8 @@ public class ZdpHelper extends HelperBase{
     wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
   }
 
-  public void comitDelete() {
+  public void comitDelete() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//span[text()='Да']/../../../div"));
   }
 
@@ -70,11 +71,11 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[2]/div/div[2]/div/div[2]/div[1]/table/tbody/tr[1]/td[1]"));
   }
 
-  public void copyDoc() {
+  public void copy() {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[3]"));
   }
 
-  public void createDoc(ZdpData zdpData) throws InterruptedException {
+  public void create(ZdpData zdpData) throws InterruptedException {
     //Вспомогательный метод - клик по кнопке "Создать"
     creationDoc();
     //таймаут
@@ -92,6 +93,32 @@ public class ZdpHelper extends HelperBase{
     //Вспомогательный метод - клик по кнопке "Закрыть".
     closeDoc();
   }
+
+  public void copy(int index, ZdpData zdp) throws InterruptedException {
+    //Вспомогательный метод - выделение случайного(первого) запроса
+    selectDoc(index); //выбор элемента
+    //Вспомогательный метод - клик по кнопке "Создать c копированием"
+    copy();
+    TimeUnit.SECONDS.sleep(2);
+    //Вспомогательный метод - очистка поля ИНН
+    clearINN();
+    //Вспомогательный метод - ввод нового ИНН через переменную
+    fillINN(zdp);
+    //Вспомогательный метод - клик по кнопке "Сохранить"
+    sumbitDoc();
+    //Вспомогательный метод - клик по кнопке закрытия формы(крестик)
+    close();
+  }
+
+  public void delete(int index) throws InterruptedException {
+    //Вспомогательный метод - выделение случайного(первого) запроса
+    selectDoc(index); //выбор последнего элемента before - 1 - передача параметра
+    //Вспомогательный метод - клик по кнопке "Удалить"
+    selectDelete();
+    //подтверждение удаления(нажатие кнопки "ДА")
+    comitDelete();
+  }
+
 
   private void closeDoc() {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[5]"));
@@ -117,9 +144,9 @@ public class ZdpHelper extends HelperBase{
 
 
   //Метод создания коллекции(списка) из которого получаются данные в интерфейсе
-  public List<ZdpData> getZdpList() {
+  public List<ZdpData> list() {
     List<ZdpData> zdps = new ArrayList<ZdpData>();  //создание списка и передача его в переменную zdps
-    List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr")); //tr[@style]//table[@class='v-table-table']/tbody/tr/td[1]/div
+    List<WebElement> elements = wd.findElements(By.xpath("//tr[@style]")); //tr[@style]//table[@class='v-table-table']/tbody/tr/td[1]/div
     /*
     пока я не нашел правильного пути для того что бы читать только инн(при наличии всех столбцов), поэтому регулирую это столбцами в интерфейсе(убираю все лишнее)
      */

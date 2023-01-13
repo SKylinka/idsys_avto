@@ -7,17 +7,17 @@ public class SendDocTest extends TestBase{
   @Test
   public void testSendDoc() {
     //Вспомогательный метод - переход в раздел "ФНС"
-    app.getNavigationHelper().gotoFNSpage();
+    app.goTo().fnsPage();
     //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
-    app.getNavigationHelper().gotoZDPpage();
+    app.goTo().zdpPage();
     //Вспомогательный метод - выделение случайного(первого) запроса
-    app.getZdpHelper().selectDoc(0); //0 - первый запрос
+    app.zdp().selectDoc(0); //0 - первый запрос
     //Вспомогательный метод - выделение случайного(первого) запроса и вызов контекстного меню отправки на пкм
-    app.getZdpHelper().selectDocRight();
+    app.zdp().selectDocRight();
     //Вспомогательный метод - нажатие отправка
-    app.getZdpHelper().sendDoc();
+    app.zdp().sendDoc();
     //Вспомогательный метод - нажатие кнопки "Выход"
-    app.getNavigationHelper().exit();
+    app.goTo().exit();
     //
 
   }

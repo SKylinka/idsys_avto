@@ -57,11 +57,11 @@ public class ApplicationManager {
   }
 
   //декларация помощников
-  public ZdpHelper getZdpHelper() {
+  public ZdpHelper zdp() {
     return zdpHelper;
   }
   //декларация помощников
-  public NavigationHelper getNavigationHelper() {
+  public NavigationHelper goTo() {
     return navigationHelper;
   }
   //декларация помощников

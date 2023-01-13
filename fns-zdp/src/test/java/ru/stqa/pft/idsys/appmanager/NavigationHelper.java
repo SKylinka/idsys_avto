@@ -11,11 +11,11 @@ public class NavigationHelper extends HelperBase{
     super(wd);// обращение к конструктору базового класса
   }
 
-  public void gotoZDPpage() {
+  public void zdpPage() {
     click(By.xpath("//*[@id=\"gwt-uid-12\"]"));
   }
 
-  public void gotoFNSpage() {
+  public void fnsPage() {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div/div[1]/div"));
   }
 

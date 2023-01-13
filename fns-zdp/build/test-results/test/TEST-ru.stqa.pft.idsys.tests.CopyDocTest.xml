@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ru.stqa.pft.idsys.tests.CopyDocTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-01-12T15:30:44" hostname="SKLN" time="2.66">
-  <properties/>
-  <testcase name="testCopyDoc" classname="ru.stqa.pft.idsys.tests.CopyDocTest" time="2.66"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
