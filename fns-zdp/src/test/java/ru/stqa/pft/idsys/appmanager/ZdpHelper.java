@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.idsys.model.ZdpData;
+import ru.stqa.pft.idsys.model.Zdps;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -92,6 +93,7 @@ public class ZdpHelper extends HelperBase{
     sumbitDoc();
     //Вспомогательный метод - клик по кнопке "Закрыть".
     closeDoc();
+    zdpCache = null;
   }
 
   public void copy(int index, ZdpData zdp) throws InterruptedException {
@@ -108,6 +110,7 @@ public class ZdpHelper extends HelperBase{
     sumbitDoc();
     //Вспомогательный метод - клик по кнопке закрытия формы(крестик)
     close();
+    zdpCache = null;
   }
 
   public void delete(int index) throws InterruptedException {
@@ -117,6 +120,7 @@ public class ZdpHelper extends HelperBase{
     selectDelete();
     //подтверждение удаления(нажатие кнопки "ДА")
     comitDelete();
+    zdpCache = null;
   }
 
 
@@ -129,7 +133,7 @@ public class ZdpHelper extends HelperBase{
     return isElementPresent(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr/td/div"));
   }
 
-  public int getDocCount() {
+  public int count() {
    return wd.findElements(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr")).size();
   }
 
@@ -161,5 +165,22 @@ public class ZdpHelper extends HelperBase{
   public void clearINN() throws InterruptedException {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[3]/div/div[2]/div/div"));
     clear(By.xpath("//*[contains(@class, 'v-textfield v-widget v-textfield-focus')]"));
+  }
+
+  //кеш
+  private Zdps zdpCache = null;
+
+  public Zdps all() {
+    if (zdpCache != null) {
+      return new Zdps(zdpCache);
+    }
+   //Метод создания коллекции(списка) из которого получаются данные в интерфейсе через хомяка
+    zdpCache = new Zdps();
+    List<WebElement> elements = wd.findElements(By.xpath("//tr[@style]"));
+    for (WebElement element : elements) {
+      String inn = element.getText();
+      zdpCache.add(new ZdpData().withInn(inn));
+    }
+    return new Zdps(zdpCache);
   }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.stqa.pft.idsys.tests.CreationDocTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-01-16T15:00:39" hostname="SKLN" time="5.308">
+  <properties/>
+  <testcase name="testBadDocCreation" classname="ru.stqa.pft.idsys.tests.CreationDocTest" time="5.308"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
