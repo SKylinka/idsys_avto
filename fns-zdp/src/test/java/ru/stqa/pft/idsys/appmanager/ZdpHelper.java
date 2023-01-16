@@ -87,7 +87,7 @@ public class ZdpHelper extends HelperBase{
     //Вспомогательный метод - клик по кнопке "Выбрать"
     complite();
     //Вспомогательный метод - клик по строке "ИНН" и ввод "ИНН"
-    fillINN(new ZdpData("123456789000"));
+    fillINN(new ZdpData().withInn("123456789000"));
     //Вспомогательный метод - клик по кнопке "Сохранить"
     sumbitDoc();
     //Вспомогательный метод - клик по кнопке "Закрыть".
@@ -153,8 +153,7 @@ public class ZdpHelper extends HelperBase{
     for (WebElement element : elements) { //цикл получения элементов из листа
       //String id = element.findElement(By.tagName("td")).getAttribute("id"); //получение идентификатора из элемента + преобразование его в инт
       String inn = element.getText();
-      ZdpData zdp = new ZdpData(inn);
-      zdps.add(zdp);
+      zdps.add(new ZdpData().withInn(inn));
     }
     return zdps;
   }

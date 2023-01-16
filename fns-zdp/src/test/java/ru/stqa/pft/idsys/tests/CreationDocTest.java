@@ -18,7 +18,7 @@ public class CreationDocTest extends TestBase{
     List<ZdpData> before = app.zdp().list();
     //int before = app.getZdpHelper().getDocCount(); //подсчет количества запросов до создания
     //Вспомогательный метод - создание запроса через переменную zdp
-    ZdpData zdp = new ZdpData("123456789000");
+    ZdpData zdp = new ZdpData().withInn("123456789000");
     app.zdp().create(zdp);
     //формирование коллекции в переменную after
     List<ZdpData> after = app.zdp().list();

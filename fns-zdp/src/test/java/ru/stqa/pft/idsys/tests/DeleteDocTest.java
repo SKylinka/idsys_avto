@@ -19,7 +19,7 @@ public class DeleteDocTest extends TestBase {
     //проверка есть ли запрос в интерфейсе
     if (app.zdp().list().size() == 0) {
       //¬спомогательный метод - создание запроса
-      app.zdp().create(new ZdpData("123456789000"));
+      app.zdp().create(new ZdpData().withInn("123456789000"));
     }
   }
 

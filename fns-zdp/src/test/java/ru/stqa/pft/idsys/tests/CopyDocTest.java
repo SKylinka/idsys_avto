@@ -19,7 +19,7 @@ public class CopyDocTest extends TestBase {
     //проверка есть ли запрос в интерфейсе
     if (app.zdp().list().size() == 0) {
       //Вспомогательный метод - создание запроса
-      app.zdp().create(new ZdpData("123456789111"));
+      app.zdp().create(new ZdpData().withInn("123456789111"));
     }
   }
 
@@ -31,7 +31,7 @@ public class CopyDocTest extends TestBase {
     //обьявление переменной для размера
     int index = before.size() - 1;
     //переменная zdp для ввода инн
-    ZdpData zdp = new ZdpData("987654321000");
+    ZdpData zdp = new ZdpData().withInn("123456789000");
     //Вспомогательный метод - копировать документ
     app.zdp().copy(index, zdp);
     //Вспомогательный метод - клик по кнопке "Обновить список"

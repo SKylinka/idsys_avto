@@ -2,14 +2,13 @@ package ru.stqa.pft.idsys.model;
 
 public class ZdpData {
 
+
   // Класс для инициализации объектов и атрибутов для полей запроса
-  private final String inn;
+  private String inn;
 
 
-  //конструктр для передачи полей без ид
-  public ZdpData(String inn) {
-    this.inn = inn;
-  }
+
+
 
 
   //метод который обеспечивает сравнения объектов и их атрибутов(инн и ид))
@@ -42,5 +41,12 @@ public class ZdpData {
     return inn;
   }
 
+
+  //конструктр для передачи полей
+
+  public ZdpData withInn(String inn) {
+    this.inn = inn;
+    return this;
+  }
 
 }
