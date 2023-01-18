@@ -12,10 +12,9 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
-fns-zdp/build/classes/java/test/ru/stqa/pft/idsys/appmanager/ApplicationManager.class
-fns-zdp/build/classes/java/test/ru/stqa/pft/idsys/appmanager/ApplicationManager.class
-*.class
 *.html
 *.xml
-fns-zdp/build/tmp/test/jar_extract_567801815308635594_tmp
 *.bin
+build/
+build/tmp/
+/build/test-results/

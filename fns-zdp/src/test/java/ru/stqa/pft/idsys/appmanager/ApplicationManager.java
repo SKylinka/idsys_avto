@@ -26,6 +26,7 @@ public class ApplicationManager {
   private ZdpHelper zdpHelper;
   private SessionHelper sessionHelper;
   private String browser;
+  private DbHelper dbHelper;
 
   //конструктор браузера с переменной browser и её передача
   public ApplicationManager(String browser) {
@@ -38,6 +39,8 @@ public class ApplicationManager {
     //управление настройкой через файл
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+    //инициализация метода подключения к БД
+    dbHelper = new DbHelper();
     // переменная для управления браузером и выбор
     if (browser.equals(BrowserType.CHROME)) {  //equals сравнение для объектов
       wd = new ChromeDriver();
@@ -56,6 +59,7 @@ public class ApplicationManager {
     navigationHelper = new NavigationHelper(wd);
     sessionHelper = new SessionHelper(wd);
 
+
     //таймаут 5сек
     zdpHelper.timeout5sec();
 
@@ -68,7 +72,7 @@ public class ApplicationManager {
     wd.quit();
   }
 
-  //декларация помощников
+  //декларация помощников - возвращение
   public ZdpHelper zdp() {
     return zdpHelper;
   }
@@ -79,5 +83,9 @@ public class ApplicationManager {
   //декларация помощников
   public SessionHelper sessionHelper() {
     return sessionHelper;
+  }
+  //декларация помощников
+  public DbHelper db() {
+    return dbHelper;
   }
 }

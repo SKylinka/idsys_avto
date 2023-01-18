@@ -2,6 +2,7 @@ package ru.stqa.pft.idsys.model;
 
 import com.google.common.collect.ForwardingSet;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,5 +45,10 @@ public class Zdps extends ForwardingSet<ZdpData> {
     return zdps;
   }
 
+
+  //коллекция объектов
+  public Zdps(Collection<ZdpData> zdps) {
+    this.delegate = new HashSet<>(zdps);
+  }
 
 }
