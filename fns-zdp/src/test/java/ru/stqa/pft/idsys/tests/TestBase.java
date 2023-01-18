@@ -2,6 +2,7 @@ package ru.stqa.pft.idsys.tests;
 
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.stqa.pft.idsys.appmanager.ApplicationManager;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +12,8 @@ import java.util.concurrent.TimeUnit;
 public class TestBase {
 
 //делегирование на app
-  protected static final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);  // параметр конструктора для выбора браузера
+  protected static final ApplicationManager app
+        = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));  // параметр конструктора для выбора браузера
 
   @BeforeSuite(alwaysRun = true)
   public void setUp() throws Exception {

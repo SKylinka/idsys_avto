@@ -6,9 +6,17 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 
 //основной класс вспомогательных функций
 public class ApplicationManager {
+  //
+  private final Properties properties;
 
   //инициализация драйвера
   protected WebDriver wd;
@@ -22,10 +30,14 @@ public class ApplicationManager {
   //конструктор браузера с переменной browser и её передача
   public ApplicationManager(String browser) {
     this.browser = browser;
+    properties = new Properties();
   }
 
 
-  public void init() {
+  public void init() throws IOException {
+    //управление настройкой через файл
+    String target = System.getProperty("target", "local");
+    properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
     // переменная для управления браузером и выбор
     if (browser.equals(BrowserType.CHROME)) {  //equals сравнение для объектов
       wd = new ChromeDriver();
@@ -37,7 +49,7 @@ public class ApplicationManager {
 
 
     //Логин в интерфейс
-    wd.get("http://192.168.1.211:8080/bank_client/");
+    wd.get(properties.getProperty("web.baseURL"));
 
     //инициализации методов 3шт
     zdpHelper = new ZdpHelper(wd);
@@ -48,7 +60,7 @@ public class ApplicationManager {
     zdpHelper.timeout5sec();
 
     //Логин в интерфейс
-    sessionHelper.login("AVTOTEST", "123456");
+    sessionHelper.login(properties.getProperty("web.Login"), properties.getProperty("web.Password"));
   }
 
 

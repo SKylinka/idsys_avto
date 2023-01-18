@@ -23,6 +23,8 @@ public class ZdpData {
     return inn != null ? inn.equals(zdpData.inn) : zdpData.inn == null;
   }
 
+
+  //предварительная проперка по хешу
   @Override
   public int hashCode() {
     return inn != null ? inn.hashCode() : 0;
