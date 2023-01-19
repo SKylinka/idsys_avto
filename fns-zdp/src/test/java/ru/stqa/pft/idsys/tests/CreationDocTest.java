@@ -1,7 +1,9 @@
 package ru.stqa.pft.idsys.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.idsys.model.ZdpData;
+import ru.stqa.pft.idsys.model.Zdps;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class CreationDocTest extends TestBase {
     app.goTo().zdpPage();
 
     //формирование коллекции в переменную before
-    List<ZdpData> before = app.zdp().list();
+    Zdps before = app.db().zdps();
     //Zdps before = app.zdp().all();
     //int before = app.getZdpHelper().getDocCount(); //подсчет количества запросов до создани€
 
@@ -29,13 +31,13 @@ public class CreationDocTest extends TestBase {
     app.zdp().create(zdp);
 
     //формирование коллекции в переменную after
-    List<ZdpData> after = app.zdp().list();
+    Zdps after = app.db().zdps();
     //Zdps after = app.zdp().all();
 
 
     //int after = app.getZdpHelper().getDocCount(); //подсчет количества запросов после создани€
-    assertThat(after.size(), equalTo(before.size() +1)); //сравнение колличества дл€ коллекции(списка)
-    //Assert.assertEquals(after, before + 1); //сравнение колличества дл€ цикла
+    //assertThat(after.size(), equalTo(before.size() +1)); //сравнение колличества дл€ коллекции(списка)
+    Assert.assertEquals(after.size() ,before.size() + 1); //сравнение колличества дл€ цикла
 
     //¬спомогательный метод - нажатие кнопки "¬ыход"
     app.goTo().exit();
@@ -50,16 +52,17 @@ public class CreationDocTest extends TestBase {
     //¬спомогательный метод - переход в раздел "—ведени€ о приостановлении"
     app.goTo().zdpPage();
     //формирование коллекции в переменную before
-    List<ZdpData> before = app.zdp().list();
+    Zdps before = app.db().zdps();
     //¬спомогательный метод - создание запроса через переменную zdp
     ZdpData zdp = new ZdpData().withInn("1234567890");
     app.zdp().create(zdp);
     //формирование коллекции в переменную after
-    List<ZdpData> after = app.zdp().list();
+    Zdps after = app.db().zdps();
     //¬спомогательный метод - клик по кнопке "ќбновить список"
     app.zdp().refreshPage();
-    assertThat(app.zdp().count(), equalTo(before.size() + 1)); //сравнение колличества дл€ коллекции(списка)
+    //assertThat(app.zdp().count(), equalTo(before.size() + 1)); //сравнение колличества дл€ коллекции(списка)
     //assertThat(after.size(), equalTo(before.size())); //сравнение колличества дл€ коллекции(списка)
+    Assert.assertEquals(after.size() ,before.size() + 1);
     //¬спомогательный метод - нажатие кнопки "¬ыход"
     app.goTo().exit();
     /*

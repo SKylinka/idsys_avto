@@ -3,6 +3,7 @@ package ru.stqa.pft.idsys.tests;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.stqa.pft.idsys.model.ZdpData;
+import ru.stqa.pft.idsys.model.Zdps;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +27,7 @@ public class DeleteDocTest extends TestBase {
   @Test
   public void testDeleteDoc() throws Exception {
     //формирование коллекции в переменную before
-    List<ZdpData> before = app.zdp().list();
+    Zdps before = app.db().zdps();
     //переменная для
     int index = before.size() - 1;
     app.zdp().delete(index);
@@ -36,7 +37,7 @@ public class DeleteDocTest extends TestBase {
     app.zdp().refreshPage();
     TimeUnit.SECONDS.sleep(2);
     //формирование коллекции в переменную after
-    List<ZdpData> after = app.zdp().list();
+    Zdps after = app.db().zdps();
     TimeUnit.SECONDS.sleep(2);
     Assert.assertEquals(after.size(), index); //сравнение колличества для коллекции(списка)
 
@@ -45,7 +46,7 @@ public class DeleteDocTest extends TestBase {
     //app.getZdpHelper().timeout5sec();
     //цикл проверки
     //Assert.assertEquals(before,after);
-
+    verifyZdpListInUI();
   }
 
 

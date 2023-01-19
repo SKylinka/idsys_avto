@@ -177,10 +177,11 @@ public class ZdpHelper extends HelperBase{
     }
    //Метод создания коллекции(списка) из которого получаются данные в интерфейсе через хомяка
     zdpCache = new Zdps();
-    List<WebElement> elements = wd.findElements(By.xpath("//tr[@style]"));
+    List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr"));
     for (WebElement element : elements) {
-      String inn = element.getText();
-      zdpCache.add(new ZdpData().withInn(inn));
+      Long id = Long.parseLong(element.findElement(By.xpath("td[1]")).getText());
+      String inn = element.findElement(By.xpath("td[2]")).getText();
+      zdpCache.add(new ZdpData().withId(id).withInn(inn));
     }
     return new Zdps(zdpCache);
   }

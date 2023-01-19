@@ -34,7 +34,7 @@ public class CopyDocTest extends TestBase {
     int index = before.size() - 1;
     //переменная zdp для ввода инн
     ZdpData zdp = new ZdpData().withInn("123456789000");
-    //Вспомогательный метод - копировать документ
+    //Вспомогательный метод - копировать документ выбрав последний в списке
     app.zdp().copy(index, zdp);
     //Вспомогательный метод - клик по кнопке "Обновить список"
     app.zdp().refreshPage();
@@ -48,10 +48,13 @@ public class CopyDocTest extends TestBase {
     //before.add(zdp);
     //Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
 
+    //проверка данных из БД с тем что в интерфейсе(важное услвоие ид первые столбец, инн второй)
+    verifyZdpListInUI();
 
     //Вспомогательный метод - нажатие кнопки "Выход"
     app.goTo().exit();
   }
+
 }
 
 
