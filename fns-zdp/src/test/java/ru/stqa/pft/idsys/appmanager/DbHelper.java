@@ -41,19 +41,18 @@ public class DbHelper {
               properties.getProperty("db.Login"),
               properties.getProperty("db.Password"));
       Statement st = conn.createStatement();
-      ResultSet rs = st.executeQuery("select fr.inn\n" +
+      ResultSet rs = st.executeQuery("select d.id, fr.inn\n" +
               "from  DOCUMENT D\n" +
               "join FNS_RESTRICTION FR on FR.ID = D.ID\n" +
               "where D.DOCUMENTCLASSID = 1422 and\n" +
               "D.metaobjectname = 'FNS_RESTRICTION'");
       Zdps zdps = new Zdps();
       while (rs.next()) {
-        zdps.add(new ZdpData().withInn(rs.getString("inn")));
-
+        zdps.add(new ZdpData().withId(rs.getLong("id"))
+                              .withInn(rs.getString("inn")));
       }
       rs.close();
       st.close();
-      //System.out.println(zdps);
       return zdps;
     } catch (SQLException e) {
       e.printStackTrace();

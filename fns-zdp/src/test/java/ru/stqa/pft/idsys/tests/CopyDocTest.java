@@ -4,22 +4,24 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.idsys.model.ZdpData;
+import ru.stqa.pft.idsys.model.Zdps;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class CopyDocTest extends TestBase {
 
   @BeforeMethod
   //проверка до выполнения теста
-  public void ensurePreconditions() throws InterruptedException {
+  public void ensurePreconditions() throws InterruptedException, SQLException {
     //Вспомогательный метод - переход в раздел "ФНС"
     app.goTo().fnsPage();
     //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
     app.goTo().zdpPage();
-    //проверка есть ли запрос в интерфейсе
-    if (app.zdp().list().size() == 0) {
-      //Вспомогательный метод - создание запроса
-      app.zdp().create(new ZdpData().withInn("123456789111"));
+    //проверка есть ли запрос в БД
+    if (app.db().zdps().size() == 0) {
+    //Вспомогательный метод - создание запроса
+    app.zdp().create(new ZdpData().withInn("123456789111"));
     }
   }
 
@@ -27,7 +29,7 @@ public class CopyDocTest extends TestBase {
   @Test
   public void testCopyDoc() throws Exception {
     //формирование коллекции в переменную before
-    List<ZdpData> before = app.zdp().list();
+    Zdps before = app.db().zdps();
     //обьявление переменной для размера
     int index = before.size() - 1;
     //переменная zdp для ввода инн
@@ -38,7 +40,7 @@ public class CopyDocTest extends TestBase {
     app.zdp().refreshPage();
     app.zdp().timeout5sec();
     //формирование коллекции в переменную after
-    List<ZdpData> after = app.zdp().list();
+    Zdps after = app.db().zdps();
     Assert.assertEquals(after.size() , index + 2); //сравнение колличества для коллекции(списка)
 
     //сравнение двух списков(коллекции) и преобразование из упорядоченного(списка) в неупорядоченные(множества)
