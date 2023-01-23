@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (UNKNOWN_BRANCH-false; 2019-11-12T03:07:59+0300) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown.--><!--edited with XMLSpy v2013 (http://www.altova.com) by  ()--><schema targetNamespace="http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/" xmlns:id="http://www.id-sys.ru/schemas/idbank/common/2012/0.01/">
+  <import namespace="http://www.id-sys.ru/schemas/idbank/common/2012/0.01/" schemaLocation="idbank_customers_1.xsd"/>
+  <include schemaLocation="idbank_customers_1_2_3_4_5.xsd"/>
+  <complexType name="LookupCustomersRq">
+    <annotation>
+      <documentation>Запрос сведений о клиентах</documentation>
+    </annotation>
+    <complexContent>
+      <extension base="id:Message">
+        <sequence>
+          <element name="DataFilter">
+            <annotation>
+              <documentation>Фильтр запрашиваемых сведений. Контейнер</documentation>
+            </annotation>
+            <complexType>
+              <sequence>
+                <element name="FilterItem" maxOccurs="unbounded">
+                  <annotation>
+                    <documentation>Тип запрашиваемых сведений</documentation>
+                  </annotation>
+                  <simpleType>
+                    <restriction base="tns:CustomerDataType"/>
+                  </simpleType>
+                </element>
+              </sequence>
+            </complexType>
+          </element>
+          <choice>
+            <element name="Customers">
+              <annotation>
+                <documentation>Сведения о запрашиваемых клиентах. Контейнер</documentation>
+              </annotation>
+              <complexType>
+                <sequence>
+                  <element name="Customer" type="tns:Customer" maxOccurs="unbounded">
+                    <annotation>
+                      <documentation>Сведения о запрашиваемом клиенте</documentation>
+                    </annotation>
+                  </element>
+                </sequence>
+              </complexType>
+            </element>
+            <element name="taskID" type="string">
+              <annotation>
+                <documentation>Идентификатор задачи</documentation>
+              </annotation>
+            </element>
+          </choice>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="LookupCustomersRs">
+    <annotation>
+      <documentation>Ответ на запрос сведений о клиентах</documentation>
+    </annotation>
+    <complexContent>
+      <extension base="id:Message">
+        <sequence>
+          <element name="CustomersData" minOccurs="0">
+            <annotation>
+              <documentation>Сведения о клиентах. Контейнер</documentation>
+            </annotation>
+            <complexType>
+              <sequence>
+                <element name="CustomerData" maxOccurs="unbounded">
+                  <annotation>
+                    <documentation>Сведения о клиенте</documentation>
+                  </annotation>
+                  <complexType>
+                    <complexContent>
+                      <extension base="id:ObjectStatus">
+                        <sequence>
+                          <element name="BankruptcyLookupResults" minOccurs="0">
+                            <annotation>
+                              <documentation>Результаты поиска сведений о банкротстве</documentation>
+                            </annotation>
+                            <complexType>
+                              <complexContent>
+                                <extension base="id:ObjectStatus">
+                                  <sequence>
+                                    <element name="BankruptcyData" type="tns:BankruptcyData" minOccurs="0" maxOccurs="unbounded">
+                                      <annotation>
+                                        <documentation>Запись реестра должников</documentation>
+                                      </annotation>
+                                    </element>
+                                  </sequence>
+                                </extension>
+                              </complexContent>
+                            </complexType>
+                          </element>
+                          <element name="SNILSCheckResults" type="id:ObjectStatus" minOccurs="0">
+                            <annotation>
+                              <documentation>Результаты проверки действительности СНИЛС</documentation>
+                            </annotation>
+                          </element>
+                          <element name="INNMatchResults" minOccurs="0">
+                            <annotation>
+                              <documentation>Результаты проверки ИНН ФЛ</documentation>
+                            </annotation>
+                            <complexType>
+                              <complexContent>
+                                <extension base="id:ObjectStatus">
+                                  <sequence>
+                                    <element name="Message" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Сообщение  о соответствии</documentation>
+                                      </annotation>
+                                    </element>
+                                  </sequence>
+                                </extension>
+                              </complexContent>
+                            </complexType>
+                          </element>
+                          <element name="OMSMatchResults" minOccurs="0">
+                            <annotation>
+                              <documentation>Результаты проверки сертификата ОМС</documentation>
+                            </annotation>
+                            <complexType>
+                              <complexContent>
+                                <extension base="id:ObjectStatus">
+                                  <sequence>
+                                    <element name="Message" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Сообщение о соответствии</documentation>
+                                      </annotation>
+                                    </element>
+                                  </sequence>
+                                </extension>
+                              </complexContent>
+                            </complexType>
+                          </element>
+                          <element name="AccountData" minOccurs="0" maxOccurs="unbounded">
+                            <annotation>
+                              <documentation>Сведения об учетной записи</documentation>
+                            </annotation>
+                            <complexType>
+                              <complexContent>
+                                <extension base="id:ObjectStatus">
+                                  <sequence minOccurs="0">
+                                    <element name="esiaId" type="string">
+                                      <annotation>
+                                        <documentation>Идентификатор учетной записи</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="status" type="string">
+                                      <annotation>
+                                        <documentation>Статус учетной записи</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="Matches">
+                                      <annotation>
+                                        <documentation>Перечень наименований входящих параметров, по которым была найдена учетная запись. Контейнер</documentation>
+                                      </annotation>
+                                      <complexType>
+                                        <sequence>
+                                          <element name="Match" type="string" minOccurs="0" maxOccurs="unbounded">
+                                            <annotation>
+                                              <documentation>Входящий параметр, по которому была найдена учетная запись</documentation>
+                                            </annotation>
+                                          </element>
+                                        </sequence>
+                                      </complexType>
+                                    </element>
+                                    <element name="RegistrationDate" type="date">
+                                      <annotation>
+                                        <documentation>Дата регистрации учетной записи</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="TypeOfConfirmation" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Тип подтверждения учетной записи</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="BiomStu" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Наличие биометрической информации ("Y"/"N")</documentation>
+                                      </annotation>
+                                    </element>
+                                  </sequence>
+                                </extension>
+                              </complexContent>
+                            </complexType>
+                          </element>
+                          <element name="RestrictionCheckResult" minOccurs="0">
+                            <annotation>
+                              <documentation>Cведения о приостановлении операций по счетам налогоплательщика</documentation>
+                            </annotation>
+                            <complexType>
+                              <complexContent>
+                                <extension base="id:ObjectStatus">
+                                  <sequence minOccurs="0">
+                                    <element name="INN" type="string">
+                                      <annotation>
+                                        <documentation>ИНН ЮЛ/ИНН ФЛ/КИО</documentation>
+                                      </annotation>
+                                    </element>
+                                    <choice>
+                                      <element name="NameOfOrganization" type="string" minOccurs="0">
+                                        <annotation>
+                                          <documentation>Наименование организации налогоплательщика</documentation>
+                                        </annotation>
+                                      </element>
+                                      <element name="FIO" type="id:FioType" minOccurs="0">
+                                        <annotation>
+                                          <documentation>ФИО</documentation>
+                                        </annotation>
+                                      </element>
+                                    </choice>
+                                    <element name="Restriction" minOccurs="0" maxOccurs="unbounded">
+                                      <annotation>
+                                        <documentation>Сведения о действующих решениях о приостановлении</documentation>
+                                      </annotation>
+                                      <complexType>
+                                        <sequence>
+                                          <element name="Number" type="string">
+                                            <annotation>
+                                              <documentation>Номер решения о приостановлении</documentation>
+                                            </annotation>
+                                          </element>
+                                          <element name="Date" type="date">
+                                            <annotation>
+                                              <documentation>Дата решения о приостановлении</documentation>
+                                            </annotation>
+                                          </element>
+                                          <element name="CodeNO" type="string">
+                                            <annotation>
+                                              <documentation>Код налогового органа</documentation>
+                                            </annotation>
+                                          </element>
+                                          <element name="BIK" type="string">
+                                            <annotation>
+                                              <documentation>БИК банка, в который направлено решение</documentation>
+                                            </annotation>
+                                          </element>
+                                          <element name="DateOfReceiveInFederalDB" type="dateTime">
+                                            <annotation>
+                                              <documentation>Дата и время поступления информации в федеральную БД</documentation>
+                                            </annotation>
+                                          </element>
+                                        </sequence>
+                                      </complexType>
+                                    </element>
+                                    <element name="ID" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Идентификатор запроса в IDБанк</documentation>
+                                      </annotation>
+                                    </element>
+                                  </sequence>
+                                </extension>
+                              </complexContent>
+                            </complexType>
+                          </element>
+                          <element name="INNbyFIO" minOccurs="0">
+                            <annotation>
+                              <documentation>Результаты получения ИНН по ФИО и дате рождения</documentation>
+                            </annotation>
+                            <complexType>
+                              <complexContent>
+                                <extension base="id:ObjectStatus">
+                                  <choice>
+                                    <element name="INN" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>ИНН</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="Message" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Информационное сообщение</documentation>
+                                      </annotation>
+                                    </element>
+                                  </choice>
+                                </extension>
+                              </complexContent>
+                            </complexType>
+                          </element>
+                          <element name="RMSPLookupResult" minOccurs="0">
+                            <annotation>
+                              <documentation>Cведения реестра малого и среднего предпринимательства</documentation>
+                            </annotation>
+                            <complexType>
+                              <complexContent>
+                                <extension base="id:ObjectStatus">
+                                  <choice>
+                                    <element name="RMSPData" type="base64Binary" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Запись сведений из реестра МСП</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="Message" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Информационное сообщение</documentation>
+                                      </annotation>
+                                    </element>
+                                  </choice>
+                                </extension>
+                              </complexContent>
+                            </complexType>
+                          </element>
+                          <element name="EGRZAGSResult" minOccurs="0">
+                            <annotation>
+                              <documentation>Cведения из ЕГР ЗАГС</documentation>
+                            </annotation>
+                            <complexType>
+                              <complexContent>
+                                <extension base="id:ObjectStatus">
+                                  <sequence minOccurs="0">
+                                    <element name="ActNumber" type="string" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Номер записи акта о смерти</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="ActDate" type="date" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Дата составления записи акта о смерти</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="DeathCertificate" minOccurs="0" maxOccurs="unbounded">
+                                      <annotation>
+                                        <documentation>Сведения о выданном Свидетельстве о смерти</documentation>
+                                      </annotation>
+                                      <complexType>
+                                        <sequence>
+                                          <element name="DCSeries" type="string">
+                                            <annotation>
+                                              <documentation>Серия свидетельства о смерти</documentation>
+                                            </annotation>
+                                          </element>
+                                          <element name="DCNumber" type="string">
+                                            <annotation>
+                                              <documentation>Номер свидетельства о смерти</documentation>
+                                            </annotation>
+                                          </element>
+                                          <element name="DCDate" type="date">
+                                            <annotation>
+                                              <documentation>Дата выдачи свидетельства о смерти</documentation>
+                                            </annotation>
+                                          </element>
+                                        </sequence>
+                                      </complexType>
+                                    </element>
+                                    <element name="ConfirmingDeathDoc" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Сведения о документе, подтверждающем факт смерти</documentation>
+                                      </annotation>
+                                      <complexType>
+                                        <sequence>
+                                          <element name="DocCode" type="string">
+                                            <annotation>
+                                              <documentation>Код вида документа, подтверждающего факт смерти</documentation>
+                                            </annotation>
+                                          </element>
+                                          <element name="DocSeriesNumber" type="string" minOccurs="0">
+                                            <annotation>
+                                              <documentation>Серия и номер документа</documentation>
+                                            </annotation>
+                                          </element>
+                                          <element name="DocDate" type="date">
+                                            <annotation>
+                                              <documentation>Дата документа</documentation>
+                                            </annotation>
+                                          </element>
+                                        </sequence>
+                                      </complexType>
+                                    </element>
+                                    <element name="EGRZAGSFullAnswer" type="base64Binary" minOccurs="0">
+                                      <annotation>
+                                        <documentation>Сведения из ЕГР ЗАГС в формате ведомства</documentation>
+                                      </annotation>
+                                    </element>
+                                    <element name="StatusResult" type="string">
+                                      <annotation>
+                                        <documentation>Результат обработки</documentation>
+                                      </annotation>
+                                    </element>
+                                  </sequence>
+                                </extension>
+                              </complexContent>
+                            </complexType>
+                          </element>
+                        </sequence>
+                      </extension>
+                    </complexContent>
+                  </complexType>
+                </element>
+              </sequence>
+            </complexType>
+          </element>
+          <element name="Errors" type="id:Errors" minOccurs="0">
+            <annotation>
+              <documentation>Ошибки. Контейнер</documentation>
+            </annotation>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+</schema>

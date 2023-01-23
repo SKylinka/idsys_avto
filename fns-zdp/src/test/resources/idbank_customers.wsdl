@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (UNKNOWN_BRANCH-false; 2019-11-12T03:07:59+0300) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown. --><wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:sc="http://schemas.sun.com/2006/03/wss/server" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:tns="http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wspp="http://java.sun.com/xml/ns/wsit/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="idbank" targetNamespace="http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/">
+	<wsdl:types>
+		<xsd:schema xmlns:id="http://www.id-sys.ru/schemas/idbank/common/2012/0.01/" targetNamespace="http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/">
+			<xsd:include schemaLocation="http://192.168.1.211:8080/bank_client/service/idbank_customers?xsd=1"/>
+			<xsd:include schemaLocation="http://192.168.1.211:8080/bank_client/service/idbank_customers?xsd=6"/>
+			<xsd:element name="Error" type="id:Error"/>
+			<xsd:element name="LookupCustomersRq" type="tns:LookupCustomersRq"/>
+			<xsd:element name="LookupCustomersRs" type="tns:LookupCustomersRs"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="LookupCustomersRq">
+		<wsdl:part element="tns:LookupCustomersRq" name="request"/>
+	</wsdl:message>
+	<wsdl:message name="LookupCustomersRs">
+		<wsdl:part element="tns:LookupCustomersRs" name="response"/>
+	</wsdl:message>
+	<wsdl:message name="LookupCustomersErr">
+		<wsdl:part element="tns:Error" name="detail"/>
+	</wsdl:message>
+	<wsdl:portType name="IDBankCustomersPortType">
+		<wsdl:operation name="LookupCustomers">
+			<wsdl:documentation>Запрос сведений о клиентах</wsdl:documentation>
+			<wsdl:input message="tns:LookupCustomersRq" name="LookupCustomersRq"/>
+			<wsdl:output message="tns:LookupCustomersRs" name="LookupCustomersRs"/>
+			<wsdl:fault message="tns:LookupCustomersErr" name="Error"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="IDBankCustomersBinding" type="tns:IDBankCustomersPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsp:PolicyReference URI="#SecurityPolicy"/>
+		<wsdl:operation name="LookupCustomers">
+			<soap:operation soapAction="http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/LookupCustomers"/>
+			<wsdl:input name="LookupCustomersRq">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="LookupCustomersRs">
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="Error">
+				<soap:fault name="Error" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="IDBankCustomersService">
+		<wsdl:port binding="tns:IDBankCustomersBinding" name="IDBankCustomersPort">
+			<soap:address location="http://192.168.1.211:8080/bank_client/service/idbank_customers"/>
+		</wsdl:port>
+	</wsdl:service>
+	<xsd:annotation>
+		<xsd:documentation>Веб-сервис iD Банк-СМЭВ для получения сведений о клиентах</xsd:documentation>
+	</xsd:annotation>
+	<wsp:Policy wsu:Id="SecurityPolicy">
+		<wsp:ExactlyOne>
+			<wsp:All>
+				<sp:SupportingTokens>
+					<wsp:Policy>
+						<sp:UsernameToken sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+							<wsp:Policy>
+								<sp:WssUsernameToken10/>
+							</wsp:Policy>
+						</sp:UsernameToken>
+					</wsp:Policy>
+				</sp:SupportingTokens>
+				
+			</wsp:All>
+		</wsp:ExactlyOne>
+	</wsp:Policy>
+	<!-- TYPES -->
+	<!-- Messages -->
+	<!-- portType -->
+</wsdl:definitions>

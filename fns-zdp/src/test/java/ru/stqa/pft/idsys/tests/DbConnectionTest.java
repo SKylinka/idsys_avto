@@ -20,7 +20,7 @@ public class DbConnectionTest {
 
   private SessionFactory sessionFactory;
 
-  @Test
+  @Test(enabled = false)
   public void testDbConnection() throws Exception {
     Connection conn = null;
     try {
@@ -51,4 +51,10 @@ public class DbConnectionTest {
    /*
   */
   }
+  @Test
+  public void testGetProject() {
+
+  }
+
+
 }

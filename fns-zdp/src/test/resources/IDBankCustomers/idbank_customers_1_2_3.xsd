@@ -1,0 +1,1689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (UNKNOWN_BRANCH-false; 2019-11-12T03:07:59+0300) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown.--><!--edited with XMLSpy v2013 (http://www.altova.com) by  ()--><xsd:schema targetNamespace="http://dev.triasoft.com/schemas/eis/eregistry/pppr/2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://dev.triasoft.com/schemas/eis/eregistry/pppr/2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--================================================================-->
+  <!--XSD схема для реестра уведомлений о залогах движимого имущества-->
+  <!---->
+  <!--Версия 2.1.23 public-->
+  <!---->
+  <!--================================================================-->
+  <!--================================ общие простые типы-->
+  <xsd:simpleType name="DateType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Дата в формате ГГГГ-ММ-ДД (2100-01-01 - 1900-01-01)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:date">
+      <xsd:minInclusive value="1900-01-01"/>
+      <xsd:maxInclusive value="2100-01-01"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DateTimeType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Дата и время в формате ГГГГ-ММ-ДДTЧЧ:ММ:СС (2100-01-01T00:00:00 - 1900-01-01T00:00:00)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:dateTime">
+      <xsd:maxInclusive value="2100-01-01T00:00:00"/>
+      <xsd:minInclusive value="1900-01-01T00:00:00"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EmailType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Адрес электронной почты</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:normalizedString">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="60"/>
+      <xsd:pattern value="\c+@\c+\.\c+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="MoneyType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Денежные суммы</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:decimal">
+      <xsd:totalDigits value="15"/>
+      <xsd:fractionDigits value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-7Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 7 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="7"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-8Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 8 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="8"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-16Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 12 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="16"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-20Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 20 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-25Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 25 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="25"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-50Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 50 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="50"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-60Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 60 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="60"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-255Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 255 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="255"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-1000Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 1000 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="1000"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String1-4000Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной от 1 до 4000 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="4000"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String8Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной 8 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="8"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="String8or12Type">
+    <xsd:annotation>
+      <xsd:documentation>Тип Строка длиной 8 или 12 символов</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value=".{8}|.{12}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="NotificationTypeType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Вид уведомления (1 - возникновение, 2 - изменение, 3- прекращение, 4 - возникновение по облигациям, 5 - изменение по облигациям, 6- прекращение по облигациям)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="1">
+        <xsd:annotation>
+          <xsd:documentation>о возникновении залога</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="2">
+        <xsd:annotation>
+          <xsd:documentation>об изменении залога</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="3">
+        <xsd:annotation>
+          <xsd:documentation>о прекращении залога</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="4">
+        <xsd:annotation>
+          <xsd:documentation>о возникновении залога по облигациям</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="5">
+        <xsd:annotation>
+          <xsd:documentation>об изменении залога по облигациям</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="6">
+        <xsd:annotation>
+          <xsd:documentation>о прекращении залога по облигациям</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ApplicantRoleType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Роль заявителя (1 - залогодатель, 2 - залогодержатель)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="1">
+        <xsd:annotation>
+          <xsd:documentation>заявителем является залогодатель</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="2">
+        <xsd:annotation>
+          <xsd:documentation>заявителем является залогодержатель</xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CreationReferenceNumberType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Регистрационный номер уведомления о возникновении залога 2014-123-123456-99X</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="19"/>
+      <xsd:pattern value="[0-9]{4}-[0-9]{3}-[0-9]{6}-[0-9]{3}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="NotificationReferenceNumberType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Регистрационный номер уведомления [+ номер его изменения] 2014-123-123456-99X[/123]</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="19"/>
+      <xsd:maxLength value="23"/>
+      <xsd:pattern value="[0-9]{4}-[0-9]{3}-[0-9]{6}-[0-9]{3}(/[1-9][0-9]{0,2})?"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--================================ общие сложные типы-->
+  <!--================================ типы для описания имущества-->
+  <xsd:simpleType name="VehiclePropertyPINType">
+    <xsd:annotation>
+      <xsd:documentation>Тип PIN транспортного средства (1-255 символов)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="255"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="VehiclePropertyVINType">
+    <xsd:annotation>
+      <xsd:documentation>Тип VIN транспортного средства (11 или 17 символов)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="11"/>
+      <xsd:maxLength value="17"/>
+      <xsd:pattern value="[0-9A-HJ-NPR-Z]{17}|[0-9A-Z]{11}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="OtherPropertyIDType">
+    <xsd:annotation>
+      <xsd:documentation>Тип ID прочего движимого имущества</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="25"/>
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="VehiclePropertyType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Транспортное средство (контроль обязательности взаимозависимых полей схемой)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:choice>
+        <xsd:sequence>
+          <xsd:element name="VIN" type="VehiclePropertyVINType">
+            <xsd:annotation>
+              <xsd:documentation>VIN</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="ChassisNumber" type="String1-25Type" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Номер шасси (рамы) (при наличии)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="BodyNumber" type="String1-20Type" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Номер кузова (при наличии)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="PIN" type="VehiclePropertyPINType">
+            <xsd:annotation>
+              <xsd:documentation>PIN</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="ChassisNumber" type="String1-25Type" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Номер шасси (рамы) (при наличии)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="BodyNumber" type="String1-20Type" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Номер кузова (при наличии)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="ChassisNumber" type="String1-25Type">
+            <xsd:annotation>
+              <xsd:documentation>Номер шасси (рамы)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="BodyNumber" type="String1-20Type" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Номер кузова (при наличии)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="BodyNumber" type="String1-20Type">
+            <xsd:annotation>
+              <xsd:documentation>Номер кузова</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="ChassisNumber" type="String1-25Type" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Номер шасси (рамы) (при наличии)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:choice>
+      <xsd:element name="Description" type="String1-4000Type">
+        <xsd:annotation>
+          <xsd:documentation>Описание транспортного средства</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OtherPropertyType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Иное движимое имущество</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="ID" type="OtherPropertyIDType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Идентификатор (при наличии)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Description" type="String1-4000Type">
+        <xsd:annotation>
+          <xsd:documentation>Описание иного имущества</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BondObligationPropertyType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Облигации с залоговым обеспечением</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="IssueNumber" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Государственный регистрационный номер выпуска облигаций</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="IssueDate" type="DateType">
+        <xsd:annotation>
+          <xsd:documentation>Дата государственной регистрации выпуска облигаций</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Description" type="String1-4000Type">
+        <xsd:annotation>
+          <xsd:documentation>Описание предмета залога</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PersonalPropertyType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Движимое имущество, переданное в залог (2 вида - транспортное средство+прочее)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="VehicleProperty" type="VehiclePropertyType">
+        <xsd:annotation>
+          <xsd:documentation>Транспортное средство</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OtherProperty" type="OtherPropertyType">
+        <xsd:annotation>
+          <xsd:documentation>Иное имущество</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+  <!--================================ типы для описания адреса-->
+  <xsd:simpleType name="RegionCodeType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Код региона по ФИАС</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="2"/>
+      <xsd:pattern value="[0-9]{2}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CountryCodeType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Код страны (из ОБЩЕРОССИЙСКОГО КЛАССИФИКАТОРА СТРАН МИРА)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="3"/>
+      <xsd:pattern value="[0-9]{3}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="AddressRFType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Адрес в РФ (по ФИАС)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="RegionCode" type="RegionCodeType">
+        <xsd:annotation>
+          <xsd:documentation>Код субъекта РФ</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Region" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Наименование субъекта РФ</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="District" type="String1-60Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Район</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="City" type="String1-60Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Город</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Locality" type="String1-60Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Населенный пункт (село, поселок и т.д.)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Street" type="String1-60Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Улица (проспект, переулок и т.д.)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="House" type="String1-8Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Номер дома (владения)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Building" type="String1-8Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Номер корпуса (строения)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Apartment" type="String1-8Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Номер квартиры (офиса)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddressPrivatePersonRFType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Адрес в РФ (по ФИАС) с указанием регистрации в атрибуте</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="AddressRFType">
+        <xsd:attribute name="registration" type="xsd:boolean" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AddressForeignOrganizationType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Адрес иностранного юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="CountryCode" type="CountryCodeType">
+        <xsd:annotation>
+          <xsd:documentation>Код страны</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Country" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Наименование страны</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="AddressRus" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>Адрес буквами русского алфавита</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="AddressLat" type="String1-255Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Адрес буквами латинского алфавита</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddressPrivatePersonForeignType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Адрес фактического места жительства вне РФ для физического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="CountryCode" type="CountryCodeType">
+        <xsd:annotation>
+          <xsd:documentation>Код страны</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Country" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Наименование страны</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Address" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>Адрес</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddressPrivatePersonType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Адрес физического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="AddressRF" type="AddressPrivatePersonRFType">
+        <xsd:annotation>
+          <xsd:documentation>Адрес в РФ</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="AddressForeign" type="AddressPrivatePersonForeignType">
+        <xsd:annotation>
+          <xsd:documentation>Адрес за пределами РФ</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+  <!--================================ типы для описания юридических лиц-->
+  <xsd:simpleType name="OrganizationOGRNType">
+    <xsd:annotation>
+      <xsd:documentation>Тип ОГРН российской организации</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="13"/>
+      <xsd:pattern value="[0-9]{13}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ForeignOrganizationRNType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Регистрационый номер иностранного юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="String1-50Type"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrganizationURNType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Регистрационый номер российского или иностранного юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="String1-50Type"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrganizationNameFullType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Полное наименование юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="String1-1000Type"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrganizationINNType">
+    <xsd:annotation>
+      <xsd:documentation>Тип ИНН российского юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="10"/>
+      <xsd:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{8}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ForeignOrganizationINNType">
+    <xsd:annotation>
+      <xsd:documentation>Тип ИНН иностранного юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="String1-50Type"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrganizationUINNType">
+    <xsd:annotation>
+      <xsd:documentation>Тип ИНН российского или иностранного юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="String1-50Type"/>
+  </xsd:simpleType>
+  <xsd:complexType name="RussianOrganizationType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Описание российского юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="NameFull" type="OrganizationNameFullType">
+        <xsd:annotation>
+          <xsd:documentation>Полное наименование организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OGRN" type="OrganizationOGRNType">
+        <xsd:annotation>
+          <xsd:documentation>ОГРН организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="INN" type="OrganizationINNType">
+        <xsd:annotation>
+          <xsd:documentation>ИНН организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Address" type="AddressRFType">
+        <xsd:annotation>
+          <xsd:documentation>Адрес (место нахождения) организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Email" type="EmailType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>email организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ForeignOrganizationType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Описание иностранного юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="NameFull" type="OrganizationNameFullType">
+        <xsd:annotation>
+          <xsd:documentation>Полное наименование организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NameFullLat" type="OrganizationNameFullType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Полное наименование организации буквами латинского алфавита</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ForeignRegisterName" type="String1-1000Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Наименование реестра для регистрации юридических лиц</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="RN" type="ForeignOrganizationRNType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Регистрационный номер организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="INN" type="ForeignOrganizationINNType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>ИНН организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Address" type="AddressForeignOrganizationType">
+        <xsd:annotation>
+          <xsd:documentation>Адрес (место нахождения) организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Email" type="EmailType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>email организации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OrganizationType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Описание российского или иностранного юридического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="RussianOrganization" type="RussianOrganizationType"/>
+      <xsd:element name="ForeignOrganization" type="ForeignOrganizationType"/>
+    </xsd:choice>
+  </xsd:complexType>
+  <!--================================ типы для описания физических лиц-->
+  <xsd:simpleType name="PrivatePersonINNType">
+    <xsd:annotation>
+      <xsd:documentation>Тип ИНН физического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="12"/>
+      <xsd:pattern value="([0-9]{1}[1-9]{1}|[1-9]{1}[0-9]{1})[0-9]{10}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PrivatePersonSNILSType">
+    <xsd:annotation>
+      <xsd:documentation>Тип СНИЛС физического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="11"/>
+      <xsd:pattern value="[0-9]{11}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PrivatePersonDocumentCodeType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Код документа, удостоверяющего личность (по справочнику СПДУЛ ФНС России)</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="2"/>
+      <xsd:pattern value="[0-9]{2}"/>
+      <xsd:enumeration value="01">
+        <xsd:annotation>
+          <xsd:documentation source="Паспорт гражданина СССР"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="02">
+        <xsd:annotation>
+          <xsd:documentation source="Загранпаспорт гражданина СССР"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="03">
+        <xsd:annotation>
+          <xsd:documentation source="Свидетельство о рождении"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="04">
+        <xsd:annotation>
+          <xsd:documentation source="Удостоверение личности офицера"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="05">
+        <xsd:annotation>
+          <xsd:documentation source="Справка об освобождении из места лишения свободы"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="06">
+        <xsd:annotation>
+          <xsd:documentation source="Паспорт Минморфлота"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="07">
+        <xsd:annotation>
+          <xsd:documentation source="Военный билет"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="08">
+        <xsd:annotation>
+          <xsd:documentation source="Временное удостоверение, выданное взамен военного билета"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="09">
+        <xsd:annotation>
+          <xsd:documentation source="Дипломатический паспорт"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="10">
+        <xsd:annotation>
+          <xsd:documentation source="Паспорт иностранного гражданина"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="11">
+        <xsd:annotation>
+          <xsd:documentation source="Свидетельство о рассмотрении ходатайства о признании лица беженцем на территории Российской Федерации по существу"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="12">
+        <xsd:annotation>
+          <xsd:documentation source="Вид на жительство в Российской Федерации"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="13">
+        <xsd:annotation>
+          <xsd:documentation source="Удостоверение беженца"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="14">
+        <xsd:annotation>
+          <xsd:documentation source="Временное удостоверение личности гражданина Российской Федерации"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="15">
+        <xsd:annotation>
+          <xsd:documentation source="Разрешение на временное проживание в Российской Федерации"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="18">
+        <xsd:annotation>
+          <xsd:documentation source="Свидетельство о предоставлении временного убежища на территории Российской Федерации"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="21">
+        <xsd:annotation>
+          <xsd:documentation source="Паспорт гражданина Российской Федерации"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="22">
+        <xsd:annotation>
+          <xsd:documentation source="Загранпаспорт гражданина Российской Федерации"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="23">
+        <xsd:annotation>
+          <xsd:documentation source="Свидетельство о рождении, выданное уполномоченным органом иностранного государства"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="24">
+        <xsd:annotation>
+          <xsd:documentation source="Удостоверение личности военнослужащего Российской Федерации"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="26">
+        <xsd:annotation>
+          <xsd:documentation source="Паспорт моряка"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="27">
+        <xsd:annotation>
+          <xsd:documentation source="Военный билет офицера запаса"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="60">
+        <xsd:annotation>
+          <xsd:documentation source="Документы, подтверждающие факт регистрации по месту жительства (пребывания)"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="61">
+        <xsd:annotation>
+          <xsd:documentation source="Свидетельство о регистрации по месту жительства"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="62">
+        <xsd:annotation>
+          <xsd:documentation source="Вид на жительство иностранного гражданина"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="63">
+        <xsd:annotation>
+          <xsd:documentation source="Свидетельство о регистрации по месту пребывания"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="81">
+        <xsd:annotation>
+          <xsd:documentation source="Свидетельство о смерти"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="91">
+        <xsd:annotation>
+          <xsd:documentation source="Иные документы"/>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PrivatePersonDocumentType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Документ, удостоверяющий личность</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Code" type="PrivatePersonDocumentCodeType">
+        <xsd:annotation>
+          <xsd:documentation>Код вида документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Name" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>Вид документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SeriesNumber" type="String1-25Type">
+        <xsd:annotation>
+          <xsd:documentation>Серия и номер документа</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PrivatePersonNameType">
+    <xsd:annotation>
+      <xsd:documentation>Тип ФИО по элементам</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Last" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Фамилия</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="First" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Имя</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Middle" type="String1-60Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Отчество</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PrivatePersonNameForeignType">
+    <xsd:annotation>
+      <xsd:documentation>Тип ФИО иностранного физического лица по элементам</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Last" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Фамилия</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="First" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Имя</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Middle" type="String1-60Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Отчество</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PrivatePersonType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Описание физического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Name" type="PrivatePersonNameType">
+        <xsd:annotation>
+          <xsd:documentation>ФИО по элементам</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NameForeign" type="PrivatePersonNameForeignType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>ФИО для иностранных граждан</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="BirthDate" type="DateType">
+        <xsd:annotation>
+          <xsd:documentation>Дата рождения</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PersonDocument" type="PrivatePersonDocumentType">
+        <xsd:annotation>
+          <xsd:documentation>Документ, удостоверяющий личность</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PersonAddress" type="AddressPrivatePersonType">
+        <xsd:annotation>
+          <xsd:documentation>Адрес</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Email" type="EmailType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Адрес электронной почты</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--================================ типы для описания залогодателей/залогодержателей-->
+  <xsd:complexType name="PledgorType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Залогодатель</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="Organization" type="OrganizationType">
+        <xsd:annotation>
+          <xsd:documentation>Юридическое лицо</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PrivatePerson" type="PrivatePersonType">
+        <xsd:annotation>
+          <xsd:documentation>Физическое лицо</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+  <xsd:complexType name="PledgeeType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Залогодержатель</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:choice>
+        <xsd:element name="Organization" type="OrganizationType">
+          <xsd:annotation>
+            <xsd:documentation>Юридическое лицо</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="PrivatePerson" type="PrivatePersonType">
+          <xsd:annotation>
+            <xsd:documentation>Физическое лицо</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:choice>
+      <xsd:element name="PublicationDisclaimer" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Отказ от публикации информации о залогодержателе в информационно-телекоммуникационной сети «Интернет» в соответствии с частью 5 статьи 103.3 Основ законодательства Российской Федерации о нотариате по основанию, указанному
+						в постановлении Правительства Российской Федерации от 25.01.2018 № 65
+						«Об установлении ограничений на публикацию информации о залогодержателе движимого имущества в информационно-телекоммуникационной сети «Интернет»</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--================================ типы для описания залогодержателя для облигаций-->
+  <xsd:complexType name="BondObligationPledgeeType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Залогодержатели для облигаций</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="IssueNumber" type="String1-60Type">
+        <xsd:annotation>
+          <xsd:documentation>Государственный регистрационный номер выпуска облигаций</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="IssueDate" type="DateType">
+        <xsd:annotation>
+          <xsd:documentation>Дата государственной регистрации выпуска облигаций</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="BondHolders" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Владельцы облигаций выпуска</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OtherPersons" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Иные лица, указанные в условиях выпуска облигаций</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--================================ типы для Уведомлений о залоге-->
+  <xsd:complexType name="PledgeContractType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Сведения о договоре залога, иной сделке, на основании которой возникает залог в силу закона</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Name" type="String1-4000Type">
+        <xsd:annotation>
+          <xsd:documentation>Наименование договора или иной сделки</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Date" type="DateType">
+        <xsd:annotation>
+          <xsd:documentation>Дата договора</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Number" type="String1-60Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Номер договора (при наличии)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="TermOfContract">
+        <xsd:annotation>
+          <xsd:documentation>Срок исполнения основного обязательства</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:union memberTypes="DateType String1-255Type"/>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BondObligationResolutionType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Сведения о решении о выпуске облигаций</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Name" type="String1-4000Type">
+        <xsd:annotation>
+          <xsd:documentation>Наименование решения о выпуске</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Date" type="DateType">
+        <xsd:annotation>
+          <xsd:documentation>Дата решения о выпуске</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Number" type="String1-60Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Номер решения о выпуске (при наличии)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Base" type="String1-4000Type">
+        <xsd:annotation>
+          <xsd:documentation>Основания для решения о выпуске</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PledgeNotificationNotaryAddressType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Данные нотариуса-адресата для уведомления</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="DistrictName" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>Наименование нотариального округа получателя уведомления (в падеже, Какого)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotaryName" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>ФИО нотариуса - получателя уведомления (в падеже, Кому)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotaryID" type="String8Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>ID нотариуса</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PledgeNotificationNotaryDataType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Данные нотариуса для уведомления</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="DistrictName" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>Наименование нотариального округа получателя уведомления (в падеже, Какого)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotaryName" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>ФИО нотариуса - получателя уведомления (в падеже, Кому)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotaryID" type="String8Type">
+        <xsd:annotation>
+          <xsd:documentation>ID нотариуса</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SignerID" type="String8Type">
+        <xsd:annotation>
+          <xsd:documentation>ID подписавшего документ (нотариуса или врио)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PledgeNotificationAttorneyType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Описание уполномоченного представителя - физического лица</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Name" type="PrivatePersonNameType">
+        <xsd:annotation>
+          <xsd:documentation>ФИО по элементам</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NameForeign" type="PrivatePersonNameForeignType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>ФИО для иностранных граждан</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="BirthDate" type="DateType">
+        <xsd:annotation>
+          <xsd:documentation>Дата рождения</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Authority" type="String1-1000Type">
+        <xsd:annotation>
+          <xsd:documentation>Основание полномочий представителя</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PersonDocument" type="PrivatePersonDocumentType">
+        <xsd:annotation>
+          <xsd:documentation>Документ, удостоверяющий личность</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PersonAddress" type="AddressPrivatePersonType">
+        <xsd:annotation>
+          <xsd:documentation>Адрес</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BondObligationAttorneyType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Описание уполномоченного представителя - физического лица для облигаций</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Name" type="PrivatePersonNameType">
+        <xsd:annotation>
+          <xsd:documentation>ФИО по элементам</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NameForeign" type="PrivatePersonNameForeignType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>ФИО для иностранных граждан</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="BirthDate" type="DateType">
+        <xsd:annotation>
+          <xsd:documentation>Дата рождения</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Authority" type="String1-1000Type">
+        <xsd:annotation>
+          <xsd:documentation>Основание полномочий представителя</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PersonDocument" type="PrivatePersonDocumentType">
+        <xsd:annotation>
+          <xsd:documentation>Документ, удостоверяющий личность</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PersonAddress" type="AddressPrivatePersonType">
+        <xsd:annotation>
+          <xsd:documentation>Адрес</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Email" type="EmailType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Адрес электронной почты</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PledgeNotificationApplicantType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Заявитель</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Role" type="ApplicantRoleType">
+        <xsd:annotation>
+          <xsd:documentation>Какой стороной подается уведомление</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:choice>
+        <xsd:element name="Organization">
+          <xsd:annotation>
+            <xsd:documentation>Заявитель - организация</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="NameFull" type="OrganizationNameFullType">
+                <xsd:annotation>
+                  <xsd:documentation>Полное наименование организации</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element name="URN" type="OrganizationURNType" minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>ОГРН/регистрационный номер юридического лица в стране его регистрации</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element name="UINN" type="OrganizationUINNType" minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>Идентификационный номер налогоплательщика</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element name="Email" type="EmailType" minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>Адрес электронной почты</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="PrivatePerson">
+          <xsd:annotation>
+            <xsd:documentation>Заявитель - физическое лицо</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="Name" type="PrivatePersonNameType">
+                <xsd:annotation>
+                  <xsd:documentation>ФИО по элементам</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element name="Email" type="EmailType" minOccurs="0">
+                <xsd:annotation>
+                  <xsd:documentation>Адрес электронной почты</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:choice>
+      <xsd:element name="Attorney" type="PledgeNotificationAttorneyType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Информация о представителе заявителя</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PledgeNotificationDataType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Основные данные уведомления 2.0</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="FormUZ1">
+        <xsd:annotation>
+          <xsd:documentation>о возникновении залога</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="PersonalProperties">
+              <xsd:annotation>
+                <xsd:documentation>Движимое имущество, переданное в залог</xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="PersonalProperty" type="PersonalPropertyType" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation>Имущество</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Pledgors">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Залогодателе(ях)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="Pledgor" type="PledgorType" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation>Залогодатель</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Pledgee">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Залогодержателе(ях)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="Pledgee" type="PledgeeType" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation>Залогодержатель</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="PledgeContract" type="PledgeContractType" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о договоре залога, иной сделке, на основании которой возникает залог в силу закона</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="NotificationApplicant" type="PledgeNotificationApplicantType">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Заявителе</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="FormUI1">
+        <xsd:annotation>
+          <xsd:documentation>об изменении залога</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="CreationReferenceNumber" type="CreationReferenceNumberType">
+              <xsd:annotation>
+                <xsd:documentation>Регистрационный номер уведомления о возникновении залога</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PersonalProperties" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Движимое имущество, переданное в залог</xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="PersonalProperty" type="PersonalPropertyType" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation>Имущество</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Pledgors" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Залогодателе(ях)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="Pledgor" type="PledgorType" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation>Залогодатель</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Pledgee" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Залогодержателе(ях)</xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="Pledgee" type="PledgeeType" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation>Залогодержатель</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="PledgeContract" type="PledgeContractType" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о договоре залога, иной сделке, на основании которой возникает залог в силу закона</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="NotificationApplicant" type="PledgeNotificationApplicantType">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Заявителе</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="FormUP1">
+        <xsd:annotation>
+          <xsd:documentation>о прекращении залога</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="CreationReferenceNumber" type="CreationReferenceNumberType">
+              <xsd:annotation>
+                <xsd:documentation>Регистрационный номер уведомления о возникновении залога</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="NotificationApplicant" type="PledgeNotificationApplicantType">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Заявителе</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="FormUZ2">
+        <xsd:annotation>
+          <xsd:documentation>о возникновении залога (облигации)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="BondObligationProperties" minOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation>Предметы залога по облигациям с залоговым обеспечением</xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="BondObligationProperty" type="BondObligationPropertyType" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation>Предмет залога по облигациям с залоговым обеспечением</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="BondObligationPledgor" type="OrganizationType">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Залогодателе (Эмитенте)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="BondObligationPledgee" type="BondObligationPledgeeType" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Залогодержателе</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="BondObligationResolution" type="BondObligationResolutionType">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о решении о выпуске облигаций</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="BondObligationAttorney" type="BondObligationAttorneyType">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о заявителе, уполномоченном представителе Залогодателя (Эмитента)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="FormUI2">
+        <xsd:annotation>
+          <xsd:documentation>об изменении залога (облигации)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="CreationReferenceNumber" type="CreationReferenceNumberType">
+              <xsd:annotation>
+                <xsd:documentation>Регистрационный номер уведомления о возникновении залога</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="BondObligationProperties" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Предметы залога по облигациям с залоговым обеспечением</xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="BondObligationProperty" type="BondObligationPropertyType" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation>Предмет залога по облигациям с залоговым обеспечением</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="BondObligationPledgor" type="OrganizationType" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Залогодателе (Эмитенте)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="BondObligationPledgee" type="BondObligationPledgeeType" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о Залогодержателе(ях)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="BondObligationResolution" type="BondObligationResolutionType" minOccurs="0">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о решении о выпуске облигаций</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="BondObligationAttorney" type="BondObligationAttorneyType">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о заявителе, уполномоченном представителе Залогодателя (Эмитента)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="FormUP2">
+        <xsd:annotation>
+          <xsd:documentation>о прекращении залога (облигации)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="CreationReferenceNumber" type="CreationReferenceNumberType">
+              <xsd:annotation>
+                <xsd:documentation>Регистрационный номер уведомления о возникновении залога</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="BondObligationAttorney" type="BondObligationAttorneyType">
+              <xsd:annotation>
+                <xsd:documentation>Сведения о заявителе, уполномоченном представителе Залогодателя (Эмитента)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:choice>
+    <xsd:attribute name="version" type="xsd:string" use="required" fixed="2.0"/>
+  </xsd:complexType>
+  <xsd:complexType name="PledgeNotificationToNotaryType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Уведомление, подаваемое нотариусу 2.0</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element ref="BankData" minOccurs="0"/>
+      <xsd:element name="NotificationNotaryAddress" type="PledgeNotificationNotaryAddressType">
+        <xsd:annotation>
+          <xsd:documentation>Данные нотариуса - адресата уведомления</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotificationData" type="PledgeNotificationDataType">
+        <xsd:annotation>
+          <xsd:documentation>Основные данные уведомления</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="version" type="xsd:string" use="required" fixed="2.0"/>
+  </xsd:complexType>
+  <!--================================ типы для Свидетельства о регистрации уведомления о залоге-->
+  <xsd:complexType name="RegistrationCertificateDataType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Основные данные свидетельства о регистрации уведомления 2.0</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="NotificationReferenceNumber" type="NotificationReferenceNumberType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Регистрационный номер</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="RegistrationTime" type="DateTimeType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Дата и время регистрации</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotificationData" type="PledgeNotificationDataType">
+        <xsd:annotation>
+          <xsd:documentation>Основные данные уведомления, на основании которого выдан сертификат</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="RejectReason" type="String1-4000Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Причина отказа в выдаче свидетельства</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="version" type="xsd:string" use="required" fixed="2.0"/>
+  </xsd:complexType>
+  <xsd:complexType name="RegistrationCertificateNotaryDataType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Данные нотариуса для свидетельства о регистрации уведомления</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="IssuePlace" type="String1-255Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Место выдачи свидетельства</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="IssueDate" type="DateType">
+        <xsd:annotation>
+          <xsd:documentation>Дата выдачи свидетельства</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotaryName" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>ФИО выдавшего свидетельство (нотариуса или врио)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotaryJobTitle" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>Должность выдавшего свидетельство, включая округ (нотариуса или врио)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotaryJobTitleShort" type="String1-255Type">
+        <xsd:annotation>
+          <xsd:documentation>Должность выдавшего свидетельство (нотариуса или врио)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NotaryID" type="String8Type">
+        <xsd:annotation>
+          <xsd:documentation>ID нотариуса</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SignerID" type="String8or12Type">
+        <xsd:annotation>
+          <xsd:documentation>ID подписавшего документ - (нотариуса или врио)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="RegistryNumber" type="String1-25Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Реестровый номер свидетельства</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Date_Prikaz" type="DateType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Дата приказа органа юстиций о назначении на должность нотариуса</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Num_Prikaz" type="String1-16Type" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Номер приказа органа юстиций о назначении на должность нотариуса</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="DateOfReceiving" type="DateType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Дата поступления уведомления</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Tariff" type="MoneyType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Взыскано госпошлины (по тарифу)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Recovered" type="MoneyType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Взыскано за техническую и правовую работу</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RegistrationCertificateType">
+    <xsd:annotation>
+      <xsd:documentation>Тип Свидетельство о регистрации уведомления 2.0</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element ref="BankData" minOccurs="0"/>
+      <xsd:element name="RegistrationCertificateData" type="RegistrationCertificateDataType">
+        <xsd:annotation>
+          <xsd:documentation>Основные данные свидетельства</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="RegistrationCertificateNotaryData" type="RegistrationCertificateNotaryDataType">
+        <xsd:annotation>
+          <xsd:documentation>Данные свидетельства, заполняемые нотариусом</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="version" type="xsd:string" use="required" fixed="2.0"/>
+  </xsd:complexType>
+  <!--================================-->
+  <xsd:element name="BankData">
+    <xsd:annotation>
+      <xsd:documentation>Данные Банка. Контейнер</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="UUID" type="xsd:token">
+          <xsd:annotation>
+            <xsd:documentation>Уникальный идентификатор документа в ИС Банка</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <!--================================ XML документы-->
+  <xsd:element name="PledgeNotificationToNotary" type="PledgeNotificationToNotaryType">
+    <xsd:annotation>
+      <xsd:documentation>Уведомление о залоге движимого имущества, подаваемое нотариусу</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:element name="RegistrationCertificate" type="RegistrationCertificateType">
+    <xsd:annotation>
+      <xsd:documentation>Свидетельство о регистрации уведомления, подписываемое нотариусом</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <!--================================-->
+</xsd:schema>

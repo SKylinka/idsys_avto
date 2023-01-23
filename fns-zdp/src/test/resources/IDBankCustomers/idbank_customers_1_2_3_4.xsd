@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (UNKNOWN_BRANCH-false; 2019-11-12T03:07:59+0300) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown.--><!--edited with XMLSpy v2013 (http://www.altova.com) by  ()--><xs:schema targetNamespace="http://www.id-sys.ru/schemas/idbank/esia/2015/0.01/" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://www.id-sys.ru/schemas/idbank/esia/2015/0.01/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:id="http://www.id-sys.ru/schemas/idbank/common/2012/0.01/" xmlns:esia="http://www.id-sys.ru/schemas/idbank/esia/2015/0.01/" xmlns:cust="http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/">
+  <xs:import namespace="http://www.id-sys.ru/schemas/idbank/common/2012/0.01/" schemaLocation="idbank_customers_1.xsd"/>
+  <xs:import namespace="http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/" schemaLocation="idbank_customers_1_2_3_4_5.xsd"/>
+  <xs:complexType name="AuthorityRequest">
+    <xs:annotation>
+      <xs:documentation>Запрос Центра регистрации</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="AuthorityId">
+        <xs:annotation>
+          <xs:documentation>Идентификатор центра регистрации</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="OperatorSnils" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>СНИЛС оператора</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Customer" type="cust:Customer">
+        <xs:annotation>
+          <xs:documentation>Сведения о пользователе</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ContactInfo" type="id:ContactInfo" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Контактная информация</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PasswordDeliveryType" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Способ доставки пароля</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="email"/>
+            <xs:enumeration value="mobile"/>
+            <xs:enumeration value="direct"/>
+            <xs:enumeration value="notRequired"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="Address" type="esia:AddressType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Адрес пользователя</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="addressReqEqualsHom" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Признак соответствия адреса регистрации адресу проживания</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AddressType">
+    <xs:annotation>
+      <xs:documentation>Адрес пользователя</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="type" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>PLV – адрес регистрации; PRG – адрес проживания</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="region" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Код региона (субъекта РФ). XX</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="fiasCode" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Идентификатор адреса в ФИАС. ХХХХХХХХ-ХХХХ-ХХХХ-ХХХХ-ХХХХХХХХХХХХ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="36"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="addressStr" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Адресная строка (содержит элементы адреса (перечисляются через разделитель «,»))</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="2000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="countryId" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Трехсимвольный код страны (по Alpha3)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="zipCode" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Почтовый индекс</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="street" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Улица</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="house" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Дом. Обязательно в случае отсутствия значений в полях frame и building</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="flat" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Квартира</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="frame" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Корпус. Обязательно в случае отсутствия значений в полях house и building</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="building" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Строение. Обязательно в случае отсутствия значений в полях frame и house</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BiometricDataType">
+    <xs:annotation>
+      <xs:documentation>Биометрический образец</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Modality">
+        <xs:annotation>
+          <xs:documentation>Модальность: «SOUND», «PHOTO»</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="PHOTO"/>
+            <xs:enumeration value="SOUND"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="AttachmentFileName">
+        <xs:annotation>
+          <xs:documentation>Наименование файла вложения с расширением</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="BinaryAttachment" type="xs:base64Binary">
+        <xs:annotation>
+          <xs:documentation>Файл биометрического образца</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="BioMetadata" type="BioMetadataType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BiometricDataRequestType">
+    <xs:annotation>
+      <xs:documentation>Запрос регистрации биометрических данных</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id">
+        <xs:annotation>
+          <xs:documentation>Уникальный идентификатор биометрического образца в рамках запроса</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="BranchId" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Идентификатор филиала-источника запроса в системе idБанк</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="СlientId" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Идентификатор клиента</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="PersonId" type="PersonIdType">
+        <xs:annotation>
+          <xs:documentation>Учетная запись пользователя ЕСИА</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="BiometricData" type="BiometricDataType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Биометрический образец</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="CreationTime" type="xs:dateTime" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>Дата и время создания биометрических образцов</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RegisterNBPType">
+    <xs:annotation>
+      <xs:documentation>Тип пакета запросов регистрации биометрических данных</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="OperatorSnils">
+        <xs:annotation>
+          <xs:documentation>СНИЛС оператора</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="50"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="BiometricDataRequest" type="BiometricDataRequestType" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Запрос регистрации биометрических данных</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PersonIdType">
+    <xs:annotation>
+      <xs:documentation>Учетная запись пользователя</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Id">
+        <xs:annotation>
+          <xs:documentation>Идентификатор пользователя ЕСИА</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BioMetadataType">
+    <xs:annotation>
+      <xs:documentation>Метаданные биометрических образцов</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="SoundSample" type="SoundSampleType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Метаданные биометрического образца</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SoundSampleType">
+    <xs:annotation>
+      <xs:documentation>Данные звукового биометрического образца</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="Part" type="xs:unsignedShort" use="required">
+      <xs:annotation>
+        <xs:documentation>Порядковый номер склеенной части звуковой записи</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Start" type="xs:decimal" use="required">
+      <xs:annotation>
+        <xs:documentation>Время начала записи звукового БО в секундах от начала файла с точностью до миллисекунд</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="End" type="xs:decimal" use="required">
+      <xs:annotation>
+        <xs:documentation>Время конца записи звукового БО</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Desc" type="DescType" use="required">
+      <xs:annotation>
+        <xs:documentation>Что произнесено на записи</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="DescType" final="restriction">
+    <xs:annotation>
+      <xs:documentation>digits_asc - На записи произнесены цифры в возрастающем порядке
+				digits_desc - На записи произнесены цифры в убывающем порядке
+				digits_random - На записи произнесены цифры в случайном порядке
+				text - На записи произнесен текст</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="digits_asc"/>
+      <xs:enumeration value="digits_desc"/>
+      <xs:enumeration value="digits_random"/>
+      <xs:enumeration value="text"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

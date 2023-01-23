@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.4.3 (UNKNOWN_BRANCH-false; 2019-11-12T03:07:59+0300) JAXWS-RI/2.3.2 JAXWS-API/2.3.2 JAXB-RI/2.3.2 JAXB-API/2.3.2 git-revision#unknown.--><!--edited with XMLSpy v2013 (http://www.altova.com) by  ()--><xs:schema targetNamespace="http://www.id-sys.ru/schemas/idbank/notary/2014/1.00/" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://www.id-sys.ru/schemas/idbank/notary/2014/1.00/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://dev.triasoft.com/schemas/eis/eregistry/pppr/2.0">
+  <xs:import namespace="http://dev.triasoft.com/schemas/eis/eregistry/pppr/2.0" schemaLocation="idbank_customers_1_2_3.xsd"/>
+  <xs:complexType name="PledgeNotificationSigned">
+    <xs:annotation>
+      <xs:documentation>Уведомление о залоге движимого имущества с ЭП</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element ref="ns1:PledgeNotificationToNotary"/>
+      <xs:element name="Signature" type="xs:base64Binary" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>ЭП</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RegistrationCertificateSigned">
+    <xs:annotation>
+      <xs:documentation>Cвидетельство о регистрации уведомления с ЭП</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element ref="ns1:RegistrationCertificate"/>
+      <xs:element name="Signature" type="xs:base64Binary" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>ЭП</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
