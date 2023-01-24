@@ -2,7 +2,6 @@ package ru.stqa.pft.idsys.appmanager;
 
 import ru.stqa.pft.idsys.model.LookupCustomersRqData;
 import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.*;
-
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.HandlerResolver;
@@ -30,16 +29,40 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
 
   public void createLookupCustomersRq(LookupCustomersRqData lookupCustomersRqData) throws LookupCustomersErr {
     LookupCustomersRq getLookupCustomersRq = new LookupCustomersRq();
-    getLookupCustomersRq.setDataFilter( new CustomerDataFilterItem() {{
-        setTimeFilter(lookupCustomersRqData.withCustomerDataType());
-            }});
+    getLookupCustomersRq.setDataFilter(String.valueOf(new CustomerDataFilterItem() {{
+        setTimeFilter(lookupCustomersRqData.getCustomerDataType());
+            }}));
     getLookupCustomersRq.setCustomers( new Customer() {{
-                      setINN(lookupCustomersRqData.withInn());
+                      setINN(lookupCustomersRqData.getInn());
             }});
 
-    LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(LookupCustomersRq);
+
+    LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(getLookupCustomersRq);
 
    }
+
+
+
+  public void createLookupCustomersRqOld(LookupCustomersRqData lookupCustomersRqData) throws LookupCustomersErr {
+    LookupCustomersRq getLookupCustomersRq = new LookupCustomersRq();
+    getLookupCustomersRq.setDataFilter( new CustomerDataFilterItem() {{
+      setTimeFilter(lookupCustomersRqData.withCustomerDataType());
+    }});
+    getLookupCustomersRq.setCustomers( new Customer() {{
+      setINN(lookupCustomersRqData.withInn());
+    }});
+
+    LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(getLookupCustomersRq);
+
+  }
+
+
+
+
+
+
+
+
 
 
 

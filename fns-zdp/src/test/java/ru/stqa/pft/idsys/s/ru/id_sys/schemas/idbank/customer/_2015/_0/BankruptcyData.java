@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
-import ru.id_sys.schemas.idbank.common._2012._0.FioType;
-import ru.id_sys.schemas.idbank.common._2012._0.ObjectStatus;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.FioType;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.ObjectStatus;
 
 
 /**

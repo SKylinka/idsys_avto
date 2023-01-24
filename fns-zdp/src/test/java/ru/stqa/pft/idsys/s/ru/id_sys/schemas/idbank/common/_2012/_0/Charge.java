@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.datatype.XMLGregorianCalendar;
-import ru.cbr.ed.v2.ED101;
+import ru.stqa.pft.idsys.s.ru.cbr.ed.v2.ED101;
 
 
 /**

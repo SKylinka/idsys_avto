@@ -5,8 +5,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import ru.id_sys.schemas.idbank.common._2012._0.DateTimeRange;
-import ru.id_sys.schemas.idbank.common._2012._0.Object;
+
+import ru.stqa.pft.idsys.model.LookupCustomersRqData;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.DateTimeRange;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.Object;
 
 
 /**
@@ -50,7 +52,7 @@ public class CustomerDataFilterItem
 {
 
     @XmlElement(name = "TimeFilter")
-    protected CustomerDataFilterItem.TimeFilter timeFilter;
+    protected LookupCustomersRqData timeFilter;
 
     /**
      * Gets the value of the timeFilter property.
@@ -60,19 +62,19 @@ public class CustomerDataFilterItem
      *     {@link CustomerDataFilterItem.TimeFilter }
      *     
      */
-    public CustomerDataFilterItem.TimeFilter getTimeFilter() {
+    public LookupCustomersRqData getTimeFilter() {
         return timeFilter;
     }
 
     /**
      * Sets the value of the timeFilter property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link CustomerDataFilterItem.TimeFilter }
+     *     {@link TimeFilter }
      *     
      */
-    public void setTimeFilter(CustomerDataFilterItem.TimeFilter value) {
+    public void setTimeFilter(LookupCustomersRqData value) {
         this.timeFilter = value;
     }
 

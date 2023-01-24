@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
-import ru.roskazna.xsd.common.AddressesType;
-import ru.roskazna.xsd.common.ContactsType;
+import ru.stqa.pft.idsys.s.ru.roskazna.xsd.common.AddressesType;
+import ru.stqa.pft.idsys.s.ru.roskazna.xsd.common.ContactsType;
 
 
 /**

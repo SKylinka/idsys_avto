@@ -392,11 +392,11 @@ public class ObjectFactory {
     /**
      * Create an instance of {@link java.lang.Object.Parameters }
      * 
-     */
+
     public java.lang.Object.Parameters createObjectParameters() {
         return new java.lang.Object.Parameters();
     }
-
+     */
     /**
      * Create an instance of {@link Event.Payload.Item }
      * 
@@ -409,8 +409,8 @@ public class ObjectFactory {
      * Create an instance of {@link ru.id_sys.schemas.idbank.common._2012._0.Message.MsgParameters }
      * 
      */
-    public ru.id_sys.schemas.idbank.common._2012._0.Message.MsgParameters createMessageMsgParameters() {
-        return new ru.id_sys.schemas.idbank.common._2012._0.Message.MsgParameters();
+    public ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.Message.MsgParameters createMessageMsgParameters() {
+        return new ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.Message.MsgParameters();
     }
 
     /**

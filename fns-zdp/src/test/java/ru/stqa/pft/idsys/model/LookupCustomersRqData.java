@@ -3,15 +3,16 @@ package ru.stqa.pft.idsys.model;
 public class LookupCustomersRqData {
 
   //private Long id;
-  public String CustomerDataType;
+  public String customerDataType;
   public String inn;
 
-  public String getCustomerDataType() {
-    return CustomerDataType;
+  public LookupCustomersRqData getCustomerDataType() {
+    this.customerDataType = customerDataType;
+    return this;
   }
 
   public LookupCustomersRqData withCustomerDataType(String customerDataType) {
-    this.CustomerDataType = customerDataType;
+    this.customerDataType = customerDataType;
     return this;
   }
 

@@ -2,7 +2,7 @@
 package ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0;
 
 import javax.xml.ws.WebFault;
-import ru.id_sys.schemas.idbank.common._2012._0.Error;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.Error;
 
 
 /**

@@ -7,11 +7,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
-import ru.id_sys.schemas.idbank.common._2012._0.ContactInfo;
-import ru.id_sys.schemas.idbank.common._2012._0.FioType;
-import ru.id_sys.schemas.idbank.common._2012._0.IdentificationEx;
-import ru.id_sys.schemas.idbank.common._2012._0.OMSEx;
-import ru.id_sys.schemas.idbank.common._2012._0.Object;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.ContactInfo;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.FioType;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.IdentificationEx;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.OMSEx;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.Object;
 import ru.stqa.pft.idsys.s.ru.roskazna.xsd.organization.AccountType;
 
 

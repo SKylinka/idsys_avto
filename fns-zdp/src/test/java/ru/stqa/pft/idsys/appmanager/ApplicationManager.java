@@ -42,6 +42,8 @@ public class ApplicationManager {
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
     //инициализация метода подключения к БД
     dbHelper = new DbHelper();
+    //инициализация метода подключения через soap
+    soupHelper = new SoapHelper();
     // переменная для управления браузером и выбор
     if (browser.equals(BrowserType.CHROME)) {  //equals сравнение для объектов
       wd = new ChromeDriver();

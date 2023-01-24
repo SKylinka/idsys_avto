@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import ru.id_sys.schemas.idbank.common._2012._0.ContactInfo;
-import ru.id_sys.schemas.idbank.customer._2015._0.Customer;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.ContactInfo;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.Customer;
 
 
 /**

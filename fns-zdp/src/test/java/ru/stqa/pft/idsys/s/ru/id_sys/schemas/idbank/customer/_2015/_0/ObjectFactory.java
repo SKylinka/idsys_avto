@@ -5,7 +5,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
-import ru.id_sys.schemas.idbank.common._2012._0.Error;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.Error;
 
 
 /**

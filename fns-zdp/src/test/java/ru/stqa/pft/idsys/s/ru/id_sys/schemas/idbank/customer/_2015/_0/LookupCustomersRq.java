@@ -7,7 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import ru.id_sys.schemas.idbank.common._2012._0.Message;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.Message;
+
 
 
 /**
@@ -71,9 +72,9 @@ public class LookupCustomersRq
 {
 
     @XmlElement(name = "DataFilter", required = true)
-    protected LookupCustomersRq.DataFilter dataFilter;
+    protected String dataFilter;
     @XmlElement(name = "Customers")
-    protected LookupCustomersRq.Customers customers;
+    protected Customer customers;
     protected String taskID;
 
     /**
@@ -84,7 +85,7 @@ public class LookupCustomersRq
      *     {@link LookupCustomersRq.DataFilter }
      *     
      */
-    public LookupCustomersRq.DataFilter getDataFilter() {
+    public String getDataFilter() {
         return dataFilter;
     }
 
@@ -108,19 +109,19 @@ public class LookupCustomersRq
      *     {@link LookupCustomersRq.Customers }
      *     
      */
-    public LookupCustomersRq.Customers getCustomers() {
+    public Customer getCustomers() {
         return customers;
     }
 
     /**
      * Sets the value of the customers property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link LookupCustomersRq.Customers }
+     *     {@link Customers }
      *     
      */
-    public void setCustomers(LookupCustomersRq.Customers value) {
+    public void setCustomers(Customer value) {
         this.customers = value;
     }
 

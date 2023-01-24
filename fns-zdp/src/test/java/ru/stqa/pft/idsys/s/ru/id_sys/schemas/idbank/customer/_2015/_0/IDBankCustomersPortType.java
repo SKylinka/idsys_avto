@@ -20,18 +20,19 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @WebService(name = "IDBankCustomersPortType", targetNamespace = "http://www.id-sys.ru/schemas/idbank/customer/2015/0.01/")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
-    ru.id_sys.schemas.idbank.cik._2017._0.ObjectFactory.class,
+
+        ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.cik._2017._0.ObjectFactory.class,
     ObjectFactory.class,
     ru.stqa.pft.idsys.s.ru.roskazna.xsd.organization.ObjectFactory.class,
     ru.stqa.pft.idsys.s.com.triasoft.dev.schemas.eis.eregistry.pppr._2.ObjectFactory.class,
-    ru.id_sys.schemas.idbank.common._2012._0.ObjectFactory.class,
-    ru.id_sys.schemas.idbank.customer._2015._0.ObjectFactory.class,
-    ru.cbr.dsig.v1.ObjectFactory.class,
-    ru.cbr.ed.v2.ObjectFactory.class,
-    ru.id_sys.schemas.idbank.esia._2015._0.ObjectFactory.class,
-    ru.id_sys.schemas.idbank.notary._2014._1.ObjectFactory.class,
+        ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.ObjectFactory.class,
+        ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.ObjectFactory.class,
+        ru.stqa.pft.idsys.s.ru.cbr.dsig.v1.ObjectFactory.class,
+        ru.stqa.pft.idsys.s.ru.cbr.ed.v2.ObjectFactory.class,
+        ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.esia._2015._0.ObjectFactory.class,
+        ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.notary._2014._1.ObjectFactory.class,
     ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.thirdpartyorderservice._2015._0.ObjectFactory.class,
-    ru.cbr.ed.leaftypes.v2.ObjectFactory.class
+        ru.stqa.pft.idsys.s.ru.cbr.ed.leaftypes.v2.ObjectFactory.class
 })
 public interface IDBankCustomersPortType {
 
