@@ -1,25 +1,22 @@
 package ru.stqa.pft.idsys.appmanager;
 
+import ru.stqa.pft.idsys.model.LookupCustomersRqData;
 import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.*;
 
-import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.HandlerResolver;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.PortInfo;
 import javax.xml.ws.handler.soap.SOAPHandler;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-public class SoapHelper implements SOAPHandler {
+public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
 
   private static IDBankCustomersPortType servicePort;
   private final Properties properties;
@@ -31,75 +28,20 @@ public class SoapHelper implements SOAPHandler {
   }
 
 
-  public void createLookupCustomersRq(LookupCustomersRq lookupCustomersRq) throws LookupCustomersErr {
-    LookupCustomersRq lookupCustomersRq = new LookupCustomersRq();
+  public void createLookupCustomersRq(LookupCustomersRqData lookupCustomersRqData) throws LookupCustomersErr {
+    LookupCustomersRq getLookupCustomersRq = new LookupCustomersRq();
+    getLookupCustomersRq.setDataFilter( new CustomerDataFilterItem() {{
+        setTimeFilter(lookupCustomersRqData.withCustomerDataType());
+            }});
+    getLookupCustomersRq.setCustomers( new Customer() {{
+                      setINN(lookupCustomersRqData.withInn());
+            }});
 
-    lookupCustomersRq.setDataFilter(
-            new CustomerDataFilterItem() {{
-              setTimeFilter("FNS_RESTRICTION");
-            }
-            }
-     );
+    LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(LookupCustomersRq);
 
-    lookupCustomersRq.setCustomers(
-            new Customer() {{
-              setINN("123456789000");
-            }
-              setINN("123456789000");
-            }
-    );
-
-    LookupCustomersRs lookupCustomersRs = getCustomersPort().lookupCustomers(lookupCustomersRq);
-    lookupCustomersRs.getErrors();
-    //chekChargesRs(lookupCustomersRs);
-  }
-
-   /*
-  private void chekChargesRs(LookupCustomersRs lookupCustomersRs) throws IOException {
-    if (lookupCustomersRs.getExportChargesResponse()!= null) {
-
-      Iterator<ExportChargesResponseEx.Charges.ChargeInfo> chargeInfo = LookupCustomersRs.getExportChargesResponse().getCharges().getChargeInfo().iterator();
-      File file = new File("src/test/resources/wsdl/tmp/tempDecodeChargeData.xml");
-      lookupRs chargeRsInfo = new ChargesRs();
-      while (chargeInfo.hasNext()) {
-        ExportChargesResponseEx.Charges.ChargeInfo nxtChargeInfo = chargeInfo.next();
-        chargeRsInfo.add(new ChargesRsData()
-                .withAmountToPay(String.valueOf(nxtChargeInfo.getAmountToPay()))
-                .withIsRevoked(String.valueOf(nxtChargeInfo.getIsRevoked().isValue()))
-                .withQuittancePaymentStatus(nxtChargeInfo.getQuittanceWithPaymentStatus())
-        );
-
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        bout.write(nxtChargeInfo.getChargeData());
-        String chargeData = new String(bout.toByteArray(), "UTF-8");
-
-        try (Writer writer = new FileWriter(file)) {
-          writer.write(chargeData);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-        validateXMLFileAgainstXSD(file, "src/test/resources/wsdl/xsdGMP/entity/document/Charge.xsd");
-      }
-    } else if(lookupCustomersRs.getErrors() != null){
-
-    }
-  }
-*/
+   }
 
 
-  public void validateXMLFileAgainstXSD(File file, String xsdPath){
-    try {
-      SchemaFactory factory =
-              SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-      Schema schema = factory.newSchema(new File(xsdPath));
-      Validator validator = schema.newValidator();
-      validator.validate(new StreamSource(file));
-    } catch (org.xml.sax.SAXException e) {
-      System.out.println("Exception: " + e.getMessage());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 
 
   private synchronized IDBankCustomersPortType getCustomersPort() {
@@ -131,12 +73,12 @@ public class SoapHelper implements SOAPHandler {
   }
 
   @Override
-  public boolean handleMessage(MessageContext context) {
+  public boolean handleMessage(SOAPMessageContext context) {
     return false;
   }
 
   @Override
-  public boolean handleFault(MessageContext context) {
+  public boolean handleFault(SOAPMessageContext context) {
     return false;
   }
 

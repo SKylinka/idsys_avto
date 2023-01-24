@@ -1,14 +1,20 @@
 package ru.stqa.pft.idsys.tests;
 
-import ru.stqa.pft.idsys.d.*;
+import org.testng.annotations.Test;
+import ru.stqa.pft.idsys.model.LookupCustomersRqData;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.LookupCustomersErr;
+
+import java.io.IOException;
 
 
+public class ClientStarter extends TestBase {
 
-public class ClientStarter {
-
-  public static void main(String[] args) {
-
-
+  @Test
+  public void testClientStarter() throws  IOException, LookupCustomersErr {
+    LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
+            .withCustomerDataType("FNS_RESTRICTION")
+            .withInn("123456789000");
+    app.soap().createLookupCustomersRq(lookupCustomersRqData);
 
   }
 }

@@ -27,6 +27,7 @@ public class ApplicationManager {
   private SessionHelper sessionHelper;
   private String browser;
   private DbHelper dbHelper;
+  private SoapHelper soupHelper;
 
   //конструктор браузера с переменной browser и её передача
   public ApplicationManager(String browser) {
@@ -88,4 +89,6 @@ public class ApplicationManager {
   public DbHelper db() {
     return dbHelper;
   }
+  //декларация помощников
+  public SoapHelper soap() { return soupHelper;}
 }
