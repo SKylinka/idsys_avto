@@ -72,9 +72,9 @@ public class LookupCustomersRq
 {
 
     @XmlElement(name = "DataFilter", required = true)
-    protected String dataFilter;
+    protected LookupCustomersRq.DataFilter dataFilter;
     @XmlElement(name = "Customers")
-    protected Customer customers;
+    protected LookupCustomersRq.Customers customers;
     protected String taskID;
 
     /**
@@ -85,7 +85,7 @@ public class LookupCustomersRq
      *     {@link LookupCustomersRq.DataFilter }
      *     
      */
-    public String getDataFilter() {
+    public LookupCustomersRq.DataFilter getDataFilter() {
         return dataFilter;
     }
 
@@ -97,7 +97,7 @@ public class LookupCustomersRq
      *     {@link DataFilter }
      *     
      */
-    public void setDataFilter(String value) {
+    public void setDataFilter(LookupCustomersRq.DataFilter value) {
         this.dataFilter = value;
     }
 
@@ -109,7 +109,7 @@ public class LookupCustomersRq
      *     {@link LookupCustomersRq.Customers }
      *     
      */
-    public Customer getCustomers() {
+    public LookupCustomersRq.Customers getCustomers() {
         return customers;
     }
 
@@ -121,7 +121,7 @@ public class LookupCustomersRq
      *     {@link Customers }
      *     
      */
-    public void setCustomers(Customer value) {
+    public void setCustomers(LookupCustomersRq.Customers value) {
         this.customers = value;
     }
 
