@@ -12,8 +12,8 @@ dependencies {
     implementation 'org.hamcrest:java-hamcrest:2.0.0.0'  //библиотека для флоинт интерфейся для проверок MatcherAssert
     implementation 'org.firebirdsql.jdbc:jaybird-jdk18:4.0.8.java8'  //библиотека для подключения БД firebird
     implementation 'org.hibernate:hibernate-core:5.6.8.Final'   //библиотека для ORM
-    implementation 'javax.xml.ws:jaxws-api:2.3.1' //библиотека для работы через soap
-    implementation 'javax.jws:javax.jws-api:1.1' //библиотека для работы через soap
+    implementation 'javax.xml.ws:jaxws-api:2.3.1' //библиотека для работы через soap парсинг запроса
+    implementation 'javax.jws:javax.jws-api:1.1' //библиотека для работы через soap парсинг ответа
 }
 
 test{

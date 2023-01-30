@@ -8,6 +8,7 @@
 package ru.stqa.pft.idsys.appmanager;
 
 import ru.stqa.pft.idsys.model.LookupCustomersRqData;
+import ru.stqa.pft.idsys.model.LookupCustomersRsData;
 import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.*;
 import javax.xml.namespace.QName;
 import javax.xml.soap.*;
@@ -36,7 +37,7 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
   }
 
-
+// Метод создания самого запроса
   public void createLookupCustomersRq(LookupCustomersRqData lookupCustomersRqData) throws LookupCustomersErr {
     LookupCustomersRq getLookupCustomersRq = new LookupCustomersRq();
     LookupCustomersRq.DataFilter dataFilter = new LookupCustomersRq.DataFilter();
@@ -48,12 +49,35 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
     getLookupCustomersRq.setDataFilter(dataFilter);
     getLookupCustomersRq.setCustomers(customers);
 
-
     LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(getLookupCustomersRq);
-    getlookupCustomersRs.getErrors();
+
+    //getlookupCustomersRs.getErrors();
+    System.out.println(getlookupCustomersRs);
+
    }
 
 
+   //Метод проверки ответа soap
+   /*
+   public void checkLookupCustomersRs(LookupCustomersRsData lookupCustomersRsData) throws UnsupportedEncodingException {
+     ArrayList<LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult> checkResult = new ArrayList<>();
+     File file = new File("src/test/resources/temp/tempRs.xml");
+     LookupCustomersRs lookupCustomersRsinfo = new LookupCustomersRs();
+     while (checkResult) {
+       ByteArrayOutputStream os = new ByteArrayOutputStream();
+       getlookupCustomersRs.writeTo(os);
+       os.write(LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult.get);
+       String responseXml = new String(os.toByteArray(), "UTF-8");
+       try (Writer writer = new FileWriter(file)) {
+         writer.write(responseXml);
+       } catch (IOException e) {
+         e.printStackTrace();
+       }
+     }
+   }
+*/
+
+     //Метод для формирования Header в soap запросе
   public boolean handleMessage(SOAPMessageContext context)
   {
     // Apply this handler to only outbound traffic
@@ -97,6 +121,7 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
     return true;
   }
 
+  //метод для формирования тела soap запроса и отправки его
   private synchronized IDBankCustomersPortType getCustomersPort() {
     if (servicePort == null) {
       IDBankCustomersService service = new IDBankCustomersService();
@@ -135,6 +160,8 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
   public void close(MessageContext context) {
 
   }
+
+
 
 
 }

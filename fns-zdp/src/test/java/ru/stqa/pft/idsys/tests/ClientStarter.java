@@ -12,8 +12,7 @@ public class ClientStarter extends TestBase {
   @Test
   public void testClientStarter() throws  LookupCustomersErr {
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
-            .withCustomerDataType("FNS_RESTRICTION")
-            .withInn("123456789000");
+            .withInn("123456789111");
     app.soap().createLookupCustomersRq(lookupCustomersRqData);
 
   }
