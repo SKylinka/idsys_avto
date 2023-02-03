@@ -62,4 +62,42 @@ public class DbHelper {
     return null;
   }
 
+
+  public void deleteAll() throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      st.execute("EXECUTE BLOCK\n" +
+              "AS\n" +
+              "DECLARE VARIABLE DID D_ID;\n" +
+              "BEGIN\n" +
+              "  FOR select d.id\n" +
+              "from FNS_RESTRICTION FR\n" +
+              "join DOCUMENT D on D.ID = FR.ID\n" +
+              "where D.DOCUMENTCLASSID = 1422 and\n" +
+              "      D.metaobjectname = 'FNS_RESTRICTION'\n" +
+              " INTO :DID\n" +
+              "  DO\n" +
+              "  BEGIN\n" +
+              "    DELETE FROM document\n" +
+              "    WHERE ID = :DID;\n" +
+              "    DELETE FROM FNS_RESTRICTION\n" +
+              "    WHERE ID = :DID;\n" +
+              "    DELETE FROM FNS_RESTRICTN_DECISIONS\n" +
+              "    WHERE FNS_RESTRICTION_ID = :DID;\n" +
+              "  END\n" +
+              "END");
+      st.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+  }
+
+
 }

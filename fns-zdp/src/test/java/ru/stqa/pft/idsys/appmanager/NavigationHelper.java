@@ -12,8 +12,20 @@ public class NavigationHelper extends HelperBase{
   }
 
   public void zdpPage() {
-    click(By.xpath("//*[@id=\"gwt-uid-12\"]"));
+    click(By.xpath("//span[text()='Сведения о приостановлении']/../../div"));
   }
+
+  //Вспомогательный метод - проверка наличия раздела ЗДП
+  public void fns() {
+    if(!wd.findElement(By.xpath("//span[text()='Сведения о приостановлении']/../../div")).isDisplayed()) {
+      //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
+      fnsPage();
+    } else {
+      //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
+      zdpPage();
+    }
+  }
+
 
   public void fnsPage() {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div/div[1]/div"));

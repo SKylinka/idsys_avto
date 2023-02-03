@@ -89,12 +89,24 @@ public class ZdpHelper extends HelperBase{
     complite();
     //Вспомогательный метод - клик по строке "ИНН" и ввод "ИНН"
     fillINN(zdpData);
-    //Вспомогательный метод - клик по кнопке "Сохранить"
+    //Вспомогательный метод - клик по кнопке "Сохранить" + проверка на всплывающее окно
     sumbitDoc();
-    //Вспомогательный метод - клик по кнопке "Закрыть".
-    closeDoc();
+    if (isElementPresent(By.xpath("//span[text()='OK']/../../../div"))) {
+      //Вспомогательный метод - клик по кнопке ОК
+      pressOk();
+      //Вспомогательный метод - клик по кнопке закрытия формы(крестик)
+      close();
+      //Вспомогательный метод - клик по кнопке Нет
+      pressNo();
+    } else {
+      //Вспомогательный метод - клик по кнопке "Закрыть".
+      closeDoc();
+    }
     zdpCache = null;
   }
+
+
+
 
   public void copy(int index, ZdpData zdp) throws InterruptedException {
     //Вспомогательный метод - выделение случайного(первого) запроса
@@ -124,8 +136,16 @@ public class ZdpHelper extends HelperBase{
   }
 
 
+  public void pressOk() {
+    click(By.xpath("//span[text()='OK']/../../../div"));
+  }
+
+  private void pressNo() {
+    click(By.xpath("//span[text()='Нет']/../../../div"));
+  }
+
   private void closeDoc() {
-    click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[5]"));
+    click(By.xpath("//span[text()='Закрыть']/../../../div"));
   }
 
 
@@ -141,7 +161,8 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[1]/div/div/div[2]"));
   }
 
-  public void refreshPage() {
+  public void refreshPage() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[1]"));
   }
 
