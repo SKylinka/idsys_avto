@@ -19,7 +19,8 @@ public class ZdpHelper extends HelperBase{
     super(wd);// образещение к конструктору базового класса
   }
 
-  public void sumbitDoc() {
+  public void sumbitDoc() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[3]"));
   }
 
@@ -33,9 +34,9 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[2]"));
   }
 
-  public void timeout5sec() {
+  public void timeout() {
 
-    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
   }
 
   public void comitDelete() throws InterruptedException {
@@ -114,15 +115,64 @@ public class ZdpHelper extends HelperBase{
     //Вспомогательный метод - клик по кнопке "Создать c копированием"
     copy();
     TimeUnit.SECONDS.sleep(2);
-    //Вспомогательный метод - очистка поля ИНН
-    clearINN();
-    //Вспомогательный метод - ввод нового ИНН через переменную
-    fillINN(zdp);
+    //условие проверки что в переменную zdp пришло значение
+    if (zdp != null) {
+      //Вспомогательный метод - очистка поля ИНН
+      clearINN();
+      //Вспомогательный метод - ввод нового ИНН через переменную
+      fillINN(zdp);
+    }
     //Вспомогательный метод - клик по кнопке "Сохранить"
     sumbitDoc();
     //Вспомогательный метод - клик по кнопке закрытия формы(крестик)
     close();
     zdpCache = null;
+  }
+
+  public void modify(int index, ZdpData zdp) throws InterruptedException {
+    //Вспомогательный метод - выделение случайного(первого) запроса
+    selectDoc(index); //выбор элемента
+    //Вспомогательный метод - клик по кнопке "Редактировать"
+    modification();
+    TimeUnit.SECONDS.sleep(1);
+    //условие проверки что в переменную zdp пришло значение
+    if (zdp != null) {
+      //Вспомогательный метод - нажтие кнопки "Редактировать
+      modifyDoc();
+      //Вспомогательный метод - очистка поля ИНН
+      clearINN();
+      //Вспомогательный метод - ввод нового ИНН через переменную
+      fillINN(zdp);
+    }
+    //Вспомогательный метод - клик по кнопке "Сохранить"
+    sumbitDoc();
+    //Вспомогательный метод - клик по кнопке закрытия формы(крестик)
+    close();
+    zdpCache = null;
+  }
+
+  private void modifyDoc() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    click(By.xpath("//span[text()='Редактировать']/../../../div"));
+  }
+
+  //Метод получения названия кнопки по идентификатору
+  public String getNameButton() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    List<WebElement> elements = wd.findElements(By.xpath("//div[@class='vn-s-button v-widget']"));
+    for (WebElement element : elements) {
+      String buttonName = element.getAttribute("id");
+      int index1 = buttonName.indexOf("BTN-FRAME-EDIT"); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
+      if (index1 == 0) {
+       return buttonName;
+      }
+    }
+    return null;
+  }
+
+  //Метод нажатия на кнопку, значение которого пришло в переменную %s
+  private void modification() throws InterruptedException {
+    click(By.xpath(String.format("//div[@id='%s']", getNameButton())));
   }
 
   public void delete(int index) throws InterruptedException {
@@ -186,6 +236,7 @@ public class ZdpHelper extends HelperBase{
 
   public void clearINN() throws InterruptedException {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div/div[2]/div/div/div/table/tbody/tr[3]/td[3]/div/div[2]/div/div"));
+    TimeUnit.SECONDS.sleep(1);
     clear(By.xpath("//*[contains(@class, 'v-textfield v-widget v-textfield-focus')]"));
   }
 
@@ -196,7 +247,7 @@ public class ZdpHelper extends HelperBase{
     if (zdpCache != null) {
       return new Zdps(zdpCache);
     }
-   //Метод создания коллекции(списка) из которого получаются данные в интерфейсе через хомяка
+   //Метод создания коллекции(списка) из которого получаются данные в интерфейсе через хомяка(hamcrest)
     zdpCache = new Zdps();
     List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr"));
     for (WebElement element : elements) {

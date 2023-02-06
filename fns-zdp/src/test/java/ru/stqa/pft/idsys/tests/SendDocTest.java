@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 public class SendDocTest extends TestBase{
 
   @Test
-  public void testSendDoc() {
+  public void testSendDoc() throws InterruptedException {
     //Вспомогательный метод - переход в раздел "ФНС"
     app.goTo().fnsPage();
     //Вспомогательный метод - переход в раздел "Сведения о приостановлении"

@@ -9,7 +9,7 @@ import ru.stqa.pft.idsys.model.Zdps;
 
 import java.sql.SQLException;
 
-public class CopyDocTest extends TestBase {
+public class ModificationDocTest extends TestBase {
 
   @BeforeMethod
   //проверка до выполнения теста
@@ -20,50 +20,28 @@ public class CopyDocTest extends TestBase {
     app.goTo().zdpPage();
     //проверка есть ли запрос в БД
     if (app.db().zdps().size() == 0) {
-    //Вспомогательный метод - создание запроса
-    app.zdp().create(new ZdpData().withInn("123456789111"));
+      //Вспомогательный метод - создание запроса
+      app.zdp().create(new ZdpData().withInn("123456789111"));
     }
   }
 
-
   @Test
-  public void testCopyDoc() throws Exception {
+  public void testModificationDoc() throws Exception {
     //формирование коллекции в переменную before
     Zdps before = app.db().zdps();
-    //обьявление переменной для размера
-    int index = before.size() - 1;
+    //обьявление переменной для выбора первого элемента(0)
+    int index = 0;
     //переменная zdp для ввода инн
     ZdpData zdp = new ZdpData().withInn("123456789000");
     //Вспомогательный метод - копировать документ выбрав последний в списке
-    app.zdp().copy(index, zdp);
+    app.zdp().modify(index, zdp);
     //Вспомогательный метод - клик по кнопке "Обновить список"
     app.zdp().refreshPage();
     app.zdp().timeout();
     //формирование коллекции в переменную after
     Zdps after = app.db().zdps();
     //сравнение колличества для коллекции(списка)
-    Assert.assertEquals(after.size() , index + 2);
-    //проверка данных из БД с тем что в интерфейсе(важное услвоие ид первые столбец, инн второй)
-    verifyZdpListInUI();
-  }
-
-  @Test
-  public void testCopyDocNoChange() throws Exception {
-    //формирование коллекции в переменную before
-    Zdps before = app.db().zdps();
-    //обьявление переменной для размера
-    int index = before.size() - 1;
-    //переменная zdp для ввода инн
-    ZdpData zdp = null;
-    //Вспомогательный метод - копировать документ выбрав последний в списке
-    app.zdp().copy(index, zdp);
-    //Вспомогательный метод - клик по кнопке "Обновить список"
-    app.zdp().refreshPage();
-    app.zdp().timeout();
-    //формирование коллекции в переменную after
-    Zdps after = app.db().zdps();
-    //сравнение колличества для коллекции(списка)
-    Assert.assertEquals(after.size() , index + 2);
+    Assert.assertEquals(after.size() , before.size());
     //проверка данных из БД с тем что в интерфейсе(важное услвоие ид первые столбец, инн второй)
     verifyZdpListInUI();
   }
@@ -77,5 +55,3 @@ public class CopyDocTest extends TestBase {
      */
   }
 }
-
-

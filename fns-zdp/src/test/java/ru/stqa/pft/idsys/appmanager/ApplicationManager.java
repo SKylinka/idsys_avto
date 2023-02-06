@@ -7,7 +7,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -63,11 +62,12 @@ public class ApplicationManager {
     sessionHelper = new SessionHelper(wd);
 
 
-    //таймаут 5сек
-    zdpHelper.timeout5sec();
+    //таймаут 2сек
+    zdpHelper.timeout();
 
     //Логин в интерфейс
     sessionHelper.login(properties.getProperty("web.Login"), properties.getProperty("web.Password"));
+    zdpHelper.timeout();
   }
 
 

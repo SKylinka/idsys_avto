@@ -3,6 +3,8 @@ package ru.stqa.pft.idsys.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.TimeUnit;
+
 //класс помощник навигации по разделам
 public class NavigationHelper extends HelperBase{
 
@@ -11,12 +13,13 @@ public class NavigationHelper extends HelperBase{
     super(wd);// обращение к конструктору базового класса
   }
 
-  public void zdpPage() {
+  public void zdpPage() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//span[text()='Сведения о приостановлении']/../../div"));
   }
 
   //Вспомогательный метод - проверка наличия раздела ЗДП
-  public void fns() {
+  public void fns() throws InterruptedException {
     if(!wd.findElement(By.xpath("//span[text()='Сведения о приостановлении']/../../div")).isDisplayed()) {
       //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
       fnsPage();
