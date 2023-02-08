@@ -18,6 +18,10 @@ public class ModificationDocTest extends TestBase {
     app.goTo().fns();
     //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
     app.goTo().zdpPage();
+    //Вспомогательный метод - удалить все запросы
+    app.db().deleteAll();
+    //Вспомогательный метод - клик по кнопке "Обновить список"
+    app.zdp().refreshPage();
     //проверка есть ли запрос в БД
     if (app.db().zdps().size() == 0) {
       //Вспомогательный метод - создание запроса
@@ -35,6 +39,25 @@ public class ModificationDocTest extends TestBase {
     ZdpData zdp = new ZdpData().withInn("123456789000");
     //Вспомогательный метод - копировать документ выбрав последний в списке
     app.zdp().modify(index, zdp);
+    //Вспомогательный метод - клик по кнопке "Обновить список"
+    app.zdp().refreshPage();
+    app.zdp().timeout();
+    //формирование коллекции в переменную after
+    Zdps after = app.db().zdps();
+    //сравнение колличества для коллекции(списка)
+    Assert.assertEquals(after.size() , before.size());
+    //проверка данных из БД с тем что в интерфейсе(важное услвоие ид первые столбец, инн второй)
+    verifyZdpListInUI();
+  }
+
+  @Test
+  public void testNotModificationDoc() throws Exception {
+    //формирование коллекции в переменную before
+    Zdps before = app.db().zdps();
+    //обьявление переменной для выбора первого элемента(0)
+    int index = 0;
+    //Вспомогательный метод - копировать документ выбрав последний в списке
+    app.zdp().modify(index, null);
     //Вспомогательный метод - клик по кнопке "Обновить список"
     app.zdp().refreshPage();
     app.zdp().timeout();

@@ -71,32 +71,63 @@ public class DbHelper {
               properties.getProperty("db.Login"),
               properties.getProperty("db.Password"));
       Statement st = conn.createStatement();
-      st.execute("EXECUTE BLOCK\n" +
-              "AS\n" +
-              "DECLARE VARIABLE DID D_ID;\n" +
-              "BEGIN\n" +
-              "  FOR select d.id\n" +
-              "from FNS_RESTRICTION FR\n" +
-              "join DOCUMENT D on D.ID = FR.ID\n" +
-              "where D.DOCUMENTCLASSID = 1422 and\n" +
-              "      D.metaobjectname = 'FNS_RESTRICTION'\n" +
-              " INTO :DID\n" +
-              "  DO\n" +
-              "  BEGIN\n" +
-              "    DELETE FROM document\n" +
-              "    WHERE ID = :DID;\n" +
-              "    DELETE FROM FNS_RESTRICTION\n" +
-              "    WHERE ID = :DID;\n" +
-              "    DELETE FROM FNS_RESTRICTN_DECISIONS\n" +
-              "    WHERE FNS_RESTRICTION_ID = :DID;\n" +
-              "  END\n" +
-              "END");
+      st.execute("execute block\n" +
+              "as\n" +
+              "declare variable DID D_ID;\n" +
+              "begin\n" +
+              "  for select D.ID\n" +
+              "      from FNS_RESTRICTION FR\n" +
+              "      join DOCUMENT D on D.ID = FR.ID\n" +
+              "      where D.DOCUMENTCLASSID = 1422 and\n" +
+              "            D.METAOBJECTNAME = 'FNS_RESTRICTION'\n" +
+              "      into :DID\n" +
+              "  do\n" +
+              "  begin\n" +
+              "    delete from DOCUMENT\n" +
+              "    where ID = :DID;\n" +
+              "    delete from FNS_RESTRICTION\n" +
+              "    where ID = :DID;\n" +
+              "    delete from FNS_RESTRICTN_DECISIONS\n" +
+              "    where FNS_RESTRICTION_ID = :DID;\n" +
+              "    delete from DX_ENV\n" +
+              "    where DOCUMENT_ID = :DID;\n" +
+              "  end\n" +
+              "end");
       st.close();
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
       conn.close();
     }
+  }
+
+  //метод получения количества запросов
+  public int count() throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      ResultSet rs = st.executeQuery("select count(D.ID)\n" +
+              "from DOCUMENT D\n" +
+              "where D.DOCUMENTCLASSID = 1422 and\n" +
+              "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
+              "      D.DOCSTATUSID = 1   ");
+      int count = 0;
+      while (rs.next()) {
+        count = rs.getInt("count");
+      }
+      rs.close();
+      st.close();
+      return count;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+    return 0;
   }
 
 

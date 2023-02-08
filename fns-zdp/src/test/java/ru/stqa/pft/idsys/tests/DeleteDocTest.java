@@ -39,13 +39,8 @@ public class DeleteDocTest extends TestBase {
     //формирование коллекции в переменную after
     Zdps after = app.db().zdps();
     TimeUnit.SECONDS.sleep(2);
-    Assert.assertEquals(after.size(), index); //сравнение колличества для коллекции(списка)
-
-    //удаление элемента из списка
-    //before.remove(before.size() - 1);
-    //app.getZdpHelper().timeout5sec();
-    //цикл проверки
-    //Assert.assertEquals(before,after);
+    //сравнение колличества для коллекции(списка)
+    Assert.assertEquals(after.size(), index);
     verifyZdpListInUI();
   }
 

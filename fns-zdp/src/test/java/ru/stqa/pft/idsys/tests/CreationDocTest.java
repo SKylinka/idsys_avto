@@ -17,9 +17,9 @@ public class CreationDocTest extends TestBase {
   @BeforeMethod
   //проверка до выполнения теста
   public void ensurePreconditions() throws InterruptedException, SQLException {
-    //проверка есть ли запрос в БД
+    //проверка есть ли запросы в БД
     if (app.db().zdps().size() > 3) {
-      //Вспомогательный метод - создание запроса
+      //Вспомогательный метод - удаление всего
       app.db().deleteAll();
     }
     //Вспомогательный метод - проверка наличия раздела ЗДП
