@@ -34,19 +34,57 @@ public class FilterZdpTest extends TestBase{
   }
 
   @Test
-  public void testFilterZdp() throws SQLException {
-    int sortCount = app.db().count();
-
-
-    //формирование коллекции в переменную before
-    int before = app.db().zdps().size();
-
-
-
+  public void testFilterStatusZdp() throws SQLException, InterruptedException {
+    //подсчет колличества запросов на статусе новый в БД в переменную before
+    int before = app.db().count();
+    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
+    app.zdp().clearFilter();
+    TimeUnit.SECONDS.sleep(1);
+    //Вспомогательный метод - выбор статуса в фильтре
+    app.zdp().changeStatusFilter();
     //формирование коллекции в переменную after
-    int after = app.db().zdps().size();
+    int after = app.zdp().count();
     //сравнение колличества для коллекции(списка)
     Assert.assertEquals(after, before);
+    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
+    app.zdp().clearFilter();
+    TimeUnit.SECONDS.sleep(1);
   }
 
+  @Test
+  public void testFilterCreateDateZdp() throws SQLException, InterruptedException {
+    //подсчет колличества запросов на статусе новый в БД в переменную before
+    int before = app.db().count();
+    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
+    app.zdp().clearFilter();
+    TimeUnit.SECONDS.sleep(1);
+    //Вспомогательный метод - выбор статуса в фильтре
+    app.zdp().changeStatusFilter();
+    //формирование коллекции в переменную after
+    int after = app.zdp().count();
+    //сравнение колличества для коллекции(списка)
+    Assert.assertEquals(after, before);
+    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
+    app.zdp().clearFilter();
+    TimeUnit.SECONDS.sleep(1);
+  }
+
+
+  @Test
+  public void testFilterInnZdp() throws SQLException, InterruptedException {
+    //подсчет колличества запросов на статусе новый в БД в переменную before
+    int before = app.db().count();
+    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
+    app.zdp().clearFilter();
+    TimeUnit.SECONDS.sleep(1);
+    //Вспомогательный метод - выбор статуса в фильтре
+    app.zdp().changeStatusFilter();
+    //формирование коллекции в переменную after
+    int after = app.zdp().count();
+    //сравнение колличества для коллекции(списка)
+    Assert.assertEquals(after, before);
+    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
+    app.zdp().clearFilter();
+    TimeUnit.SECONDS.sleep(1);
+  }
 }

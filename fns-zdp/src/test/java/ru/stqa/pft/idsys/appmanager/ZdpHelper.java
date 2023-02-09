@@ -157,12 +157,12 @@ public class ZdpHelper extends HelperBase{
   }
 
   //Метод получения названия кнопки по идентификатору
-  public String getNameButton() throws InterruptedException {
+  public String getNameButton(String button) throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     List<WebElement> elements = wd.findElements(By.xpath("//div[@class='vn-s-button v-widget']"));
     for (WebElement element : elements) {
       String buttonName = element.getAttribute("id");
-      int index1 = buttonName.indexOf("BTN-FRAME-EDIT"); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
+      int index1 = buttonName.indexOf(button); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
       if (index1 == 0) {
        return buttonName;
       }
@@ -172,7 +172,7 @@ public class ZdpHelper extends HelperBase{
 
   //Метод нажатия на кнопку, значение которого пришло в переменную %s
   private void modification() throws InterruptedException {
-    click(By.xpath(String.format("//div[@id='%s']", getNameButton())));
+    click(By.xpath(String.format("//div[@id='%s']", getNameButton("BTN-FRAME-EDIT"))));
   }
 
   public void delete(int index) throws InterruptedException {
@@ -256,5 +256,34 @@ public class ZdpHelper extends HelperBase{
       zdpCache.add(new ZdpData().withId(id).withInn(inn));
     }
     return new Zdps(zdpCache);
+  }
+
+  //Метод нажатия на кнопку, значение которого пришло в переменную %s
+  public void clearFilter() throws InterruptedException {
+    click(By.xpath(String.format("//div[@id='%s']", getNameButton("BTN-FRAME-CLEAR_FILTER"))));
+  }
+
+  //Метод выбора фильтра статус "новый"
+  public void changeStatusFilter() throws InterruptedException {
+    click(By.xpath(String.format("//div[@id='%s']", getNameButtonAll("REF-[IN]DOCSTATUS_CAPTION"))));
+    click(By.xpath("//div[text()='Новый']/../div"));
+    complite();
+    //click(By.xpath("//span[text()='Выбрать']/../../../div"));
+    click(By.xpath("//span[text()='Применить']/../../../div"));
+
+  }
+
+  //Метод получения названия кнопки по идентификатору(рассширенный но не всегда верный)
+  public String getNameButtonAll(String button) throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    List<WebElement> elements = wd.findElements(By.xpath("//div[@role='button']"));
+    for (WebElement element : elements) {
+      String buttonName = element.getAttribute("id");
+      int index1 = buttonName.indexOf(button); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
+      if (index1 == 0) {
+        return buttonName;
+      }
+    }
+    return null;
   }
 }
