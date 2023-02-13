@@ -60,7 +60,7 @@ public class ZdpHelper extends HelperBase{
   }
 
   public void sendDoc() {
-    click(By.xpath("//*[@id='bankclient-538598663-overlays']/div[2]/div/div/div/div[2]"));
+    click(By.xpath("//div[text()='Отправить']"));
   }
 
   public void fillBik() {
@@ -80,6 +80,7 @@ public class ZdpHelper extends HelperBase{
   }
 
   public void create(ZdpData zdpData) throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
     //Вспомогательный метод - клик по кнопке "Создать"
     creationDoc();
     //таймаут
@@ -343,4 +344,22 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//span[text()='Применить']/../../../div"));
     TimeUnit.SECONDS.sleep(1);
   }
+
+  //Вспомогательный метод - выделение запроса по ид
+  public int chooseDocForId(long id) {
+    //Метод создания коллекции(списка) из которого получаются данные в интерфейсе через хомяка(hamcrest)
+    List<WebElement> elements = wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr"));
+    int index = 0;
+    for (WebElement element : elements) {
+      Long newid = Long.parseLong(element.findElement(By.xpath("td[1]")).getText());
+      if (newid == id) {
+        return index;
+      } else {
+        index++;
+      }
+    }
+
+    return index;
+  }
+
 }

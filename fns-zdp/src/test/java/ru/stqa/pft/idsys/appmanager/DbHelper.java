@@ -189,4 +189,32 @@ public class DbHelper {
     return 0;
 
   }
+
+  public long chooseFirstNew() throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      ResultSet rs = st.executeQuery("select first 1 D.ID\n" +
+              "from DOCUMENT D\n" +
+              "where D.DOCUMENTCLASSID = 1422 and\n" +
+              "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
+              "      D.DOCSTATUSID = 1   ");
+      long id = 0;
+      while (rs.next()) {
+        id = rs.getLong("id");
+      }
+      rs.close();
+      st.close();
+      return id;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+    return 0;
+  }
 }

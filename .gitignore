@@ -18,3 +18,4 @@ gradle-app.setting
 build/
 build/tmp/
 /build/test-results/
+*.class
