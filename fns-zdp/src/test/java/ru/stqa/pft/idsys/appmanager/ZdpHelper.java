@@ -6,9 +6,11 @@ import org.openqa.selenium.WebElement;
 import ru.stqa.pft.idsys.model.ZdpData;
 import ru.stqa.pft.idsys.model.Zdps;
 
+import java.text.ParseException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 //класс помощник для работы в ЗДП
@@ -285,5 +287,60 @@ public class ZdpHelper extends HelperBase{
       }
     }
     return null;
+  }
+
+  //Метод получения названия кнопки фильтра даты
+  public String getNameButtonFilterDate(String button) throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    List<WebElement> elements = wd.findElements(By.xpath("//*[contains(@class, 'v-datefield v-datefield-popupcalendar v-widget v-datefield-full')]"));
+    for (WebElement element : elements) {
+      String buttonName = element.getAttribute("id");
+      int index1 = buttonName.indexOf(button); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
+      if (index1 == 0) {
+        return buttonName;
+      }
+    }
+    return null;
+  }
+
+  //Метод получения текущего вренмени и преобразование его в необходимую форму для фильтра
+  public String currentDate() throws ParseException {
+    LocalDateTime dateTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+    return String.format(dateTime.format(formatter));
+  }
+
+
+  //Метод выбора фильтра дата и время создания с - по
+  public void changeCreateDateFilter() throws InterruptedException, ParseException {
+    click(By.xpath(String.format("//div[@id='%s']", getNameButtonFilterDate("FILTER-[>=]CREATE_DATE"))));
+    type(By.xpath(String.format("//div[@id='%s']//input", getNameButtonFilterDate("FILTER-[>=]CREATE_DATE"))),"30.06.2019 00:00:00");
+    click(By.xpath(String.format("//div[@id='%s']", getNameButtonFilterDate("FILTER-[<=]CREATE_DATE"))));
+    type(By.xpath(String.format("//div[@id='%s']//input", getNameButtonFilterDate("FILTER-[<=]CREATE_DATE"))),currentDate());
+    click(By.xpath("//span[text()='Применить']/../../../div"));
+  }
+
+  //Метод получения названия кнопки фильтра даты
+  public String getNameButtonInn(String button) throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    List<WebElement> elements = wd.findElements(By.xpath("//div[@class='v-slot']//input"));
+    for (WebElement element : elements) {
+      String buttonName = element.getAttribute("id");
+      int index1 = buttonName.indexOf(button); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
+      if (index1 == 0) {
+        return buttonName;
+      }
+    }
+    return null;
+  }
+
+
+
+  //Метод выбора фильтра с указанным ИНН
+  public void changeInn(String inn) throws InterruptedException {
+    click(By.xpath(String.format("//*[@id='%s']", getNameButtonInn("FILTER-[LIKE]INN"))));
+    type(By.xpath(String.format("//*[@id='%s']", getNameButtonInn("FILTER-[LIKE]INN"))),inn);
+    click(By.xpath("//span[text()='Применить']/../../../div"));
+    TimeUnit.SECONDS.sleep(1);
   }
 }

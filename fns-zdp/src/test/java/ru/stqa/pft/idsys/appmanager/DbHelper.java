@@ -4,7 +4,6 @@ import ru.stqa.pft.idsys.model.ZdpData;
 import ru.stqa.pft.idsys.model.Zdps;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
@@ -102,7 +101,7 @@ public class DbHelper {
   }
 
   //метод получени€ количества запросов
-  public int count() throws SQLException {
+  public int countStatus() throws SQLException {
     Connection conn = null;
     try {
       conn = DriverManager.getConnection(
@@ -130,5 +129,64 @@ public class DbHelper {
     return 0;
   }
 
+  //метод получени€ количества запросов с - по
+  public int countCreateDate() throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      ResultSet rs = st.executeQuery("select count(D.ID)\n" +
+              "from DOCUMENT D\n" +
+              "where D.CREATE_DATE between '30.06.2019 00:00:00' and dateadd(+ 5 minute to current_timestamp) and\n" +
+              "      D.DOCUMENTCLASSID = 1422 and\n" +
+              "      D.METAOBJECTNAME = 'FNS_RESTRICTION'");
+      int count = 0;
+      while (rs.next()) {
+        count = rs.getInt("count");
+      }
+      rs.close();
+      st.close();
+      return count;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+    return 0;
+  }
 
+
+  //метод получени€ количества запросов с указанным »ЌЌ
+  public int countInn(String inn) throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      ResultSet rs = st.executeQuery(String.format("select COUNT(D.ID)\n" +
+              "from DOCUMENT D\n" +
+              "join FNS_RESTRICTION FR on FR.ID = D.ID\n" +
+              "where D.DOCUMENTCLASSID = 1422 and\n" +
+              "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
+              "      FR.INN = '%s'", inn));
+      int count = 0;
+      while (rs.next()) {
+        count = rs.getInt("count");
+      }
+      rs.close();
+      st.close();
+      return count;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+    return 0;
+
+  }
 }
