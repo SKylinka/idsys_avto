@@ -55,8 +55,23 @@ public class ZdpHelper extends HelperBase{
     wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr")).get(index).click();
   }
 
-  public void selectDocRight() {
-    clickR(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr/td/div"));
+  public void selectDocRight() throws InterruptedException {
+
+    if(isElementPresent(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"))) {
+      //Вспомогательный метод -
+      clickR(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"));
+    } else if (isElementPresent(By.xpath("//tr[@class='v-table-row v-selected v-table-focus']"))){
+      TimeUnit.SECONDS.sleep(1);
+      //Вспомогательный метод -
+      clickR(By.xpath("//tr[@class='v-table-row v-selected v-table-focus']"));
+    } else if (isElementPresent(By.xpath("//tr[@class='v-table-row v-table-focus v-selected']"))) {
+      TimeUnit.SECONDS.sleep(1);
+      //Вспомогательный метод -
+      clickR(By.xpath("//tr[@class='v-table-row v-table-focus v-selected']"));
+    } else {
+      TimeUnit.SECONDS.sleep(1);
+      clickR(By.xpath("//tr[@class='v-table-row v-selected']"));
+    }
   }
 
   public void sendDoc() {

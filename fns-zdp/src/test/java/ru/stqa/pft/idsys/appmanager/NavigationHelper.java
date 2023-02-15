@@ -37,4 +37,19 @@ public class NavigationHelper extends HelperBase{
   public void exit() {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[1]/div/div[2]/div/div/div[2]/div/div[3]/div"));
   }
+
+  public void sysObject() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    click(By.xpath("//div[text()='Системные объекты']"));
+  }
+
+  public void dataExchange() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    click(By.xpath("//span[text()='Обмен данными']/../../div"));
+  }
+
+  public void adapters() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    click(By.xpath("//span[text()='Адаптеры']/../../div"));
+  }
 }

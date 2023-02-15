@@ -1,6 +1,7 @@
 package ru.stqa.pft.idsys.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.stqa.pft.idsys.model.ZdpData;
@@ -92,5 +93,13 @@ public class FilterZdpTest extends TestBase{
     //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
     app.zdp().clearFilter();
     TimeUnit.SECONDS.sleep(1);
+  }
+
+  @AfterTest()
+  public void exit() {
+    //Вспомогательный метод - нажатие кнопки "Выход"
+    app.goTo().exit();
+    /*
+     */
   }
 }

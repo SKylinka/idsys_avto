@@ -70,6 +70,10 @@ public class ApplicationManager {
     zdpHelper.timeout();
   }
 
+  public void loginAdm() {
+    sessionHelper.login(properties.getProperty("adm.Login"), properties.getProperty("adm.Password"));
+  }
+
 
   public void stop() {
     wd.quit();

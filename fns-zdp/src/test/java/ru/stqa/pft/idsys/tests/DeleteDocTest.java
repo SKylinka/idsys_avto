@@ -45,4 +45,11 @@ public class DeleteDocTest extends TestBase {
   }
 
 
+  @AfterTest()
+  public void exit() {
+    //Вспомогательный метод - нажатие кнопки "Выход"
+    app.goTo().exit();
+    /*
+     */
+  }
 }

@@ -190,7 +190,7 @@ public class DbHelper {
 
   }
 
-  public long chooseFirstNew() throws SQLException {
+  public long chooseFirstNew(int status) throws SQLException {
     Connection conn = null;
     try {
       conn = DriverManager.getConnection(
@@ -198,11 +198,11 @@ public class DbHelper {
               properties.getProperty("db.Login"),
               properties.getProperty("db.Password"));
       Statement st = conn.createStatement();
-      ResultSet rs = st.executeQuery("select first 1 D.ID\n" +
+      ResultSet rs = st.executeQuery(String.format("select first 1 D.ID\n" +
               "from DOCUMENT D\n" +
               "where D.DOCUMENTCLASSID = 1422 and\n" +
               "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
-              "      D.DOCSTATUSID = 1   ");
+              "      D.DOCSTATUSID = '%s'   ",status));
       long id = 0;
       while (rs.next()) {
         id = rs.getLong("id");
@@ -210,6 +210,34 @@ public class DbHelper {
       rs.close();
       st.close();
       return id;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+    return 0;
+  }
+
+  public int checkStatus(long id) throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      ResultSet rs = st.executeQuery(String.format("select D.DOCSTATUSID\n" +
+              "from DOCUMENT D\n" +
+              "where D.DOCUMENTCLASSID = 1422 and\n" +
+              "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
+              "      D.ID = '%s'   ",id));
+      int docstatusid = 0;
+      while (rs.next()) {
+        docstatusid = rs.getInt("docstatusid");
+      }
+      rs.close();
+      st.close();
+      return docstatusid;
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
