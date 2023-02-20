@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 
 //основной класс вспомогательных функций
@@ -70,9 +71,16 @@ public class ApplicationManager {
     zdpHelper.timeout();
   }
 
-  public void loginAdm() {
+  public void loginAdm() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
     sessionHelper.login(properties.getProperty("adm.Login"), properties.getProperty("adm.Password"));
   }
+
+  public void loginUser() throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    sessionHelper.login(properties.getProperty("web.Login"), properties.getProperty("web.Password"));
+  }
+
 
 
   public void stop() {

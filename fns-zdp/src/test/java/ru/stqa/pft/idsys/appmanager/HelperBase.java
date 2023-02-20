@@ -1,10 +1,13 @@
 package ru.stqa.pft.idsys.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 
 
 //базовый класс для всех помощников
@@ -71,6 +74,20 @@ public class HelperBase {
     } catch (NoSuchElementException ex) {
       return false;
     }
-
   }
+
+  //метод нажатия кнопок ctrl + a и ctrl + c и получение буфера
+  protected String getTextFromField(By locator) throws IOException, UnsupportedFlavorException {
+    Clipboard clipBoard =  Toolkit.getDefaultToolkit().getSystemClipboard(); //Clipboard класс инициализации буфера
+    //одновременное нажатие клавиш через чорд по локатору
+    wd.findElement(locator).sendKeys(Keys.chord(Keys.CONTROL, "A"));
+    wd.findElement(locator).sendKeys(Keys.chord(Keys.CONTROL, "C"));
+    DataFlavor dataFlavor = DataFlavor.stringFlavor;//DataFlavor класс который предоставляет инфу из буфера
+    if (clipBoard.isDataFlavorAvailable(dataFlavor)) {
+      return (String) clipBoard.getData(dataFlavor);
+    } else {
+      return null;
+    }
+  }
+
 }

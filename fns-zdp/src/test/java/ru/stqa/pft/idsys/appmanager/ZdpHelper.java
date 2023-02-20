@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import ru.stqa.pft.idsys.model.ZdpData;
 import ru.stqa.pft.idsys.model.Zdps;
 
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -56,8 +58,7 @@ public class ZdpHelper extends HelperBase{
   }
 
   public void selectDocRight() throws InterruptedException {
-
-    if(isElementPresent(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"))) {
+    if (isElementPresent(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"))) {
       //Вспомогательный метод -
       clickR(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"));
     } else if (isElementPresent(By.xpath("//tr[@class='v-table-row v-selected v-table-focus']"))){
@@ -68,14 +69,22 @@ public class ZdpHelper extends HelperBase{
       TimeUnit.SECONDS.sleep(1);
       //Вспомогательный метод -
       clickR(By.xpath("//tr[@class='v-table-row v-table-focus v-selected']"));
-    } else {
+    } else if (isElementPresent(By.xpath("//tr[@class='v-table-row v-selected']"))){
       TimeUnit.SECONDS.sleep(1);
       clickR(By.xpath("//tr[@class='v-table-row v-selected']"));
+    } else {
+      TimeUnit.SECONDS.sleep(1);
+      clickR(By.xpath("//table[@class='v-table-table']/tbody/tr"));
     }
+    TimeUnit.SECONDS.sleep(1);
   }
 
   public void sendDoc() {
     click(By.xpath("//div[text()='Отправить']"));
+  }
+
+  public void sendDocInDoc() {
+    click(By.xpath("//span[text()='Отправить']"));
   }
 
   public void fillBik() {
@@ -336,10 +345,24 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//span[text()='Применить']/../../../div"));
   }
 
-  //Метод получения названия кнопки фильтра даты
-  public String getNameButtonInn(String button) throws InterruptedException {
+  //Метод получения названия кнопки по полю ввода input
+  public String getNameButtonInput(String button) throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     List<WebElement> elements = wd.findElements(By.xpath("//div[@class='v-slot']//input"));
+    for (WebElement element : elements) {
+      String buttonName = element.getAttribute("id");
+      int index1 = buttonName.indexOf(button); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
+      if (index1 == 0) {
+        return buttonName;
+      }
+    }
+    return null;
+  }
+
+  //Метод получения названия кнопки по полю ввода textarea
+  public String getNameButtonTextArea(String button) throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    List<WebElement> elements = wd.findElements(By.xpath("//div[@class='v-slot']//textarea"));
     for (WebElement element : elements) {
       String buttonName = element.getAttribute("id");
       int index1 = buttonName.indexOf(button); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
@@ -354,8 +377,8 @@ public class ZdpHelper extends HelperBase{
 
   //Метод выбора фильтра с указанным ИНН
   public void changeInn(String inn) throws InterruptedException {
-    click(By.xpath(String.format("//*[@id='%s']", getNameButtonInn("FILTER-[LIKE]INN"))));
-    type(By.xpath(String.format("//*[@id='%s']", getNameButtonInn("FILTER-[LIKE]INN"))),inn);
+    click(By.xpath(String.format("//*[@id='%s']", getNameButtonInput("FILTER-[LIKE]INN"))));
+    type(By.xpath(String.format("//*[@id='%s']", getNameButtonInput("FILTER-[LIKE]INN"))),inn);
     click(By.xpath("//span[text()='Применить']/../../../div"));
     TimeUnit.SECONDS.sleep(1);
   }
@@ -377,4 +400,43 @@ public class ZdpHelper extends HelperBase{
     return index;
   }
 
+  //Вспомогательный метод - возбудить адаптер
+  public void pullAdapter() throws InterruptedException {
+    if (isElementPresent(By.xpath(String.format("//div[@id='%s']", getNameButton("BTN-FRAME-excitate"))))) {
+      click(By.xpath(String.format("//div[@id='%s']", getNameButton("BTN-FRAME-excitate"))));
+    } else {
+      selectDocDouble();
+      click(By.xpath("//span[text()='Возбудить']/../../../div"));
+    }
+  }
+
+  //Вспомогательный метод - двойной щелчек по выделенному объекту
+  public void selectDocDouble() throws InterruptedException {
+    if (isElementPresent(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"))) {
+      //Вспомогательный метод -
+      clickDabl(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"));
+    } else if (isElementPresent(By.xpath("//tr[@class='v-table-row v-selected v-table-focus']"))){
+      TimeUnit.SECONDS.sleep(1);
+      //Вспомогательный метод -
+      clickDabl(By.xpath("//tr[@class='v-table-row v-selected v-table-focus']"));
+    } else if (isElementPresent(By.xpath("//tr[@class='v-table-row v-table-focus v-selected']"))) {
+      TimeUnit.SECONDS.sleep(1);
+      //Вспомогательный метод -
+      clickDabl(By.xpath("//tr[@class='v-table-row v-table-focus v-selected']"));
+    } else if (isElementPresent(By.xpath("//tr[@class='v-table-row v-selected']"))){
+      TimeUnit.SECONDS.sleep(1);
+      clickDabl(By.xpath("//tr[@class='v-table-row v-selected']"));
+    } else {
+      clickDabl(By.xpath("//table[@class='v-table-table']/tbody/tr"));
+    }
+  }
+
+  public String returnError() throws InterruptedException, IOException, UnsupportedFlavorException {
+    click(By.xpath(String.format("//*[@id='%s']", getNameButtonTextArea("FNS_RESTRICTION.ERROR_DESCRIPTION"))));
+    return getTextFromField(By.xpath(String.format("//*[@id='%s']", getNameButtonTextArea("FNS_RESTRICTION.ERROR_DESCRIPTION"))));
+  }
+
+  public void selectNew() {
+    click(By.xpath("//span[text()='Новый']/../../../div"));
+  }
 }

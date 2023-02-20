@@ -62,7 +62,7 @@ public class DbHelper {
   }
 
 
-  public void deleteAll() throws SQLException {
+  public void deleteAllDoc() throws SQLException {
     Connection conn = null;
     try {
       conn = DriverManager.getConnection(
@@ -98,6 +98,82 @@ public class DbHelper {
     } finally {
       conn.close();
     }
+  }
+
+  public void deleteTransitDoc() throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      st.execute("execute block\n" +
+              "as\n" +
+              "declare variable QID D_ID;\n" +
+              "begin\n" +
+              "  for select D.ID\n" +
+              "      from DOCUMENT D\n" +
+              "      where D.DOCUMENTCLASSID = 8004\n" +
+              "      into :QID\n" +
+              "  do\n" +
+              "  begin\n" +
+              "    delete from DX_ENV\n" +
+              "    where DOCUMENT_ID = :QID;\n" +
+              "    delete from DOCUMENT\n" +
+              "    where ID = :QID;\n" +
+              "  end\n" +
+              "end");
+      st.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+  }
+
+  public void deleteDxEnv() throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      st.execute("execute block\n" +
+              "as\n" +
+              "declare variable QID D_ID;\n" +
+              "begin\n" +
+              "  for select DE.DOCUMENT_ID\n" +
+              "      from DX_ENV DE\n" +
+              "      where DE.SMEV_ORIGIN_ID in ('eff05f01-aeb3-11ed-a3b4-52540084a2ea',\n" +
+              "      '0e3036e0-b10f-11ed-8005-005056b92721',\n" +
+              "      'c862d720-b10f-11ed-8005-005056b92721')\n" +
+              "      into :QID\n" +
+              "  do\n" +
+              "  begin\n" +
+              "    delete from DX_ENV\n" +
+              "    where DOCUMENT_ID = :QID;\n" +
+              "    delete from DOCUMENT\n" +
+              "    where ID = :QID;\n" +
+              "    delete from FNS_RESTRICTION\n" +
+              "    where ID = :QID;\n" +
+              "    delete from FNS_RESTRICTN_DECISIONS\n" +
+              "    where FNS_RESTRICTION_ID = :QID;\n" +
+              "  end\n" +
+              "end");
+      st.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+  }
+
+  //Метод очистки затерявшихся запросов
+  public void clearBd() throws SQLException {
+    deleteTransitDoc();
+    deleteDxEnv();
   }
 
   //метод получения количества запросов
@@ -244,5 +320,61 @@ public class DbHelper {
       conn.close();
     }
     return 0;
+  }
+
+  /** Метод смены messageid запросу по ид. eff05f01-aeb3-11ed-a3b4-52540084a2ea - это ответ с ошибкой
+   * 0e3036e0-b10f-11ed-8005-005056b92721 - это положительный ответ
+   * c862d720-b10f-11ed-8005-005056b92721 - это отрицательный ответ
+   * @param id
+   * @throws SQLException
+   */
+  public void changeMessageId(long id) throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      st.execute(String.format("update DX_ENV DE\n" +
+              "set DE.SMEV_ORIGIN_ID = 'eff05f01-aeb3-11ed-a3b4-52540084a2ea'\n" +
+              "where DE.DOCUMENT_ID = '%s'   ",id));
+      st.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+
+  }
+
+  public String returnError(long idDoc) throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      ResultSet rs = st.executeQuery(String.format("select FR.ERROR_DESCRIPTION\n" +
+              "from DOCUMENT D\n" +
+              "join FNS_RESTRICTION FR on FR.ID = D.ID\n" +
+              "where D.DOCUMENTCLASSID = 1422 and\n" +
+              "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
+              "      D.ID = '%s'", idDoc));
+      String textError = null;
+      while (rs.next()) {
+        textError = rs.getString("ERROR_DESCRIPTION");
+      }
+      rs.close();
+      st.close();
+      return textError;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+    return null;
+
   }
 }

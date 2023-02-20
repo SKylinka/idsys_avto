@@ -38,18 +38,32 @@ public class NavigationHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[1]/div/div[2]/div/div/div[2]/div/div[3]/div"));
   }
 
+  //переход в раздел Системные объекты
   public void sysObject() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//div[text()='Системные объекты']"));
   }
-
+  //переход в раздел обмен данными
   public void dataExchange() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//span[text()='Обмен данными']/../../div"));
   }
-
+  //переход в раздел адаптеров
   public void adapters() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//span[text()='Адаптеры']/../../div"));
   }
+  //комбинирование перехода в раздел адаптеров
+  public void pageAdapters() throws InterruptedException {
+    sysObject();
+    dataExchange();
+    adapters();
+  }
+
+  //переход на вкладку "Ответ"
+  public void pageAnswer() {
+    click(By.xpath("//div[text()='Ответ']"));
+  }
+
+
 }

@@ -20,7 +20,7 @@ public class CreationDocTest extends TestBase {
     //проверка есть ли запросы в БД
     if (app.db().zdps().size() > 3) {
       //Вспомогательный метод - удаление всего
-      app.db().deleteAll();
+      app.db().deleteAllDoc();
     }
     //Вспомогательный метод - проверка наличия раздела ЗДП
     app.goTo().fns();

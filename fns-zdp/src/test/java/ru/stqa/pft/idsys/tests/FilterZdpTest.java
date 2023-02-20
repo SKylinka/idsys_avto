@@ -24,7 +24,7 @@ public class FilterZdpTest extends TestBase{
      */
 
     //Вспомогательный метод - удалить все запросы
-    app.db().deleteAll();
+    app.db().deleteAllDoc();
     //Вспомогательный метод - клик по кнопке "Обновить список"
     app.zdp().refreshPage();
     //проверка есть ли запрос в БД
