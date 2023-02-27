@@ -71,11 +71,13 @@ public class ApplicationManager {
     zdpHelper.timeout();
   }
 
+  // логин под УЗ админа
   public void loginAdm() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     sessionHelper.login(properties.getProperty("adm.Login"), properties.getProperty("adm.Password"));
   }
 
+  // логин под УЗ
   public void loginUser() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     sessionHelper.login(properties.getProperty("web.Login"), properties.getProperty("web.Password"));

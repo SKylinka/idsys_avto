@@ -11,110 +11,269 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
-public class SendDocTest extends TestBase{
+import static ru.stqa.pft.idsys.appmanager.ZdpHelper.resultAnswer;
 
+public class SendDocTest extends TestBase {
+
+  /**
+   * Операции до выполнения тестов:
+   * 1) Проверка и очистка всего что связано с эмуляцией
+   * 2) Переход в раздел ФНС
+   * 3) Переход в раздел ЗДП
+   * 4) Проверка колличества запросов в интерфейсе. Если их больше 5, то очищаем модуль и создаем новые 3шт.
+   * Исключения:
+   *
+   * @throws InterruptedException - таймаут
+   * @throws SQLException         - подключение к БД
+   */
   @BeforeMethod
-  //проверка до выполнения теста
   public void ensurePreconditions() throws InterruptedException, SQLException {
-    //Метод очистки остатков эмуляции
     app.db().clearBd();
-    //Вспомогательный метод - проверка наличия раздела ЗДП
     app.goTo().fns();
-    //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
     app.goTo().zdpPage();
-    //проверка есть ли запросы в БД
     if (app.db().zdps().size() > 5) {
-      //Вспомогательный метод - удаление всех запросов
       app.db().deleteAllDoc();
       TimeUnit.SECONDS.sleep(2);
-      //Вспомогательный метод - создание запросов
       app.zdp().create(new ZdpData().withInn("123456789111"));
       app.zdp().create(new ZdpData().withInn("123456789222"));
       app.zdp().create(new ZdpData().withInn("123456789333"));
     }
   }
 
-  @Test(enabled = false)
-  public void testSendDocResultError() throws InterruptedException, SQLException, IOException, UnsupportedFlavorException {
-    //Вспомогательный метод поиск в БД первого запроса на статусе "новый".
+  /**
+   * Тест кейс по отправке и получению ошибки:
+   * 1) Поиск в БД первого запроса на статусе "Новый" и передача его идентификатора в переменную idDoc
+   * 2) Проверка - найден ли такой запрос. Если не найден, то создаем его и передаем его в переменную idDoc
+   * 3) Нахождение запроса в интерфейсе по его идентификатору
+   * 4) Нажатие ПКМ на этот запрос для получения контекстного окна
+   * 5) Нажатие на отправить
+   * 6) Изменить messageid запроса, на тот что в эмуляторе
+   * 7) Нажатие кнопки "Выход"
+   * 8) Логин из под УЗ Администратора SYSDBA
+   * 9) Переход в раздел адаптеров
+   * 10) Выделение адаптера по его идентификатору
+   * 11) Возбудить адаптер
+   * 12) Нажатие кнопки "Выход"
+   * 13) Логин из под обычной УЗ ФНС
+   * 14) Переход в раздел ФНС
+   * 15) Переход в раздел ЗДП
+   * 16) Нахождение запроса в интерфейсе по его идентификатору
+   * 17) Переход внутрь запроса
+   * 18) Переход на вкладку "Ответ"
+   * 19) Проверка статуса запроса
+   * 20) Сравнение ошибок из БД и интерфейса
+   * 21) Выход из документа
+   * Исключения:
+   *
+   * @throws InterruptedException       - таймаут
+   * @throws SQLException               - подключение к БД
+   * @throws IOException                - DataFlavor получения из буфера
+   * @throws UnsupportedFlavorException - DataFlavor получения из буфера
+   */
+  @Test(enabled = true)
+  public void testSendDocResultError() throws InterruptedException, SQLException, UnsupportedFlavorException, IOException {
     long idDoc = app.db().chooseFirstNew(Integer.parseInt("1"));
-    //Проверка есть ли запрос на статусе "Новый"
     if (idDoc == 0) {
       app.zdp().create(new ZdpData().withInn("123456789111"));
       idDoc = app.db().chooseFirstNew(Integer.parseInt("1"));
     }
-    //Вспомогательный метод - выделение запроса по ид
-    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc)); //0 - первый запрос
-    //Вспомогательный метод - выделение случайного(первого) запроса и вызов контекстного меню отправки на пкм
+    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc));
     app.zdp().selectDocRight();
-    //Вспомогательный метод - нажатие отправка
     app.zdp().sendDoc();
     TimeUnit.SECONDS.sleep(2);
-    //Вспомогательный метод - смена messageid запроса, на тот что в эмуляторе
-    app.db().changeMessageId(idDoc);
-    //Вспомогательный метод - нажатие кнопки "Выход"
+    app.db().changeMessageId("eff05f01-aeb3-11ed-a3b4-52540084a2ea", idDoc);
     app.goTo().exit();
-    // логин под УЗ админа
     app.loginAdm();
-    // Переход в раздел Адаптеров
     app.goTo().pageAdapters();
-    //Вспомогательный метод - выделение адаптера по ид из списка(в данный момент здп адаптер имеет ид 73)
     app.zdp().selectDoc(app.zdp().chooseDocForId(73));
-    //Вспомогательный метод - возбудить адаптер
     app.zdp().pullAdapter();
     TimeUnit.SECONDS.sleep(2);
-    //Вспомогательный метод - нажатие кнопки "Выход"
     app.goTo().exit();
-    // логин под УЗ
     app.loginUser();
     app.goTo().fnsPage();
     app.goTo().zdpPage();
-    //Вспомогательный метод - выделение запроса по ид
-    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc)); //0 - первый запрос
-    //Вспомогательный метод - переход внутрь двойным кликом
+    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc));
     app.zdp().selectDocDouble();
     TimeUnit.SECONDS.sleep(1);
-    //Переход на вкладку "Ответ"
     app.goTo().pageAnswer();
-    //Проверка статуса запроса
-    int status =  app.db().checkStatus(idDoc);
+    int status = app.db().checkStatus(idDoc);
     if (status == 98) {
       String fromDB = app.db().returnError(idDoc);
       String fromUI = app.zdp().returnError();
       Assert.assertEquals(fromDB, fromUI);
       System.out.println("Тест выполнился успешно");
-        } else {
+    } else {
       System.out.println("Что-то пошло не так тест хуйня давай по новой");
     }
+    app.zdp().close();
+    TimeUnit.SECONDS.sleep(1);
   }
 
-  @Test
-  public void testSendDocResultTrue() throws SQLException, InterruptedException {
-    //Вспомогательный метод поиск в БД первого запроса на статусе "новый".
+  /**
+   * Тест кейс по отправке и получению положительного результата:
+   * 1) Поиск в БД первого запроса на статусе "Новый" и передача его идентификатора в переменную idDoc
+   * 2) Проверка - найден ли такой запрос. Если не найден, то создаем его и передаем его в переменную idDoc
+   * 3) Нахождение запроса в интерфейсе по его идентификатору
+   * 4) Нажатие ПКМ на этот запрос для получения контекстного окна
+   * 5) Нажатие на отправить
+   * 6) Изменить messageid запроса, на тот что в эмуляторе
+   * 7) Нажатие кнопки "Выход"
+   * 8) Логин из под УЗ Администратора SYSDBA
+   * 9) Переход в раздел адаптеров
+   * 10) Выделение адаптера по его идентификатору
+   * 11) Возбудить адаптер
+   * 12) Нажатие кнопки "Выход"
+   * 13) Логин из под обычной УЗ ФНС
+   * 14) Переход в раздел ФНС
+   * 15) Переход в раздел ЗДП
+   * 16) Нахождение запроса в интерфейсе по его идентификатору
+   * 17) Переход внутрь запроса
+   * 18) Переход на вкладку "Ответ"
+   * 19) Проверка статуса запроса
+   * 20) Сравнение результатов из БД и интерфейса
+   * 21) Переход в раздел "Действующие приостановления"
+   * 22) Подсчет количества найденных документов
+   * 23) Выход из документа
+   * Исключения:
+   *
+   * @throws InterruptedException       - таймаут
+   * @throws SQLException               - подключение к БД
+   * @throws IOException                - DataFlavor получения из буфера
+   * @throws UnsupportedFlavorException - DataFlavor получения из буфера
+   */
+  @Test(enabled = true)
+  public void testSendDocResultTrue() throws SQLException, InterruptedException, IOException, UnsupportedFlavorException {
     long idDoc = app.db().chooseFirstNew(Integer.parseInt("1"));
-    //Проверка есть ли запрос на статусе "Новый"
     if (idDoc == 0) {
       app.zdp().create(new ZdpData().withInn("123456789111"));
       idDoc = app.db().chooseFirstNew(Integer.parseInt("1"));
     }
-    //Вспомогательный метод - выделение запроса по ид
-    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc)); //0 - первый запрос
-    //Вспомогательный метод - переход внутрь двойным кликом
+    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc));
     app.zdp().selectDocDouble();
-    //Вспомогательный метод - нажатие кнопки "Новый" для отправки
     app.zdp().selectNew();
-    //Вспомогательный метод - нажатие отправка внутри документа
     app.zdp().sendDocInDoc();
-
+    TimeUnit.SECONDS.sleep(3);
+    app.db().changeMessageId("0e3036e0-b10f-11ed-8005-005056b92721", idDoc);
+    app.goTo().exit();
+    app.loginAdm();
+    app.goTo().pageAdapters();
+    app.zdp().selectDoc(app.zdp().chooseDocForId(73));
+    app.zdp().pullAdapter();
+    TimeUnit.SECONDS.sleep(2);
+    app.goTo().exit();
+    app.loginUser();
+    app.goTo().fnsPage();
+    app.goTo().zdpPage();
+    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc));
+    app.zdp().selectDocDouble();
+    TimeUnit.SECONDS.sleep(1);
+    app.goTo().pageAnswer();
+    int status = app.db().checkStatus(idDoc);
+    if (status == 152) {
+      String fromDB = resultAnswer.get(app.db().result(idDoc));
+      String fromUI = app.zdp().result();
+      Assert.assertEquals(fromDB, fromUI);
+    } else {
+      System.out.println("Что-то пошло не так тест хуйня давай по новой");
+    }
+    app.goTo().pageActiveSuspensions();
+    TimeUnit.SECONDS.sleep(1);
+    int skolko = app.zdp().skolko();
+    if (skolko == 24) {
+      System.out.println("Тест выполнился успешно");
+    } else {
+      System.out.println("Что-то пошло не так тест хуйня давай по новой 2");
+    }
+    app.zdp().close();
+    TimeUnit.SECONDS.sleep(1);
   }
 
+  /**
+   * Тест кейс по отправке и получению отрицательного результата:
+   * 1) Поиск в БД первого запроса на статусе "Новый" и передача его идентификатора в переменную idDoc
+   * 2) Проверка - найден ли такой запрос. Если не найден, то создаем его и передаем его в переменную idDoc
+   * 3) Нахождение запроса в интерфейсе по его идентификатору
+   * 4) Нажатие ПКМ на этот запрос для получения контекстного окна
+   * 5) Нажатие на отправить
+   * 6) Изменить messageid запроса, на тот что в эмуляторе
+   * 7) Нажатие кнопки "Выход"
+   * 8) Логин из под УЗ Администратора SYSDBA
+   * 9) Переход в раздел адаптеров
+   * 10) Выделение адаптера по его идентификатору
+   * 11) Возбудить адаптер
+   * 12) Нажатие кнопки "Выход"
+   * 13) Логин из под обычной УЗ ФНС
+   * 14) Переход в раздел ФНС
+   * 15) Переход в раздел ЗДП
+   * 16) Нахождение запроса в интерфейсе по его идентификатору
+   * 17) Переход внутрь запроса
+   * 18) Переход на вкладку "Ответ"
+   * 19) Проверка статуса запроса
+   * 20) Сравнение результатов из БД и интерфейса
+   * 21) Переход в раздел "Действующие приостановления"
+   * 22) Подсчет количества найденных документов
+   * 23) Выход из документа
+   * Исключения:
+   *
+   * @throws InterruptedException       - таймаут
+   * @throws SQLException               - подключение к БД
+   * @throws IOException                - DataFlavor получения из буфера
+   * @throws UnsupportedFlavorException - DataFlavor получения из буфера
+   */
+  @Test(enabled = true)
+  public void testSendDocResultFalse() throws SQLException, InterruptedException, IOException, UnsupportedFlavorException {
+    long idDoc = app.db().chooseFirstNew(Integer.parseInt("1"));
+    if (idDoc == 0) {
+      app.zdp().create(new ZdpData().withInn("123456789111"));
+      idDoc = app.db().chooseFirstNew(Integer.parseInt("1"));
+    }
+    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc));
+    app.zdp().selectDocDouble();
+    app.zdp().selectNew();
+    app.zdp().sendDocInDoc();
+    TimeUnit.SECONDS.sleep(3);
+    app.db().changeMessageId("c862d720-b10f-11ed-8005-005056b92721", idDoc);
+    app.goTo().exit();
+    app.loginAdm();
+    app.goTo().pageAdapters();
+    app.zdp().selectDoc(app.zdp().chooseDocForId(73));
+    app.zdp().pullAdapter();
+    TimeUnit.SECONDS.sleep(2);
+    app.goTo().exit();
+    app.loginUser();
+    app.goTo().fnsPage();
+    app.goTo().zdpPage();
+    app.zdp().selectDoc(app.zdp().chooseDocForId(idDoc));
+    app.zdp().selectDocDouble();
+    TimeUnit.SECONDS.sleep(1);
+    app.goTo().pageAnswer();
+    int status = app.db().checkStatus(idDoc);
+    if (status == 152) {
+      String fromDB = resultAnswer.get(app.db().result(idDoc));
+      String fromUI = app.zdp().result();
+      Assert.assertEquals(fromDB, fromUI);
+    } else {
+      System.out.println("Что-то пошло не так тест хуйня давай по новой");
+    }
+    app.goTo().pageActiveSuspensions();
+    TimeUnit.SECONDS.sleep(1);
+    int skolko = app.zdp().skolko();
+    if (skolko == 0) {
+      System.out.println("Тест выполнился успешно");
+    } else {
+      System.out.println("Что-то пошло не так тест хуйня давай по новой 2");
+    }
+    app.zdp().close();
+    TimeUnit.SECONDS.sleep(1);
+  }
 
-
+  /**
+   * Операции после выполнения тестов:
+   * 1) Нажатие кнопки "Выход"
+   */
   @AfterTest()
   public void exit() {
-    //Вспомогательный метод - нажатие кнопки "Выход"
     app.goTo().exit();
-    /*
-     */
   }
+
 }

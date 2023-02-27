@@ -8,6 +8,8 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 //базовый класс для всех помощников
@@ -20,6 +22,8 @@ public class HelperBase {
     public HelperBase(WebDriver wd) {
     this.wd = wd;
   }
+
+
 
   //метод для клика(ЛКМ)
   protected void click(By locator) {
@@ -89,5 +93,8 @@ public class HelperBase {
       return null;
     }
   }
+
+
+
 
 }

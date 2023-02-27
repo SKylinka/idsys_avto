@@ -23,6 +23,26 @@ public class ZdpHelper extends HelperBase{
     super(wd);// образещение к конструктору базового класса
   }
 
+  //Создание словаря, где каждый элемент представляет пару "ключ-значение" для проверки ответа
+  public static Map<String, String> resultAnswer = new HashMap<>();
+  static {
+    resultAnswer.put("1", "Сведения найдены");
+    resultAnswer.put("2", "Сведения отсутствуют");
+  }
+  //Метод преобразования из текстового значения в цифровой
+  public String codAnswerTransform(String info) {
+    String code = null;
+    switch (info) {
+      case "Сведения найдены":
+        code = "1";
+        break;
+      case "Сведения отсутствуют":
+        code = "2";
+        break;
+    }
+    return code;
+  }
+
   public void sumbitDoc() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[3]/div/div/div/div/div[2]/div/div[3]"));
@@ -52,11 +72,13 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[5]"));
   }
 
-  //
+  //Вспомогательный метод - выделение запроса по ид , если указать 0 - первый запрос
+  //Вспомогательный метод - выделение адаптера по ид из списка(в данный момент здп адаптер имеет ид 73)
   public void selectDoc(int index) {
     wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr")).get(index).click();
   }
 
+  //Вспомогательный метод - выделение случайного(первого) запроса и вызов контекстного меню отправки на пкм
   public void selectDocRight() throws InterruptedException {
     if (isElementPresent(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"))) {
       //Вспомогательный метод -
@@ -79,12 +101,14 @@ public class ZdpHelper extends HelperBase{
     TimeUnit.SECONDS.sleep(1);
   }
 
+  //Вспомогательный метод - нажатие отправка
   public void sendDoc() {
     click(By.xpath("//div[text()='Отправить']"));
   }
 
+  //Вспомогательный метод - нажатие отправка внутри документа
   public void sendDocInDoc() {
-    click(By.xpath("//span[text()='Отправить']"));
+    click(By.xpath("//span[text()='Отправить']/../../../div"));
   }
 
   public void fillBik() {
@@ -103,6 +127,7 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[3]"));
   }
 
+  //Вспомогательный метод - создание запросов
   public void create(ZdpData zdpData) throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     //Вспомогательный метод - клик по кнопке "Создать"
@@ -119,6 +144,7 @@ public class ZdpHelper extends HelperBase{
     fillINN(zdpData);
     //Вспомогательный метод - клик по кнопке "Сохранить" + проверка на всплывающее окно
     sumbitDoc();
+    //проверка наличия кнопки ОК
     if (isElementPresent(By.xpath("//span[text()='OK']/../../../div"))) {
       //Вспомогательный метод - клик по кнопке ОК
       pressOk();
@@ -135,7 +161,7 @@ public class ZdpHelper extends HelperBase{
 
 
 
-
+  //Вспомогательный метод - копировать документ выбрав последний в списке
   public void copy(int index, ZdpData zdp) throws InterruptedException {
     //Вспомогательный метод - выделение случайного(первого) запроса
     selectDoc(index); //выбор элемента
@@ -156,6 +182,7 @@ public class ZdpHelper extends HelperBase{
     zdpCache = null;
   }
 
+  //Вспомогательный метод - копировать документ выбрав последний в списке
   public void modify(int index, ZdpData zdp) throws InterruptedException {
     //Вспомогательный метод - выделение случайного(первого) запроса
     selectDoc(index); //выбор элемента
@@ -178,7 +205,7 @@ public class ZdpHelper extends HelperBase{
     zdpCache = null;
   }
 
-  private void modifyDoc() throws InterruptedException {
+  public void modifyDoc() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//span[text()='Редактировать']/../../../div"));
   }
@@ -198,10 +225,11 @@ public class ZdpHelper extends HelperBase{
   }
 
   //Метод нажатия на кнопку, значение которого пришло в переменную %s
-  private void modification() throws InterruptedException {
+  public void modification() throws InterruptedException {
     click(By.xpath(String.format("//div[@id='%s']", getNameButton("BTN-FRAME-EDIT"))));
   }
 
+  //Вспомогательный метод - удаление запроса
   public void delete(int index) throws InterruptedException {
     //Вспомогательный метод - выделение случайного(первого) запроса
     selectDoc(index); //выбор последнего элемента before - 1 - передача параметра
@@ -217,11 +245,11 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//span[text()='OK']/../../../div"));
   }
 
-  private void pressNo() {
+  public void pressNo() {
     click(By.xpath("//span[text()='Нет']/../../../div"));
   }
 
-  private void closeDoc() {
+  public void closeDoc() {
     click(By.xpath("//span[text()='Закрыть']/../../../div"));
   }
 
@@ -230,14 +258,17 @@ public class ZdpHelper extends HelperBase{
     return isElementPresent(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr/td/div"));
   }
 
+  //Вспомогательный метод - подсчет общего количества строк с запросами в интерфейсе
   public int count() {
    return wd.findElements(By.xpath("//div[@id='bankclient-538598663']/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/div[2]/div/table/tbody/tr")).size();
   }
 
+  // Вспомогательный метож - нажатие на кнопку крестик(закрытие формы или документа)
   public void close() {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[1]/div/div/div[2]"));
   }
 
+  //Вспомогательный метод - клик по кнопке "Обновить список"
   public void refreshPage() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[1]"));
@@ -286,16 +317,18 @@ public class ZdpHelper extends HelperBase{
   }
 
   //Метод нажатия на кнопку, значение которого пришло в переменную %s
+  //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
   public void clearFilter() throws InterruptedException {
     click(By.xpath(String.format("//div[@id='%s']", getNameButton("BTN-FRAME-CLEAR_FILTER"))));
   }
 
   //Метод выбора фильтра статус "новый"
-  public void changeStatusFilter() throws InterruptedException {
+  //Вспомогательный метод - выбор статуса в фильтре
+  public void changeStatusFilter(String text) throws InterruptedException {
     click(By.xpath(String.format("//div[@id='%s']", getNameButtonAll("REF-[IN]DOCSTATUS_CAPTION"))));
-    click(By.xpath("//div[text()='Новый']/../div"));
+    TimeUnit.SECONDS.sleep(1);
+    click(By.xpath(String.format("//div[text()='%s']/../div", text)));
     complite();
-    //click(By.xpath("//span[text()='Выбрать']/../../../div"));
     click(By.xpath("//span[text()='Применить']/../../../div"));
 
   }
@@ -373,7 +406,19 @@ public class ZdpHelper extends HelperBase{
     return null;
   }
 
-
+  //Метод получения названия кнопки по полю ввода textarea
+  public String getNameButtonTextResult(String button) throws InterruptedException {
+    TimeUnit.SECONDS.sleep(1);
+    List<WebElement> elements = wd.findElements(By.xpath("//div[@role='combobox']"));
+    for (WebElement element : elements) {
+      String buttonName = element.getAttribute("id");
+      int index1 = buttonName.indexOf(button); //поиск по элементу, если находит то показывает место в символе, иначе возвращает 0
+      if (index1 == 0) {
+        return buttonName;
+      }
+    }
+    return null;
+  }
 
   //Метод выбора фильтра с указанным ИНН
   public void changeInn(String inn) throws InterruptedException {
@@ -410,7 +455,7 @@ public class ZdpHelper extends HelperBase{
     }
   }
 
-  //Вспомогательный метод - двойной щелчек по выделенному объекту
+  //Вспомогательный метод - двойной щелчек по выделенному объекту     //Вспомогательный метод - переход внутрь двойным кликом
   public void selectDocDouble() throws InterruptedException {
     if (isElementPresent(By.xpath("//tr[@class='v-table-row-odd v-table-focus v-selected']"))) {
       //Вспомогательный метод -
@@ -436,7 +481,17 @@ public class ZdpHelper extends HelperBase{
     return getTextFromField(By.xpath(String.format("//*[@id='%s']", getNameButtonTextArea("FNS_RESTRICTION.ERROR_DESCRIPTION"))));
   }
 
+  //Вспомогательный метод - нажатие кнопки "Новый" для отправки внутри запроса
   public void selectNew() {
     click(By.xpath("//span[text()='Новый']/../../../div"));
+  }
+  //Вспомогательный метод - подсчет количества документов
+  public int skolko() {
+    return wd.findElements(By.xpath("//table[@class='v-table-table']/tbody/tr")).size();
+  }
+
+  public String result() throws InterruptedException, IOException, UnsupportedFlavorException {
+    click(By.xpath(String.format("//*[@id='%s']//input", getNameButtonTextResult("FNS_RESTRICTION.REQUEST_RESULT"))));
+    return getTextFromField(By.xpath(String.format("//*[@id='%s']//input", getNameButtonTextResult("FNS_RESTRICTION.REQUEST_RESULT"))));
   }
 }

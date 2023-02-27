@@ -13,6 +13,7 @@ public class NavigationHelper extends HelperBase{
     super(wd);// обращение к конструктору базового класса
   }
 
+  //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
   public void zdpPage() throws InterruptedException {
     TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//span[text()='Сведения о приостановлении']/../../div"));
@@ -34,6 +35,7 @@ public class NavigationHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div/div[1]/div"));
   }
 
+  //Вспомогательный метод - нажатие кнопки "Выход"
   public void exit() {
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[1]/div/div[2]/div/div/div[2]/div/div[3]/div"));
   }
@@ -53,17 +55,20 @@ public class NavigationHelper extends HelperBase{
     TimeUnit.SECONDS.sleep(1);
     click(By.xpath("//span[text()='Адаптеры']/../../div"));
   }
-  //комбинирование перехода в раздел адаптеров
+  //комбинирование перехода в раздел адаптеров     // Переход в раздел Адаптеров
   public void pageAdapters() throws InterruptedException {
     sysObject();
     dataExchange();
     adapters();
   }
 
-  //переход на вкладку "Ответ"
+  //Переход на вкладку "Ответ"
   public void pageAnswer() {
     click(By.xpath("//div[text()='Ответ']"));
   }
 
-
+  //Вспомогательный метод - переход в раздел "Действующие приостановления
+  public void pageActiveSuspensions() {
+    click(By.xpath("//div[text()='Действующие приостановления']"));
+  }
 }

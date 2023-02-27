@@ -41,6 +41,7 @@ public class TestBase {
     //TimeUnit.SECONDS.sleep(2);
   }
 
+  //проверка данных из БД с тем что в интерфейсе(важное услвоие ид первые столбец, инн второй)
   //метод проверки данных в интерфейсе
   public void verifyZdpListInUI() throws SQLException {
     Zdps dbZdps = app.db().zdps();

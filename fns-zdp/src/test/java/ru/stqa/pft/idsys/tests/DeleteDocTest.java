@@ -5,51 +5,61 @@ import org.testng.annotations.*;
 import ru.stqa.pft.idsys.model.ZdpData;
 import ru.stqa.pft.idsys.model.Zdps;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class DeleteDocTest extends TestBase {
 
+  /**
+   * Операции до выполнения тестов:
+   * 1) Переход в раздел ФНС
+   * 2) Переход в раздел ЗДП
+   * 3) Проверить наличие запросов в БД и если их нет создать три
+   * @throws InterruptedException
+   */
   @BeforeMethod
-  //проверка до выполнения теста
   public void ensurePreconditions() throws InterruptedException {
-    //Вспомогательный метод - переход в раздел "ФНС"
     app.goTo().fnsPage();
-    //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
     app.goTo().zdpPage();
-    //проверка есть ли запрос в интерфейсе
     if (app.zdp().list().size() == 0) {
-      //Вспомогательный метод - создание запроса
       app.zdp().create(new ZdpData().withInn("123456789000"));
+      TimeUnit.SECONDS.sleep(1);
+      app.zdp().create(new ZdpData().withInn("123456789111"));
+      TimeUnit.SECONDS.sleep(1);
+      app.zdp().create(new ZdpData().withInn("123456789222"));
     }
   }
 
+  /**
+   * Тест кейс по удалению запроса:
+   * 1) Формирование коллекции(списка текущих запросов) в переменную before
+   * 2) Создание переменной index для упращения значения
+   * 3) Удаление запроса(последнего из списка)
+   * 4) Нажатие на кнопку обновить список
+   * 5) Формирование коллекции в переменную after
+   * 6) Сравнение переменных before и after
+   * 7) Проверка данных из БД с тем что в интерфейсе(важное услвоие ид первый столбец, инн второй)
+   *
+   * @throws Exception
+   */
   @Test
   public void testDeleteDoc() throws Exception {
-    //формирование коллекции в переменную before
     Zdps before = app.db().zdps();
-    //переменная для
     int index = before.size() - 1;
     app.zdp().delete(index);
-    //таймаут для тестирования 5 сек
-    //app.getZdpHelper().timeout5sec();
-    //Вспомогательный метод - клик по кнопке "Обновить список"
     app.zdp().refreshPage();
     TimeUnit.SECONDS.sleep(2);
-    //формирование коллекции в переменную after
     Zdps after = app.db().zdps();
     TimeUnit.SECONDS.sleep(2);
-    //сравнение колличества для коллекции(списка)
     Assert.assertEquals(after.size(), index);
     verifyZdpListInUI();
   }
 
-
+  /**
+   * Операции после выполнения тестов:
+   * 1) Нажатие кнопки "Выход"
+   */
   @AfterTest()
   public void exit() {
-    //Вспомогательный метод - нажатие кнопки "Выход"
     app.goTo().exit();
-    /*
-     */
   }
 }

@@ -61,7 +61,7 @@ public class DbHelper {
     return null;
   }
 
-
+  //Вспомогательный метод - удаление всех запросов
   public void deleteAllDoc() throws SQLException {
     Connection conn = null;
     try {
@@ -170,14 +170,14 @@ public class DbHelper {
     }
   }
 
-  //Метод очистки затерявшихся запросов
+  //Метод очистки остатков эмуляции
   public void clearBd() throws SQLException {
     deleteTransitDoc();
     deleteDxEnv();
   }
 
   //метод получения количества запросов
-  public int countStatus() throws SQLException {
+  public int countStatus(int status) throws SQLException {
     Connection conn = null;
     try {
       conn = DriverManager.getConnection(
@@ -185,11 +185,11 @@ public class DbHelper {
               properties.getProperty("db.Login"),
               properties.getProperty("db.Password"));
       Statement st = conn.createStatement();
-      ResultSet rs = st.executeQuery("select count(D.ID)\n" +
+      ResultSet rs = st.executeQuery(String.format("select count(D.ID)\n" +
               "from DOCUMENT D\n" +
               "where D.DOCUMENTCLASSID = 1422 and\n" +
               "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
-              "      D.DOCSTATUSID = 1   ");
+              "      D.DOCSTATUSID = %d   ",status));
       int count = 0;
       while (rs.next()) {
         count = rs.getInt("count");
@@ -265,7 +265,7 @@ public class DbHelper {
     return 0;
 
   }
-
+  //Вспомогательный метод поиск в БД первого запроса на статусе "новый".
   public long chooseFirstNew(int status) throws SQLException {
     Connection conn = null;
     try {
@@ -294,6 +294,7 @@ public class DbHelper {
     return 0;
   }
 
+  //Проверка статуса запроса
   public int checkStatus(long id) throws SQLException {
     Connection conn = null;
     try {
@@ -328,7 +329,8 @@ public class DbHelper {
    * @param id
    * @throws SQLException
    */
-  public void changeMessageId(long id) throws SQLException {
+  //Вспомогательный метод - смена messageid запроса, на тот что в эмуляторе
+  public void changeMessageId(String messageId,long id) throws SQLException {
     Connection conn = null;
     try {
       conn = DriverManager.getConnection(
@@ -337,8 +339,8 @@ public class DbHelper {
               properties.getProperty("db.Password"));
       Statement st = conn.createStatement();
       st.execute(String.format("update DX_ENV DE\n" +
-              "set DE.SMEV_ORIGIN_ID = 'eff05f01-aeb3-11ed-a3b4-52540084a2ea'\n" +
-              "where DE.DOCUMENT_ID = '%s'   ",id));
+              "set DE.SMEV_ORIGIN_ID = '%s'\n" +
+              "where DE.DOCUMENT_ID = '%d'   ",messageId,id)); //%s - переменная стринг %d - числовая переменная
       st.close();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -361,7 +363,7 @@ public class DbHelper {
               "join FNS_RESTRICTION FR on FR.ID = D.ID\n" +
               "where D.DOCUMENTCLASSID = 1422 and\n" +
               "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
-              "      D.ID = '%s'", idDoc));
+              "      D.ID = '%d'", idDoc));
       String textError = null;
       while (rs.next()) {
         textError = rs.getString("ERROR_DESCRIPTION");
@@ -376,5 +378,34 @@ public class DbHelper {
     }
     return null;
 
+  }
+
+  public String result(long idDoc) throws SQLException {
+    Connection conn = null;
+    try {
+      conn = DriverManager.getConnection(
+              properties.getProperty("db.path"),
+              properties.getProperty("db.Login"),
+              properties.getProperty("db.Password"));
+      Statement st = conn.createStatement();
+      ResultSet rs = st.executeQuery(String.format("select FR.REQUEST_RESULT\n" +
+              "from DOCUMENT D\n" +
+              "join FNS_RESTRICTION FR on FR.ID = D.ID\n" +
+              "where D.DOCUMENTCLASSID = 1422 and\n" +
+              "      D.METAOBJECTNAME = 'FNS_RESTRICTION' and\n" +
+              "      D.ID = '%d'", idDoc));
+      String textError = null;
+      while (rs.next()) {
+        textError = rs.getString("REQUEST_RESULT");
+      }
+      rs.close();
+      st.close();
+      return textError;
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      conn.close();
+    }
+    return null;
   }
 }

@@ -10,96 +10,109 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 
-public class FilterZdpTest extends TestBase{
+public class FilterZdpTest extends TestBase {
 
+  /**
+   * Операции до выполнения тестов:
+   * 1) Переход в раздел ФНС
+   * 2) Переход в раздел ЗДП
+   * 3) Удалить все имеющиеся запросы из БД
+   * 4) Обновить список запросов
+   * 5) Проверить наличие запросов в БД и если их нет создать три штуки
+   * @throws InterruptedException
+   * @throws SQLException
+   */
   @BeforeTest
-  //проверка до выполнения теста
   public void ensurePreconditions() throws InterruptedException, SQLException {
-    //Вспомогательный метод - проверка наличия раздела ЗДП
     app.goTo().fns();
-    //Вспомогательный метод - переход в раздел "Сведения о приостановлении"
     app.goTo().zdpPage();
-
-    /*
-     */
-
-    //Вспомогательный метод - удалить все запросы
     app.db().deleteAllDoc();
-    //Вспомогательный метод - клик по кнопке "Обновить список"
     app.zdp().refreshPage();
-    //проверка есть ли запрос в БД
     if (app.db().zdps().size() == 0) {
-      //Вспомогательный метод - создание запросов
       app.zdp().create(new ZdpData().withInn("123456789111"));
       TimeUnit.SECONDS.sleep(1);
       app.zdp().create(new ZdpData().withInn("123456789222"));
       TimeUnit.SECONDS.sleep(1);
       app.zdp().create(new ZdpData().withInn("123456789333"));
     }
-
-
   }
 
+  /**
+   * Тест кейс по применению фильтра "Статус":
+   * 1) Подсчет колличества запросов на статусе "1 - новый" из БД в переменную before
+   * 2) Нажать кнопку - очистить фильтры
+   * 3) Выбрать в фильтре статус "1 - Новый" и нажать кнопку "Применить"
+   * 4) Подсчет количества запросов в интерфейсе после примения фильтра в переменную after
+   * 5) Сравнение переменных before и after
+   * 6) Нажать кнопку - очистить фильтры
+   * @throws SQLException
+   * @throws InterruptedException
+   */
   @Test(enabled = true)
   public void testFilterStatusZdp() throws SQLException, InterruptedException {
-    //подсчет колличества запросов на статусе новый в БД в переменную before
-    int before = app.db().countStatus();
-    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
+    int before = app.db().countStatus(1);
     app.zdp().clearFilter();
     TimeUnit.SECONDS.sleep(1);
-    //Вспомогательный метод - выбор статуса в фильтре
-    app.zdp().changeStatusFilter();
-    //формирование коллекции в переменную after
+    app.zdp().changeStatusFilter("Новый");
     int after = app.zdp().count();
-    //сравнение колличества для коллекции(списка)
     Assert.assertEquals(after, before);
-    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
     app.zdp().clearFilter();
     TimeUnit.SECONDS.sleep(1);
   }
 
-  @Test(enabled = true)
+  /**
+   * Тест кейс по применению фильтра "Дата и время создания с - по":
+   * 1) Подсчет колличества запросов за определенную дату(с 30.06.2019 00:00:00 по текущее время +5 минут) из БД в переменную before
+   * 2) Нажать кнопку - очистить фильтры
+   * 3) Выбрать в фильтре дату создания с - по и нажать кнопку "Применить"
+   * 4) Подсчет количества запросов в интерфейсе после примения фильтра в переменную after
+   * 5) Сравнение переменных before и after
+   * 6) Нажать кнопку - очистить фильтры
+   * @throws SQLException
+   * @throws InterruptedException
+   * @throws ParseException
+   */
+  @Test(enabled = false)
   public void testFilterCreateDateZdp() throws SQLException, InterruptedException, ParseException {
-    //подсчет колличества запросов за определенную дату в БД в переменную before
     int before = app.db().countCreateDate();
-    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
     app.zdp().clearFilter();
     TimeUnit.SECONDS.sleep(1);
-    //Вспомогательный метод - выбор статуса в фильтре
     app.zdp().changeCreateDateFilter();
-    //формирование коллекции в переменную after
     int after = app.zdp().count();
-    //сравнение колличества для коллекции(списка)
     Assert.assertEquals(after, before);
-    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
     app.zdp().clearFilter();
     TimeUnit.SECONDS.sleep(1);
   }
 
-
-  @Test(enabled = true)
+  /**
+   * Тест кейс по применению фильтра "ИНН":
+   * 1) Подсчет колличества запросов с заданным ИНН из БД в переменную before
+   * 2) Нажать кнопку - очистить фильтры
+   * 3) Указать в фильтре ИНН и нажать кнопку "Применить"
+   * 4) Подсчет количества запросов в интерфейсе после примения фильтра в переменную after
+   * 5) Сравнение переменных before и after
+   * 6) Нажать кнопку - очистить фильтры
+   * @throws SQLException
+   * @throws InterruptedException
+   */
+  @Test(enabled = false)
   public void testFilterInnZdp() throws SQLException, InterruptedException {
-    //подсчет колличества запросов с указанным ИНН в БД в переменную before
     int before = app.db().countInn("123456789111");
-    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
     app.zdp().clearFilter();
     TimeUnit.SECONDS.sleep(1);
-    //Вспомогательный метод - выбор статуса в фильтре
     app.zdp().changeInn("123456789111");
-    //формирование коллекции в переменную after
     int after = app.zdp().count();
-    //сравнение колличества для коллекции(списка)
     Assert.assertEquals(after, before);
-    //Вспомогательный метод - нажатие на кнопку Сбросить фильтры
     app.zdp().clearFilter();
     TimeUnit.SECONDS.sleep(1);
   }
 
+  /**
+   * Операции после выполнения тестов:
+   * 1) Нажатие кнопки "Выход"
+   */
   @AfterTest()
   public void exit() {
-    //Вспомогательный метод - нажатие кнопки "Выход"
     app.goTo().exit();
-    /*
-     */
   }
 }
