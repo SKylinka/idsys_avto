@@ -64,11 +64,11 @@ public class ApplicationManager {
 
 
     //таймаут 2сек
-    zdpHelper.timeout();
+    zdpHelper.timeOut(2);
 
     //Логин в интерфейс
     sessionHelper.login(properties.getProperty("web.Login"), properties.getProperty("web.Password"));
-    zdpHelper.timeout();
+    zdpHelper.timeOut(2);
   }
 
   // логин под УЗ админа

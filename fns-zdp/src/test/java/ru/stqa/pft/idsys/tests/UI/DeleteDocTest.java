@@ -1,9 +1,10 @@
-package ru.stqa.pft.idsys.tests;
+package ru.stqa.pft.idsys.tests.UI;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.stqa.pft.idsys.model.ZdpData;
 import ru.stqa.pft.idsys.model.Zdps;
+import ru.stqa.pft.idsys.tests.TestBase;
 
 import java.util.concurrent.TimeUnit;
 

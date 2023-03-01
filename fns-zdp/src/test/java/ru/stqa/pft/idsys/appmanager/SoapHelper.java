@@ -77,6 +77,24 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
    }
 */
 
+
+  public void checkStatusLookupCustomersRq () throws LookupCustomersErr {
+    LookupCustomersRq getLookupCustomersRq = new LookupCustomersRq();
+    LookupCustomersRq.DataFilter dataFilter = new LookupCustomersRq.DataFilter();
+    LookupCustomersRq.Customers customers = new LookupCustomersRq.Customers();
+    dataFilter.getFilterItem().add(0,FNS_RESTRICTION);
+    
+
+
+    getLookupCustomersRq.setDataFilter(dataFilter);
+    getLookupCustomersRq.setCustomers(customers);
+
+    LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(getLookupCustomersRq);
+
+    //getlookupCustomersRs.getErrors();
+    System.out.println(getlookupCustomersRs);
+  }
+
      //Метод для формирования Header в soap запросе
   public boolean handleMessage(SOAPMessageContext context)
   {

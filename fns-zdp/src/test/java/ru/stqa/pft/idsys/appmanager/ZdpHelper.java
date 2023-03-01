@@ -58,9 +58,8 @@ public class ZdpHelper extends HelperBase{
     click(By.xpath("//*[@id=\"bankclient-538598663\"]/div/div[2]/div/div[2]/div/div/div[3]/div/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div/div[2]"));
   }
 
-  public void timeout() {
-
-    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
+  public void timeOut(int timeSec) {
+    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeSec));
   }
 
   public void comitDelete() throws InterruptedException {

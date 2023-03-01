@@ -1,4 +1,4 @@
-package ru.stqa.pft.idsys.tests;
+package ru.stqa.pft.idsys.tests.UI;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.idsys.model.ZdpData;
 import ru.stqa.pft.idsys.model.Zdps;
+import ru.stqa.pft.idsys.tests.TestBase;
 
 import java.sql.SQLException;
 
@@ -47,7 +48,7 @@ public class CopyDocTest extends TestBase {
     ZdpData zdp = new ZdpData().withInn("123456789000");
     app.zdp().copy(index, zdp);
     app.zdp().refreshPage();
-    app.zdp().timeout();
+    app.zdp().timeOut(1);
     Zdps after = app.db().zdps();
     Assert.assertEquals(after.size(), index + 2);
     verifyZdpListInUI();
@@ -72,7 +73,7 @@ public class CopyDocTest extends TestBase {
     ZdpData zdp = null;
     app.zdp().copy(index, zdp);
     app.zdp().refreshPage();
-    app.zdp().timeout();
+    app.zdp().timeOut(1);
     Zdps after = app.db().zdps();
     Assert.assertEquals(after.size(), index + 2);
     verifyZdpListInUI();
