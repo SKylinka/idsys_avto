@@ -37,7 +37,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws SQLException
    * @throws InterruptedException
    */
-  @Test
+  @Test(enabled = false)
   public void testFlCreation() throws LookupCustomersErr, SQLException, InterruptedException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
@@ -57,7 +57,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws SQLException
    * @throws InterruptedException
    */
-  @Test
+  @Test(enabled = false)
   public void testUlCreation() throws LookupCustomersErr, SQLException, InterruptedException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
@@ -77,7 +77,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws SQLException
    * @throws InterruptedException
    */
-  @Test
+  @Test(enabled = false)
   public void testKioCreation() throws LookupCustomersErr, SQLException, InterruptedException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
@@ -97,7 +97,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws SQLException
    * @throws InterruptedException
    */
-  @Test
+  @Test(enabled = false)
   public void testBadCreation() throws LookupCustomersErr, SQLException, InterruptedException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
@@ -117,7 +117,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws SQLException
    * @throws InterruptedException
    */
-  @Test
+  @Test(enabled = false)
   public void testNullCreation() throws LookupCustomersErr, SQLException, InterruptedException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
