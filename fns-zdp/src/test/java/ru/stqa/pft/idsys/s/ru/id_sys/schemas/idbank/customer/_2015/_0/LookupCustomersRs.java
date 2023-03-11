@@ -843,7 +843,7 @@ public class LookupCustomersRs
              *     {@link LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult }
              *     
              */
-            public LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult getRestrictionCheckResult() {
+            public int getRestrictionCheckResult() {
                 return restrictionCheckResult;
             }
 

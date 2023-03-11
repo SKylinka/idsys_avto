@@ -8,6 +8,7 @@ import ru.stqa.pft.idsys.model.Zdps;
 import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.LookupCustomersErr;
 import ru.stqa.pft.idsys.tests.TestBase;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 
@@ -38,7 +39,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws InterruptedException
    */
   @Test(enabled = false)
-  public void testFlCreation() throws LookupCustomersErr, SQLException, InterruptedException {
+  public void testFlCreation() throws LookupCustomersErr, SQLException, InterruptedException, UnsupportedEncodingException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
             .withInn("123456789000");
@@ -58,7 +59,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws InterruptedException
    */
   @Test(enabled = false)
-  public void testUlCreation() throws LookupCustomersErr, SQLException, InterruptedException {
+  public void testUlCreation() throws LookupCustomersErr, SQLException, InterruptedException, UnsupportedEncodingException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
             .withInn("1234567890");
@@ -78,7 +79,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws InterruptedException
    */
   @Test(enabled = false)
-  public void testKioCreation() throws LookupCustomersErr, SQLException, InterruptedException {
+  public void testKioCreation() throws LookupCustomersErr, SQLException, InterruptedException, UnsupportedEncodingException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
             .withInn("12345");
@@ -98,7 +99,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws InterruptedException
    */
   @Test(enabled = false)
-  public void testBadCreation() throws LookupCustomersErr, SQLException, InterruptedException {
+  public void testBadCreation() throws LookupCustomersErr, SQLException, InterruptedException, UnsupportedEncodingException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
             .withInn("1234567");
@@ -118,7 +119,7 @@ public class CreatWsDocTest extends TestBase {
    * @throws InterruptedException
    */
   @Test(enabled = false)
-  public void testNullCreation() throws LookupCustomersErr, SQLException, InterruptedException {
+  public void testNullCreation() throws LookupCustomersErr, SQLException, InterruptedException, UnsupportedEncodingException {
     Zdps before = app.db().zdps();
     LookupCustomersRqData lookupCustomersRqData = new LookupCustomersRqData()
             .withInn("");

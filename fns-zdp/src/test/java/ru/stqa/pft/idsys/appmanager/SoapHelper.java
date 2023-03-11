@@ -8,7 +8,6 @@
 package ru.stqa.pft.idsys.appmanager;
 
 import ru.stqa.pft.idsys.model.LookupCustomersRqData;
-import ru.stqa.pft.idsys.model.LookupCustomersRsData;
 import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.*;
 import javax.xml.namespace.QName;
 import javax.xml.soap.*;
@@ -19,10 +18,7 @@ import javax.xml.ws.handler.PortInfo;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import static ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.CustomerDataType.FNS_RESTRICTION;
 
@@ -38,7 +34,7 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
   }
 
 // Метод создания самого запроса
-  public void createLookupCustomersRq(LookupCustomersRqData lookupCustomersRqData) throws LookupCustomersErr {
+  public void createLookupCustomersRq(LookupCustomersRqData lookupCustomersRqData) throws LookupCustomersErr, UnsupportedEncodingException {
     LookupCustomersRq getLookupCustomersRq = new LookupCustomersRq();
     LookupCustomersRq.DataFilter dataFilter = new LookupCustomersRq.DataFilter();
     LookupCustomersRq.Customers customers = new LookupCustomersRq.Customers();
@@ -51,23 +47,29 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
 
     LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(getLookupCustomersRq);
 
-    //getlookupCustomersRs.getErrors();
-    System.out.println(getlookupCustomersRs);
+    getlookupCustomersRs.getErrors();
+    checkLookupCustomersRs(getlookupCustomersRs);
+    //System.out.println(getlookupCustomersRs);
 
    }
 
 
    //Метод проверки ответа soap
-   /*
-   public void checkLookupCustomersRs(LookupCustomersRsData lookupCustomersRsData) throws UnsupportedEncodingException {
-     ArrayList<LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult> checkResult = new ArrayList<>();
+
+   public void checkLookupCustomersRs(LookupCustomersRs getlookupCustomersRs) throws UnsupportedEncodingException {
+     //ArrayList<LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult> checkResult = new ArrayList<>();
+     Iterator<LookupCustomersRs.CustomersData.CustomerData> checkResult =
+             getlookupCustomersRs.getCustomersData().getCustomerData().iterator();
      File file = new File("src/test/resources/temp/tempRs.xml");
-     LookupCustomersRs lookupCustomersRsinfo = new LookupCustomersRs();
-     while (checkResult) {
-       ByteArrayOutputStream os = new ByteArrayOutputStream();
-       getlookupCustomersRs.writeTo(os);
-       os.write(LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult.get);
-       String responseXml = new String(os.toByteArray(), "UTF-8");
+     LookupCustomersRs lookupCustomersRsInfo = new LookupCustomersRs();
+     while (checkResult.hasNext()) {
+       LookupCustomersRs.CustomersData.CustomerData lcc = checkResult.next();
+       lookupCustomersRsInfo.getCustomersData().getCustomerData()
+               .add(0, new LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult().);
+              ByteArrayOutputStream os = new ByteArrayOutputStream(); //чтение и запись масива байтов
+       os.write(lcc.getRestrictionCheckResult());
+       os.write(LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult);
+       String responseXml = new String(os.toByteArray(), "UTF-8"); //чтение и запись масива байтов
        try (Writer writer = new FileWriter(file)) {
          writer.write(responseXml);
        } catch (IOException e) {
@@ -75,7 +77,7 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
        }
      }
    }
-*/
+
 
 
   public void checkStatusLookupCustomersRq () throws LookupCustomersErr {
