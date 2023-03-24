@@ -2,9 +2,11 @@ package ru.stqa.pft.idsys.appmanager;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.Browser;
+
 
 import java.io.File;
 import java.io.FileReader;
@@ -25,12 +27,12 @@ public class ApplicationManager {
   private NavigationHelper navigationHelper;
   private ZdpHelper zdpHelper;
   private SessionHelper sessionHelper;
-  private String browser;
+  private Browser browser;
   private DbHelper dbHelper;
   private SoapHelper soupHelper;
 
   //конструктор браузера с переменной browser и её передача
-  public ApplicationManager(String browser) {
+  public ApplicationManager(Browser browser) {
     this.browser = browser;
     properties = new Properties();
   }
@@ -45,11 +47,11 @@ public class ApplicationManager {
     //инициализация метода подключения через soap
     soupHelper = new SoapHelper();
     // переменная для управления браузером и выбор
-    if (browser.equals(BrowserType.CHROME)) {  //equals сравнение для объектов
-      wd = new ChromeDriver();
-    } else  if (browser.equals(BrowserType.IE)) {
+    if (browser.equals(Browser.CHROME)) {  //equals сравнение для объектов
+      wd = new ChromeDriver(new ChromeOptions().addArguments("--remote-allow-origins=*"));
+    } else  if (browser.equals(Browser.IE)) {
       wd = new InternetExplorerDriver();
-    } else if (browser.equals(BrowserType.FIREFOX)) {
+    } else if (browser.equals(Browser.FIREFOX)) {
       wd = new FirefoxDriver();
     }
 

@@ -843,7 +843,7 @@ public class LookupCustomersRs
              *     {@link LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult }
              *     
              */
-            public int getRestrictionCheckResult() {
+            public LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult getRestrictionCheckResult() {
                 return restrictionCheckResult;
             }
 
@@ -2190,7 +2190,7 @@ public class LookupCustomersRs
                  *     {@link String }
                  *     
                  */
-                public String getID() {
+                public Long getID() {
                     return id;
                 }
 

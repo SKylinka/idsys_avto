@@ -75,7 +75,7 @@ public class LookupCustomersRq
     protected LookupCustomersRq.DataFilter dataFilter;
     @XmlElement(name = "Customers")
     protected LookupCustomersRq.Customers customers;
-    protected LookupCustomersRq.TaskID taskID;
+    protected String taskID;
 
     /**
      * Gets the value of the dataFilter property.
@@ -133,7 +133,7 @@ public class LookupCustomersRq
      *     {@link String }
      *     
      */
-    public LookupCustomersRq.TaskID getTaskID() {
+    public String getTaskID() {
         return taskID;
     }
 
@@ -145,7 +145,7 @@ public class LookupCustomersRq
      *     {@link String }
      *     
      */
-    public void setTaskID(LookupCustomersRq.TaskID value) {
+    public void setTaskID(String value) {
         this.taskID = value;
     }
 

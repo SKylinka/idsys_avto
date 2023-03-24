@@ -7,7 +7,8 @@
 
 package ru.stqa.pft.idsys.appmanager;
 
-import ru.stqa.pft.idsys.model.LookupCustomersRqData;
+import ru.stqa.pft.idsys.model.*;
+import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.common._2012._0.Error;
 import ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.*;
 import javax.xml.namespace.QName;
 import javax.xml.soap.*;
@@ -18,6 +19,8 @@ import javax.xml.ws.handler.PortInfo;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static ru.stqa.pft.idsys.s.ru.id_sys.schemas.idbank.customer._2015._0.CustomerDataType.FNS_RESTRICTION;
@@ -48,14 +51,14 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
     LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(getLookupCustomersRq);
 
     getlookupCustomersRs.getErrors();
-    checkLookupCustomersRs(getlookupCustomersRs);
-    //System.out.println(getlookupCustomersRs);
+    //checkLookupCustomersRs(getlookupCustomersRs);
+    System.out.println(getlookupCustomersRs);
 
    }
 
 
    //Метод проверки ответа soap
-
+/*
    public void checkLookupCustomersRs(LookupCustomersRs getlookupCustomersRs) throws UnsupportedEncodingException {
      //ArrayList<LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult> checkResult = new ArrayList<>();
      Iterator<LookupCustomersRs.CustomersData.CustomerData> checkResult =
@@ -77,20 +80,89 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
        }
      }
    }
+*/
 
+  public ZDPWsRsData getResponseData(LookupCustomersRs response) {
+    ZDPWsRsData zdpWsFirstRsData = new ZDPWsRsData();
+    ZDPRsData zdpRsData = new ZDPRsData();
+    ZDPRsDDs zdpDecisions = new ZDPRsDDs();
+    try{
+      Iterator<LookupCustomersRs.CustomersData.CustomerData> customerData = response.getCustomersData().getCustomerData().iterator();
+      while (customerData.hasNext()){
+        LookupCustomersRs.CustomersData.CustomerData nextCD = customerData.next();
+
+        if(nextCD.getRestrictionCheckResult().getErrors() != null){
+          Iterator<Error> cdErrorData = nextCD.getRestrictionCheckResult().getErrors().getError().iterator();
+          while (cdErrorData.hasNext()){
+            Error nextE = cdErrorData.next();
+            zdpRsData
+                    .withErrorDescription(nextE.getMessage())
+                    .withErrorCode(nextE.getCode());
+          }
+        }
+
+        if(nextCD.getRestrictionCheckResult().getRestriction() != null){
+          Iterator<LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult.Restriction> restrictions = nextCD.getRestrictionCheckResult().getRestriction().iterator();
+          while (restrictions.hasNext()){
+            LookupCustomersRs.CustomersData.CustomerData.RestrictionCheckResult.Restriction nextResrtiction = restrictions.next();
+            zdpDecisions.add(new ZDPRsDecisionData()
+                    .setDecisionNum(nextResrtiction.getNumber())
+                    .setDecisionDate(dateFormat(nextResrtiction.getDate().toString()))
+                    .setDecisionTaxOrgCode(nextResrtiction.getCodeNO())
+                    .setDecisionBankBic(nextResrtiction.getBIK())
+                    .setFederalBDDateTime(dateFormat(nextResrtiction.getDateOfReceiveInFederalDB().toString())));
+          }
+          zdpRsData.withDecisions(zdpDecisions);
+        }
+
+        if(nextCD.getRestrictionCheckResult().getINN() !=null){
+          zdpWsFirstRsData.withInn(nextCD.getRestrictionCheckResult().getINN());
+        }
+        if(nextCD.getRestrictionCheckResult().getID() != null){
+          zdpRsData.withId(nextCD.getRestrictionCheckResult().getID());
+        }
+        if (nextCD.getRestrictionCheckResult().getNameOfOrganization() != null){
+          zdpRsData.withTaxpayerOrgName(nextCD.getRestrictionCheckResult().getNameOfOrganization());
+        }
+
+        zdpWsFirstRsData
+                .withObjectID(nextCD.getRestrictionCheckResult().getObjectID())
+                .withObjectStatus(nextCD.getRestrictionCheckResult().getObjectStatus())
+                .withStatusName(nextCD.getRestrictionCheckResult().getStatusName())
+                .withCdObjectID(nextCD.getObjectID())
+                .withCdObjectStatus(nextCD.getObjectStatus())
+                .withResponseData(zdpRsData);
+
+        return zdpWsFirstRsData;
+      }
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+    try{
+      Iterator<Error> errorData = response.getErrors().getError().iterator();
+      while (errorData.hasNext()){
+        Error nextE = errorData.next();
+        zdpRsData
+                .withErrorDescription(clearMessage(nextE.getMessage()))
+                .withErrorCode(nextE.getCode());
+        zdpWsFirstRsData.withResponseData(zdpRsData);
+        return zdpWsFirstRsData;
+      }
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+    return null;
+  }
 
 
   public void checkStatusLookupCustomersRq () throws LookupCustomersErr {
     LookupCustomersRq getLookupCustomersRq = new LookupCustomersRq();
     LookupCustomersRq.DataFilter dataFilter = new LookupCustomersRq.DataFilter();
-    LookupCustomersRq.TaskID taskID = new LookupCustomersRq.TaskID();
     dataFilter.getFilterItem().add(0,FNS_RESTRICTION);
     String idd = "31005516888";
-    taskID.getTaskID(idd);
     getLookupCustomersRq.setDataFilter(dataFilter);
-    getLookupCustomersRq.setTaskID(taskID);
+    getLookupCustomersRq.setTaskID(idd);
     LookupCustomersRs getlookupCustomersRs = getCustomersPort().lookupCustomers(getLookupCustomersRq);
-
     //getlookupCustomersRs.getErrors();
     System.out.println(getlookupCustomersRs);
   }
@@ -179,7 +251,23 @@ public class SoapHelper implements SOAPHandler<SOAPMessageContext> {
 
   }
 
+  protected String dateFormat(String date) throws ParseException {
+    if (date != null) {
+      if(date.matches("\\d{4}-\\d{2}-\\d{2}Z")) {
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new SimpleDateFormat("yyyy-MM-dd'Z'").parse(date));
+      }else if(date.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z")){
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(date));
+      }else if(date.matches("\\d{4}-\\d{2}-\\d{2}")){
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+      }else if(date.matches("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}")){
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(date));
+      }
+    }
+    return null;
+  }
 
-
+  public String clearMessage(String msg){
+    return msg.replaceAll("[0-9\\\\null\\n\\.]", "");
+  }
 
 }

@@ -1,8 +1,7 @@
 package ru.stqa.pft.idsys.tests;
 
-import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.Browser;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import ru.stqa.pft.idsys.appmanager.ApplicationManager;
 import ru.stqa.pft.idsys.model.ZdpData;
@@ -21,7 +20,7 @@ public class TestBase {
 
 //делегирование на app
   protected static final ApplicationManager app
-        = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));  // параметр конструктора для выбора браузера
+        = new ApplicationManager(Browser.CHROME);  // параметр конструктора для выбора браузера
 
   @BeforeSuite(alwaysRun = true)
   public void setUp() throws Exception {
